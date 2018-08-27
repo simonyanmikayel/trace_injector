@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="trace_injector:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/trace_injector_jar</output-path>
+    <root id="archive" name="trace_injector.jar">
+      <element id="module-output" name="trace_injector" />
+    </root>
+  </artifact>
+</component>
