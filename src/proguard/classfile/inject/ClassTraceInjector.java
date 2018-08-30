@@ -28,7 +28,7 @@ public class ClassTraceInjector
     {
         //TODO
         //if (configuration.verbose) {
-            System.out.println("Injecting traces..." + programClass.toString() + " " + programMethod.getName(programClass));
+            System.out.print("Injecting traces..." + programClass.toString() + " " + programMethod.getName(programClass));
         System.out.println("");
     }
 }
