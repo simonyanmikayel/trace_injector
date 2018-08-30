@@ -5,31 +5,30 @@ public class test {
         byte[] buf = new byte[1000];
         initBuf(buf);
         int offset = 10;
-        int coount = buf.length - 10;
+        int count = buf.length - 10;
         String descr = "abc";
-        if (buf == null || offset < 0 || coount <= 0 || (offset + coount) > buf.length) {
-            System.out.println("HexDump: Bad parameters: offset" + offset +" coount: " + coount);
+        if (buf == null || offset < 0 || count <= 0 || (offset + count) > buf.length) {
+            System.out.println("HexDump: Bad parameters: offset" + offset +" coount: " + count);
             return;
         }
-        int n = buf.length - offset;
         int cColumn = 32;
-        StringBuffer sb = new StringBuffer(descr.length() + (n * 3) + (n / cColumn)*2 + 32);
-        sb.append(descr + ":\n");
-        for (int i = offset; i < n; i++) {
-
-            if ((i % cColumn) == 0)
-                sb.append("\n\t");
-
-            int b = buf[i] & 0xFF;
-            sb.append("("+b+")");
-            if (b < 16) {
-                sb.append('0');
-                sb.append(halfBytToHex(buf[i]));
-            } else {
-                sb.append(halfBytToHex((b / 16)));
-                sb.append(halfBytToHex((b % 16) ));
+        descr = descr + " <- HexDump: offset = " + offset +" coount = " + count;
+        StringBuffer sb = new StringBuffer(descr.length() + (count * 3) + (count / cColumn)*2 + 32);
+        sb.append(descr);
+        int end = offset + count;
+        for (int i = offset; i < end;) {
+            sb.append("\n\t");
+            for ( int j = 0; j < cColumn && i < end; j++, i++) {
+                int b = buf[i] & 0xFF;
+                if (b < 16) {
+                    sb.append('0');
+                    sb.append(intToHex(buf[i]));
+                } else {
+                    sb.append(intToHex((b / 16)));
+                    sb.append(intToHex((b % 16) ));
+                }
+                sb.append(' ');
             }
-            sb.append(' ');
         }
         System.out.print(sb.toString());
     }
@@ -41,7 +40,7 @@ public class test {
         }
     }
 
-    static char halfBytToHex(int b) {
+    static char intToHex(int b) {
         if (b < 0)
             return '?';
         else if (b < 10)

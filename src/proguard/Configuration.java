@@ -290,6 +290,15 @@ public class Configuration
      */
     public List      adaptResourceFileContents;
 
+    /**
+     * Specifies whether inject traces.
+     */
+    public boolean   injectTraces                        = true;
+
+    /**
+     * Specifies whether inject traces.
+     */
+    public boolean   injectTracesInLibraries             = true;
     ///////////////////////////////////////////////////////////////////////////
     // Preverification options.
     ///////////////////////////////////////////////////////////////////////////

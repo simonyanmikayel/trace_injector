@@ -24,6 +24,7 @@ import proguard.backport.Backporter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.visitor.AllAttributeVisitor;
 import proguard.classfile.editor.*;
+import proguard.classfile.inject.traceInjector;
 import proguard.classfile.util.*;
 import proguard.classfile.visitor.*;
 import proguard.configuration.ConfigurationLoggingAdder;
@@ -197,6 +198,11 @@ public class ProGuard
             preverify();
         }
 
+        if (configuration.injectTraces)
+        {
+            injectTraces();
+        }
+
         if (configuration.shrink    ||
             configuration.optimize  ||
             configuration.obfuscate ||
@@ -353,6 +359,18 @@ public class ProGuard
         }
     }
 
+    /**
+     * Performs the trace injection.
+     */
+    private void injectTraces() throws IOException {
+        if (configuration.verbose) {
+            System.out.println("Injecting traces...");
+
+            // Perform the actual trace injection.
+            new traceInjector(configuration).execute(programClassPool,
+                    libraryClassPool);
+        }
+    }
 
     /**
      * Performs the shrinking step.
