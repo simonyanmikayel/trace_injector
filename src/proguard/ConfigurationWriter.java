@@ -122,6 +122,9 @@ public class ConfigurationWriter
         writeOption(ConfigurationConstants.ALLOW_ACCESS_MODIFICATION_OPTION,     configuration.allowAccessModification);
         writeOption(ConfigurationConstants.MERGE_INTERFACES_AGGRESSIVELY_OPTION, configuration.mergeInterfacesAggressively);
 
+        writeOption(ConfigurationConstants.DONT_INJECT_OPTION,                               !configuration.injectTraces);
+        writeOption(ConfigurationConstants.DONT_INJECT_LIBS_OPTION,                          !configuration.injectTracesInLibraries);
+
         writeOption(ConfigurationConstants.DONT_OBFUSCATE_OPTION,                            !configuration.obfuscate);
         writeOption(ConfigurationConstants.PRINT_MAPPING_OPTION,                             configuration.printMapping);
         writeOption(ConfigurationConstants.APPLY_MAPPING_OPTION,                             configuration.applyMapping);

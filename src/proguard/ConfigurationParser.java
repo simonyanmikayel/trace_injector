@@ -187,6 +187,9 @@ public class ConfigurationParser
             else if (ConfigurationConstants.ALLOW_ACCESS_MODIFICATION_OPTION                 .startsWith(nextWord)) configuration.allowAccessModification               = parseNoArgument(true);
             else if (ConfigurationConstants.MERGE_INTERFACES_AGGRESSIVELY_OPTION             .startsWith(nextWord)) configuration.mergeInterfacesAggressively           = parseNoArgument(true);
 
+            else if (ConfigurationConstants.DONT_INJECT_OPTION                               .startsWith(nextWord)) configuration.injectTraces                           = parseNoArgument(false);
+            else if (ConfigurationConstants.DONT_INJECT_LIBS_OPTION                          .startsWith(nextWord)) configuration.injectTracesInLibraries                = parseNoArgument(false);
+
             else if (ConfigurationConstants.DONT_OBFUSCATE_OPTION                            .startsWith(nextWord)) configuration.obfuscate                             = parseNoArgument(false);
             else if (ConfigurationConstants.PRINT_MAPPING_OPTION                             .startsWith(nextWord)) configuration.printMapping                          = parseOptionalFile();
             else if (ConfigurationConstants.APPLY_MAPPING_OPTION                             .startsWith(nextWord)) configuration.applyMapping                          = parseFile();

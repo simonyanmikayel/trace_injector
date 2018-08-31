@@ -45,6 +45,7 @@ import java.io.*;
 public class ProGuard
 {
     public static final String VERSION = "ProGuard, version 99.99.99";
+    static final boolean DEBUG = true; //TODO
 
     private final Configuration configuration;
     private       ClassPool     programClassPool = new ClassPool();
@@ -86,6 +87,7 @@ public class ProGuard
             configuration.programJars.hasOutput() &&
             new UpToDateChecker(configuration).check())
         {
+            if (!DEBUG)
             return;
         }
 

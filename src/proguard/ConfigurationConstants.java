@@ -65,6 +65,8 @@ class ConfigurationConstants
     public static final String ALLOW_ACCESS_MODIFICATION_OPTION        = "-allowaccessmodification";
     public static final String MERGE_INTERFACES_AGGRESSIVELY_OPTION    = "-mergeinterfacesaggressively";
 
+    public static final String DONT_INJECT_OPTION                     = "-dontinject";
+    public static final String DONT_INJECT_LIBS_OPTION                = "-dontinjectlibs";
     public static final String DONT_OBFUSCATE_OPTION                  = "-dontobfuscate";
     public static final String PRINT_MAPPING_OPTION                   = "-printmapping";
     public static final String APPLY_MAPPING_OPTION                   = "-applymapping";
