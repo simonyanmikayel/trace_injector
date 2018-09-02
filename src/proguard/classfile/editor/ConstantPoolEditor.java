@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.constant.*;
 import proguard.classfile.constant.visitor.ConstantVisitor;
@@ -33,7 +34,7 @@ import proguard.optimize.peephole.WildcardConstantFilter;
  */
 public class ConstantPoolEditor
 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     private final ProgramClass    targetClass;
     private final ConstantVisitor constantReferenceInitializer;
@@ -881,7 +882,7 @@ public class ConstantPoolEditor
 
         if (DEBUG)
         {
-            System.out.println("ConstantPoolEditor: ["+(targetClass.u2thisClass > 0 ? targetClass.getName() : "(dummy)")+"] adding ["+constant.getClass().getName()+"] at index "+targetClass.u2constantPoolCount);
+            FlowTraceWriter.out_println("ConstantPoolEditor: ["+(targetClass.u2thisClass > 0 ? targetClass.getName() : "(dummy)")+"] adding ["+constant.getClass().getName()+"] at index "+targetClass.u2constantPoolCount);
         }
 
         // Add the new entry to the end of the constant pool.

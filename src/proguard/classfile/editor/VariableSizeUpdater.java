@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -40,7 +41,7 @@ implements   AttributeVisitor,
              InstructionVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = true;
     //*/
@@ -67,8 +68,8 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println("VariableSizeUpdater: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
-            System.out.println("  Max locals: "+codeAttribute.u2maxLocals+" <- parameters");
+            FlowTraceWriter.out_println("VariableSizeUpdater: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            FlowTraceWriter.out_println("  Max locals: "+codeAttribute.u2maxLocals+" <- parameters");
         }
 
         // Go over all instructions.
@@ -98,7 +99,7 @@ implements   AttributeVisitor,
 
             if (DEBUG)
             {
-                System.out.println("  Max locals: "+codeAttribute.u2maxLocals+" <- "+variableInstruction.toString(offset));
+                FlowTraceWriter.out_println("  Max locals: "+codeAttribute.u2maxLocals+" <- "+variableInstruction.toString(offset));
             }
         }
     }

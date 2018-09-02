@@ -101,7 +101,7 @@ public class DataEntryWriterFactory
         List jmodFilter = classPathEntry.getJmodFilter();
         List zipFilter  = classPathEntry.getZipFilter();
 
-        System.out.println("Preparing output " +
+        FlowTraceWriter.out_println("Preparing output " +
                            (isApk  ? "apk"  :
                             isJar  ? "jar"  :
                             isAar  ? "aar"  :

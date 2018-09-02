@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -40,7 +41,7 @@ extends      SimplifiedVisitor
 implements   ClassVisitor,
              AttributeVisitor
 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
 
     private final boolean[] delete;
@@ -66,7 +67,7 @@ implements   ClassVisitor,
 
         if (DEBUG)
         {
-            System.out.println("InterfaceDeleter: "+programClass.getName()+" ("+interfacesCount+" interfaces)");
+            FlowTraceWriter.out_println("InterfaceDeleter: "+programClass.getName()+" ("+interfacesCount+" interfaces)");
         }
 
         // Copy the interfaces that aren't deleted.
@@ -75,7 +76,7 @@ implements   ClassVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("InterfaceDeleter:   "+(delete[index]?"- ":"+ ")+programClass.getInterfaceName(index));
+                FlowTraceWriter.out_println("InterfaceDeleter:   "+(delete[index]?"- ":"+ ")+programClass.getInterfaceName(index));
             }
 
             if (!delete[index])
@@ -136,7 +137,7 @@ implements   ClassVisitor,
 
                 if (DEBUG)
                 {
-                    System.out.println("InterfaceDeleter:   type parameters = " + type);
+                    FlowTraceWriter.out_println("InterfaceDeleter:   type parameters = " + type);
                 }
             }
 
@@ -160,7 +161,7 @@ implements   ClassVisitor,
 
                 if (DEBUG)
                 {
-                    System.out.println("InterfaceDeleter:   super class type = " + type);
+                    FlowTraceWriter.out_println("InterfaceDeleter:   super class type = " + type);
                 }
             }
 
@@ -175,7 +176,7 @@ implements   ClassVisitor,
 
                 if (DEBUG)
                 {
-                    System.out.println("InterfaceDeleter:   interface type " + (delete[index] ? "- " : "+ ") + type + " (" + classCount + " referenced classes)");
+                    FlowTraceWriter.out_println("InterfaceDeleter:   interface type " + (delete[index] ? "- " : "+ ") + type + " (" + classCount + " referenced classes)");
                 }
 
                 if (!delete[index++])

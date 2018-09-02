@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -45,7 +46,7 @@ implements   ClassVisitor,
              AnnotationVisitor,
              ElementValueVisitor
 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
 
     private final StackSizeUpdater stackSizeUpdater = new StackSizeUpdater();
@@ -184,11 +185,11 @@ implements   ClassVisitor,
             {
                 if (DEBUG)
                 {
-                    System.out.println("MemberReferenceFixer:");
-                    System.out.println("  Class file     = "+clazz.getName());
-                    System.out.println("  Ref class      = "+referencedClass.getName());
-                    System.out.println("  Ref method     = "+interfaceMethodrefConstant.getName(clazz)+interfaceMethodrefConstant.getType(clazz));
-                    System.out.println("    -> ordinary method");
+                    FlowTraceWriter.out_println("MemberReferenceFixer:");
+                    FlowTraceWriter.out_println("  Class file     = "+clazz.getName());
+                    FlowTraceWriter.out_println("  Ref class      = "+referencedClass.getName());
+                    FlowTraceWriter.out_println("  Ref method     = "+interfaceMethodrefConstant.getName(clazz)+interfaceMethodrefConstant.getType(clazz));
+                    FlowTraceWriter.out_println("    -> ordinary method");
                 }
 
                 // Replace the interface method reference by a method reference.
@@ -240,11 +241,11 @@ implements   ClassVisitor,
             {
                 if (DEBUG)
                 {
-                    System.out.println("MemberReferenceFixer:");
-                    System.out.println("  Class file     = "+clazz.getName());
-                    System.out.println("  Ref class      = "+referencedClass.getName());
-                    System.out.println("  Ref method     = "+methodrefConstant.getName(clazz)+methodrefConstant.getType(clazz));
-                    System.out.println("    -> interface method");
+                    FlowTraceWriter.out_println("MemberReferenceFixer:");
+                    FlowTraceWriter.out_println("  Class file     = "+clazz.getName());
+                    FlowTraceWriter.out_println("  Ref class      = "+referencedClass.getName());
+                    FlowTraceWriter.out_println("  Ref method     = "+methodrefConstant.getName(clazz)+methodrefConstant.getType(clazz));
+                    FlowTraceWriter.out_println("    -> interface method");
                 }
 
                 // Replace the method reference by an interface method reference.
@@ -427,8 +428,8 @@ implements   ClassVisitor,
                        Clazz          referencedClass,
                        Member         referencedMember)
     {
-        System.out.println("MemberReferenceFixer:");
-        System.out.println("  ["+clazz.getName()+"]: String ["+
+        FlowTraceWriter.out_println("MemberReferenceFixer:");
+        FlowTraceWriter.out_println("  ["+clazz.getName()+"]: String ["+
                            stringConstant.getString(clazz)+"] -> ["+
                            referencedClass.getName()+"."+referencedMember.getName(referencedClass)+" "+referencedMember.getDescriptor(referencedClass)+"]");
     }
@@ -439,8 +440,8 @@ implements   ClassVisitor,
                        Clazz       referencedClass,
                        Member      referencedMember)
     {
-        System.out.println("MemberReferenceFixer:");
-        System.out.println("  ["+clazz.getName()+"]: ["+
+        FlowTraceWriter.out_println("MemberReferenceFixer:");
+        FlowTraceWriter.out_println("  ["+clazz.getName()+"]: ["+
                            refConstant.getClassName(clazz)+"."+refConstant.getName(clazz)+" "+refConstant.getType(clazz)+"] -> ["+
                            referencedClass.getName()+"."+referencedMember.getName(referencedClass)+" "+referencedMember.getDescriptor(referencedClass)+"]");
     }

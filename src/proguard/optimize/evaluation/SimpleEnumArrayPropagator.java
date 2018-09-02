@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.util.SimplifiedVisitor;
 import proguard.classfile.visitor.*;
@@ -40,7 +41,7 @@ implements   ClassVisitor,
              MemberVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("enum") != null;
     //*/
@@ -90,7 +91,7 @@ implements   ClassVisitor,
 
         if (DEBUG)
         {
-            System.out.println("SimpleEnumArrayPropagator: ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]: propagating ["+propagatedArray+"] as return value");
+            FlowTraceWriter.out_println("SimpleEnumArrayPropagator: ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]: propagating ["+propagatedArray+"] as return value");
         }
 
         setMethodReturnValue(programMethod, propagatedArray);

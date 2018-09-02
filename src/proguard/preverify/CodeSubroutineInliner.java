@@ -20,6 +20,7 @@
  */
 package proguard.preverify;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -43,7 +44,7 @@ implements   AttributeVisitor,
              ExceptionInfoVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("csi") != null;
     //*/
@@ -77,10 +78,10 @@ implements   AttributeVisitor,
         }
         catch (RuntimeException ex)
         {
-            System.err.println("Unexpected error while inlining subroutines:");
-            System.err.println("  Class       = ["+clazz.getName()+"]");
-            System.err.println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            System.err.println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            FlowTraceWriter.err_println("Unexpected error while inlining subroutines:");
+            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
+            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             if (DEBUG)
             {
@@ -104,7 +105,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println("SubroutineInliner: processing ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            FlowTraceWriter.out_println("SubroutineInliner: processing ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
         }
 
         // Append the body of the code.
@@ -125,7 +126,7 @@ implements   AttributeVisitor,
                 // Skip the subroutine.
                 if (DEBUG)
                 {
-                    System.out.println("  Skipping original subroutine instruction "+instruction.toString(offset));
+                    FlowTraceWriter.out_println("  Skipping original subroutine instruction "+instruction.toString(offset));
                 }
 
                 // Append a label at this offset instead.
@@ -148,7 +149,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println("  Appending label after code at ["+offset+"]");
+            FlowTraceWriter.out_println("  Appending label after code at ["+offset+"]");
         }
 
         // Append a label just after the code.
@@ -173,7 +174,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println("  Inlining subroutine ["+subroutineStart+" -> "+subroutineEnd+"] at ["+subroutineInvocationOffset+"]");
+            FlowTraceWriter.out_println("  Inlining subroutine ["+subroutineStart+" -> "+subroutineEnd+"] at ["+subroutineInvocationOffset+"]");
         }
 
         // Don't go inlining exceptions that are already applicable to this
@@ -200,7 +201,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println("    Appending label after inlined subroutine at ["+subroutineEnd+"]");
+            FlowTraceWriter.out_println("    Appending label after inlined subroutine at ["+subroutineEnd+"]");
         }
 
         // Append a label just after the code.
@@ -231,7 +232,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("    Replacing first subroutine instruction "+instruction.toString(offset)+" by a label");
+                FlowTraceWriter.out_println("    Replacing first subroutine instruction "+instruction.toString(offset)+" by a label");
             }
 
             // Append a label at this offset instead of saving the subroutine
@@ -256,7 +257,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    System.out.println("    Replacing subroutine return at ["+offset+"] by a label");
+                    FlowTraceWriter.out_println("    Replacing subroutine return at ["+offset+"] by a label");
                 }
 
                 // Append a label at this offset instead of the subroutine return.
@@ -266,7 +267,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    System.out.println("    Replacing subroutine return at ["+offset+"] by a simple branch");
+                    FlowTraceWriter.out_println("    Replacing subroutine return at ["+offset+"] by a simple branch");
                 }
 
                 // Replace the instruction by a branch.
@@ -281,7 +282,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("    Replacing first subroutine instruction "+variableInstruction.toString(offset)+" by a label");
+                FlowTraceWriter.out_println("    Replacing first subroutine instruction "+variableInstruction.toString(offset)+" by a label");
             }
 
             // Append a label at this offset instead of saving the subroutine
@@ -322,7 +323,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    System.out.println("Replacing subroutine invocation at ["+offset+"] by a simple branch");
+                    FlowTraceWriter.out_println("Replacing subroutine invocation at ["+offset+"] by a simple branch");
                 }
 
                 // Replace the subroutine invocation by a simple branch.
@@ -364,7 +365,7 @@ implements   AttributeVisitor,
                 {
                     if (DEBUG)
                     {
-                        System.out.println("  Appending extra exception ["+startPC+" -> "+offset+"] -> "+handlerPC);
+                        FlowTraceWriter.out_println("  Appending extra exception ["+startPC+" -> "+offset+"] -> "+handlerPC);
                     }
 
                     // Append a try block that ends before the subroutine invocation.
@@ -384,11 +385,11 @@ implements   AttributeVisitor,
             if (startPC == exceptionInfo.u2startPC &&
                 endPC   == exceptionInfo.u2endPC)
             {
-                System.out.println("  Appending exception ["+startPC+" -> "+endPC+"] -> "+handlerPC);
+                FlowTraceWriter.out_println("  Appending exception ["+startPC+" -> "+endPC+"] -> "+handlerPC);
             }
             else
             {
-                System.out.println("  Appending clipped exception ["+exceptionInfo.u2startPC+" -> "+exceptionInfo.u2endPC+"] ~> ["+startPC+" -> "+endPC+"] -> "+handlerPC);
+                FlowTraceWriter.out_println("  Appending clipped exception ["+exceptionInfo.u2startPC+" -> "+exceptionInfo.u2endPC+"] ~> ["+startPC+" -> "+endPC+"] -> "+handlerPC);
             }
         }
 

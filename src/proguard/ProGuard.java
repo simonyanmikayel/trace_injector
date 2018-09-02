@@ -45,7 +45,7 @@ import java.io.*;
 public class ProGuard
 {
     public static final String VERSION = "ProGuard, version 99.99.99";
-    static final boolean DEBUG = true; //TODO
+    static final boolean DEBUG = true;
 
     private final Configuration configuration;
     private       ClassPool     programClassPool = new ClassPool();
@@ -72,7 +72,7 @@ public class ProGuard
      */
     public void execute() throws IOException
     {
-        System.out.println(VERSION);
+        FlowTraceWriter.out_println(VERSION);
 
         GPL.check();
 
@@ -202,7 +202,7 @@ public class ProGuard
 
         if (configuration.injectTraces)
         {
-            injectTraces();
+            //injectTraces();
         }
 
         if (configuration.shrink    ||
@@ -232,7 +232,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Printing configuration to [" +
+            FlowTraceWriter.out_println("Printing configuration to [" +
                                PrintWriterUtil.fileName(configuration.printConfiguration) +
                                "]...");
         }
@@ -256,7 +256,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Reading input...");
+            FlowTraceWriter.out_println("Reading input...");
         }
 
         // Fill the program class pool and the library class pool.
@@ -273,7 +273,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Initializing...");
+            FlowTraceWriter.out_println("Initializing...");
         }
 
         new Initializer(configuration).execute(programClassPool,
@@ -330,7 +330,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Setting target versions...");
+            FlowTraceWriter.out_println("Setting target versions...");
         }
 
         new Targeter(configuration).execute(programClassPool);
@@ -345,7 +345,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Printing kept classes, fields, and methods...");
+            FlowTraceWriter.out_println("Printing kept classes, fields, and methods...");
         }
 
         PrintWriter pw = PrintWriterUtil.createPrintWriterOut(configuration.printSeeds);
@@ -366,7 +366,7 @@ public class ProGuard
      */
     private void injectTraces() throws IOException {
         if (configuration.verbose) {
-            System.out.println("Injecting traces...");
+            FlowTraceWriter.out_println("Injecting traces...");
 
             // Perform the actual trace injection.
             new traceInjector(configuration).execute(programClassPool,
@@ -381,18 +381,18 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Shrinking...");
+            FlowTraceWriter.out_println("Shrinking...");
 
             // We'll print out some explanation, if requested.
             if (configuration.whyAreYouKeeping != null)
             {
-                System.out.println("Explaining why classes and class members are being kept...");
+                FlowTraceWriter.out_println("Explaining why classes and class members are being kept...");
             }
 
             // We'll print out the usage, if requested.
             if (configuration.printUsage != null)
             {
-                System.out.println("Printing usage to [" + PrintWriterUtil.fileName(configuration.printUsage) + "]...");
+                FlowTraceWriter.out_println("Printing usage to [" + PrintWriterUtil.fileName(configuration.printUsage) + "]...");
             }
         }
 
@@ -410,7 +410,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Inlining subroutines...");
+            FlowTraceWriter.out_println("Inlining subroutines...");
         }
 
         // Perform the actual inlining.
@@ -426,7 +426,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Optimizing (pass " + currentPass + "/" + maxPasses + ")...");
+            FlowTraceWriter.out_println("Optimizing (pass " + currentPass + "/" + maxPasses + ")...");
         }
 
         // Perform the actual optimization.
@@ -443,18 +443,18 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Obfuscating...");
+            FlowTraceWriter.out_println("Obfuscating...");
 
             // We'll apply a mapping, if requested.
             if (configuration.applyMapping != null)
             {
-                System.out.println("Applying mapping [" + PrintWriterUtil.fileName(configuration.applyMapping) + "]");
+                FlowTraceWriter.out_println("Applying mapping [" + PrintWriterUtil.fileName(configuration.applyMapping) + "]");
             }
 
             // We'll print out the mapping, if requested.
             if (configuration.printMapping != null)
             {
-                System.out.println("Printing mapping to [" + PrintWriterUtil.fileName(configuration.printMapping) + "]...");
+                FlowTraceWriter.out_println("Printing mapping to [" + PrintWriterUtil.fileName(configuration.printMapping) + "]...");
             }
         }
 
@@ -504,7 +504,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Preverifying...");
+            FlowTraceWriter.out_println("Preverifying...");
         }
 
         // Perform the actual preverification.
@@ -528,7 +528,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Writing output...");
+            FlowTraceWriter.out_println("Writing output...");
         }
 
         // Write out the program class pool.
@@ -544,7 +544,7 @@ public class ProGuard
     {
         if (configuration.verbose)
         {
-            System.out.println("Printing classes to [" + PrintWriterUtil.fileName(configuration.dump) + "]...");
+            FlowTraceWriter.out_println("Printing classes to [" + PrintWriterUtil.fileName(configuration.dump) + "]...");
         }
 
         PrintWriter pw = PrintWriterUtil.createPrintWriterOut(configuration.dump);
@@ -564,11 +564,10 @@ public class ProGuard
      */
     public static void main(String[] args)
     {
-        FlowTraceWriter.IsInitialized();
         if (args.length == 0)
         {
-            System.out.println(VERSION);
-            System.out.println("Usage: java proguard.ProGuard [options  ...]");
+            FlowTraceWriter.out_println(VERSION);
+            FlowTraceWriter.out_println("Usage: java proguard.ProGuard [options  ...]");
             System.exit(1);
         }
 
@@ -602,7 +601,7 @@ public class ProGuard
             else
             {
                 // Print just the stack trace message.
-                System.err.println("Error: "+ex.getMessage());
+                FlowTraceWriter.err_println("Error: "+ex.getMessage());
             }
 
             //System.exit(1);

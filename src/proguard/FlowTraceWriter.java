@@ -10,32 +10,17 @@ public class FlowTraceWriter {
     public static boolean IsInitialized() {
         return Initialized;
     }
-    public static synchronized void write(boolean b) {
-//        try {
-//            Thread.sleep(0, 1);
-//        }
-//        catch (Exception e) {
-//        }
-        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        boolean enter = b;
-        int this_fn = getUnicId(stackTraceElements, 2);
-        int call_site = getUnicId(stackTraceElements, 3);
-        int fn_line = getLineNumber(stackTraceElements, 2);
-        int call_line = getLineNumber(stackTraceElements, 3);
-        String methodName = getMethodNmae(stackTraceElements, 2);
-        writeTrace(enter, this_fn, call_site, fn_line, call_line, methodName);
-
-//        String descr = (b ? "Before: " : "After: ");
-//        printStack(stackTraceElements, descr);
-//        System.out.println(descr + "AAA " + packetNN + " " + methodName + " " + fn_line + " " + call_line);
+    enum TRACE_TYPE {LOG_INFO_ENTER, LOG_INFO_EXIT, LOG_INFO_TRACE};
+    public static synchronized void write(boolean enter) {
+        writeTrace(enter ? TRACE_TYPE.LOG_INFO_ENTER : TRACE_TYPE.LOG_INFO_EXIT, null, 3);
     }
     static void printStack(StackTraceElement[] stackTraceElements, String descr) {
-        System.out.println(descr + " began stack >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        FlowTraceWriter.out_println(descr + " began stack >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         for (int i = 0; i < stackTraceElements.length; i++)
         {
-            System.out.println( i + ". " + stackElemToString(stackTraceElements, i));
+            FlowTraceWriter.out_println( i + ". " + stackElemToString(stackTraceElements, i));
         }
-        System.out.println(descr + "end stack <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        FlowTraceWriter.out_println(descr + "end stack <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
     static String stackElemToString(StackTraceElement[] stackTraceElements, int i) {
         return getMethodNmae(stackTraceElements, i)+":"+getLineNumber(stackTraceElements, i);
@@ -72,6 +57,9 @@ public class FlowTraceWriter {
     static private boolean Initialized = Initialize();
     //static long pid = ProcessHandle.current().pid();
     static boolean Initialize() {
+        String envVarTrace = System.getenv("FLOW_TRACE");
+        if ( envVarTrace == null || envVarTrace.length() == 0)
+            return false;
         try {
             socket = new DatagramSocket();
         } catch (SocketException e) {
@@ -89,14 +77,25 @@ public class FlowTraceWriter {
         return true;
     }
 
-    static void writeTrace(boolean enter, int this_fn, int call_site, int fn_line, int call_line, String methodName) {
+    static void writeTrace(TRACE_TYPE type, String trace, int deep) {
         if (!Initialized)
             return;
         try {
+            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+            int this_fn = getUnicId(stackTraceElements, deep);
+            int call_site = getUnicId(stackTraceElements, deep + 1);
+            int fn_line = getLineNumber(stackTraceElements, deep);
+            int call_line = getLineNumber(stackTraceElements, type == TRACE_TYPE.LOG_INFO_TRACE ?  deep : deep + 1);
+            String methodName = getMethodNmae(stackTraceElements, deep);
+
             int cb_app_name = 1;
-            int cb_trace = 0;
             byte[] methodNameBuf = encodeUTF8(methodName);
             int cb_fn_name = methodNameBuf.length;
+            byte[] traceBuf = null;
+            if (trace != null)
+                traceBuf = encodeUTF8(trace);
+            int cb_trace = (traceBuf == null) ? 0 : traceBuf.length;
+
             // UDP_PACK_INFO
             byteBuffer.position(0);
             byteBuffer.putInt(0);//int data_len;
@@ -105,7 +104,7 @@ public class FlowTraceWriter {
             int sizeof_UDP_PACK_INFO = byteBuffer.position();
             // LOG_REC
             byteBuffer.putInt(0);//int len;
-            byteBuffer.putShort((short)(enter ? 0 : 1));//int log_type; LOG_INFO_ENTER, LOG_INFO_EXIT
+            byteBuffer.putShort((short)(type.ordinal()));//int log_type; LOG_INFO_ENTER, LOG_INFO_EXIT
             byteBuffer.putShort((short)2);//int log_flags
             byteBuffer.putInt(++packetNN);//int nn;
             byteBuffer.putShort((short)cb_app_name);//cb_app_name;
@@ -127,6 +126,8 @@ public class FlowTraceWriter {
             byteBuffer.put((byte)'J');//char data[1];
             //TODO check buffer overflow
             byteBuffer.put(methodNameBuf);
+            if(traceBuf != null)
+                byteBuffer.put(traceBuf);
             byteBuffer.put((byte)0); //null terminator
 
             int len = sizeof_LOG_REC + cb_app_name + cb_fn_name + cb_trace;
@@ -151,5 +152,39 @@ public class FlowTraceWriter {
 
     static byte[] encodeUTF8(String string) {
         return string.getBytes(UTF8_CHARSET);
+    }
+
+    public static void err_println() {
+        trace("\n", true);
+    }
+
+    public static void out_println() {
+        trace("\n", true);
+    }
+
+    public static void err_println(Object o) {
+        trace(o.toString(), true);
+    }
+
+    public static void out_println(Object o) {
+        trace(o.toString(), true);
+    }
+
+    public static void err_print(Object o) {
+        trace(o.toString(), false);
+    }
+
+    public static void out_print(Object o) {
+        trace(o.toString(), false);
+    }
+
+    private static void trace(String s, boolean newLine) {
+        if (newLine)
+            System.out.println(s);
+        else
+            System.out.print(s);
+        if (newLine && (s.length() == 0 || s.charAt(s.length() - 1) != '\n'))
+            s = s + "\n";
+        writeTrace(TRACE_TYPE.LOG_INFO_TRACE, s, 4);
     }
 }

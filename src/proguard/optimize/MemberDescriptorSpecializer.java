@@ -20,6 +20,7 @@
  */
 package proguard.optimize;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.editor.ClassReferenceFixer;
 import proguard.classfile.util.*;
@@ -39,7 +40,7 @@ public class MemberDescriptorSpecializer
 extends      SimplifiedVisitor
 implements   MemberVisitor
 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
 
     private final MemberVisitor extraParameterMemberVisitor;
@@ -78,8 +79,8 @@ implements   MemberVisitor
             {
                 if (DEBUG)
                 {
-                    System.out.println("MemberDescriptorSpecializer: "+programClass.getName()+"."+programField.getName(programClass)+" "+programField.getDescriptor(programClass));
-                    System.out.println("  "+programField.referencedClass.getName()+" -> "+referencedClass.getName());
+                    FlowTraceWriter.out_println("MemberDescriptorSpecializer: "+programClass.getName()+"."+programField.getName(programClass)+" "+programField.getDescriptor(programClass));
+                    FlowTraceWriter.out_println("  "+programField.referencedClass.getName()+" -> "+referencedClass.getName());
                 }
 
                 programField.referencedClass = referencedClass;
@@ -118,8 +119,8 @@ implements   MemberVisitor
                  {
                      if (DEBUG)
                      {
-                         System.out.println("MemberDescriptorSpecializer: "+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass));
-                         System.out.println("  "+programMethod.referencedClasses[classIndex].getName()+" -> "+referencedClass.getName());
+                         FlowTraceWriter.out_println("MemberDescriptorSpecializer: "+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass));
+                         FlowTraceWriter.out_println("  "+programMethod.referencedClasses[classIndex].getName()+" -> "+referencedClass.getName());
                      }
 
                      programMethod.referencedClasses[classIndex] = referencedClass;

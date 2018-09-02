@@ -735,7 +735,7 @@ public class Optimizer
                     new ParameterUsageMarker(true, true, false))))))))
             )))));
 
-//        System.out.println("Optimizer.execute: before evaluation simplification");
+//        FlowTraceWriter.out_println("Optimizer.execute: before evaluation simplification");
 //        programClassPool.classAccept("abc/Def", new NamedMethodVisitor("abc", null, new ClassPrinter()));
 
         // Perform partial evaluation for filling out fields, method parameters,
@@ -1447,41 +1447,41 @@ public class Optimizer
 
         if (configuration.verbose)
         {
-            System.out.println("  Number of finalized classes:                   " + classMarkingFinalCount                 + disabled(classMarkingFinal));
-            System.out.println("  Number of unboxed enum classes:                " + classUnboxingEnumCount                 + disabled(classUnboxingEnum));
-            System.out.println("  Number of vertically merged classes:           " + classMergingVerticalCount              + disabled(classMergingVertical));
-            System.out.println("  Number of horizontally merged classes:         " + classMergingHorizontalCount            + disabled(classMergingHorizontal));
-            System.out.println("  Number of merged wrapper classes:              " + classMergingWrapperCount               + disabled(classMergingWrapper));
-            System.out.println("  Number of removed write-only fields:           " + fieldRemovalWriteonlyCount             + disabled(fieldRemovalWriteonly));
-            System.out.println("  Number of privatized fields:                   " + fieldMarkingPrivateCount               + disabled(fieldMarkingPrivate));
-            System.out.println("  Number of inlined constant fields:             " + fieldPropagationValueCount             + disabled(fieldPropagationValue));
-            System.out.println("  Number of privatized methods:                  " + methodMarkingPrivateCount              + disabled(methodMarkingPrivate));
-            System.out.println("  Number of staticized methods:                  " + methodMarkingStaticCount               + disabled(methodMarkingStatic));
-            System.out.println("  Number of finalized methods:                   " + methodMarkingFinalCount                + disabled(methodMarkingFinal));
-            System.out.println("  Number of desynchronized methods:              " + methodMarkingSynchronizedCount         + disabled(methodMarkingSynchronized));
-            System.out.println("  Number of simplified method signatures:        " + methodRemovalParameterCount1           + disabled(methodRemovalParameter));
-            System.out.println("  Number of removed method parameters:           " + methodRemovalParameterCount2           + disabled(methodRemovalParameter));
-            System.out.println("  Number of inlined constant parameters:         " + methodPropagationParameterCount        + disabled(methodPropagationParameter));
-            System.out.println("  Number of inlined constant return values:      " + methodPropagationReturnvalueCount      + disabled(methodPropagationReturnvalue));
-            System.out.println("  Number of inlined short method calls:          " + methodInliningShortCount               + disabled(methodInliningShort));
-            System.out.println("  Number of inlined unique method calls:         " + methodInliningUniqueCount              + disabled(methodInliningUnique));
-            System.out.println("  Number of inlined tail recursion calls:        " + methodInliningTailrecursionCount       + disabled(methodInliningTailrecursion));
-            System.out.println("  Number of merged code blocks:                  " + codeMergingCount                       + disabled(codeMerging));
-            System.out.println("  Number of variable peephole optimizations:     " + codeSimplificationVariableCount        + disabled(codeSimplificationVariable));
-            System.out.println("  Number of arithmetic peephole optimizations:   " + codeSimplificationArithmeticCount      + disabled(codeSimplificationArithmetic));
-            System.out.println("  Number of cast peephole optimizations:         " + codeSimplificationCastCount            + disabled(codeSimplificationCast));
-            System.out.println("  Number of field peephole optimizations:        " + codeSimplificationFieldCount           + disabled(codeSimplificationField));
-            System.out.println("  Number of branch peephole optimizations:       " + codeSimplificationBranchCount          + disabled(codeSimplificationBranch));
-            System.out.println("  Number of object peephole optimizations:       " + codeSimplificationObjectCount          + disabled(codeSimplificationObject));
-            System.out.println("  Number of string peephole optimizations:       " + codeSimplificationStringCount          + disabled(codeSimplificationString));
-            System.out.println("  Number of math peephole optimizations:         " + codeSimplificationMathCount            + disabled(codeSimplificationMath));
+            FlowTraceWriter.out_println("  Number of finalized classes:                   " + classMarkingFinalCount                 + disabled(classMarkingFinal));
+            FlowTraceWriter.out_println("  Number of unboxed enum classes:                " + classUnboxingEnumCount                 + disabled(classUnboxingEnum));
+            FlowTraceWriter.out_println("  Number of vertically merged classes:           " + classMergingVerticalCount              + disabled(classMergingVertical));
+            FlowTraceWriter.out_println("  Number of horizontally merged classes:         " + classMergingHorizontalCount            + disabled(classMergingHorizontal));
+            FlowTraceWriter.out_println("  Number of merged wrapper classes:              " + classMergingWrapperCount               + disabled(classMergingWrapper));
+            FlowTraceWriter.out_println("  Number of removed write-only fields:           " + fieldRemovalWriteonlyCount             + disabled(fieldRemovalWriteonly));
+            FlowTraceWriter.out_println("  Number of privatized fields:                   " + fieldMarkingPrivateCount               + disabled(fieldMarkingPrivate));
+            FlowTraceWriter.out_println("  Number of inlined constant fields:             " + fieldPropagationValueCount             + disabled(fieldPropagationValue));
+            FlowTraceWriter.out_println("  Number of privatized methods:                  " + methodMarkingPrivateCount              + disabled(methodMarkingPrivate));
+            FlowTraceWriter.out_println("  Number of staticized methods:                  " + methodMarkingStaticCount               + disabled(methodMarkingStatic));
+            FlowTraceWriter.out_println("  Number of finalized methods:                   " + methodMarkingFinalCount                + disabled(methodMarkingFinal));
+            FlowTraceWriter.out_println("  Number of desynchronized methods:              " + methodMarkingSynchronizedCount         + disabled(methodMarkingSynchronized));
+            FlowTraceWriter.out_println("  Number of simplified method signatures:        " + methodRemovalParameterCount1           + disabled(methodRemovalParameter));
+            FlowTraceWriter.out_println("  Number of removed method parameters:           " + methodRemovalParameterCount2           + disabled(methodRemovalParameter));
+            FlowTraceWriter.out_println("  Number of inlined constant parameters:         " + methodPropagationParameterCount        + disabled(methodPropagationParameter));
+            FlowTraceWriter.out_println("  Number of inlined constant return values:      " + methodPropagationReturnvalueCount      + disabled(methodPropagationReturnvalue));
+            FlowTraceWriter.out_println("  Number of inlined short method calls:          " + methodInliningShortCount               + disabled(methodInliningShort));
+            FlowTraceWriter.out_println("  Number of inlined unique method calls:         " + methodInliningUniqueCount              + disabled(methodInliningUnique));
+            FlowTraceWriter.out_println("  Number of inlined tail recursion calls:        " + methodInliningTailrecursionCount       + disabled(methodInliningTailrecursion));
+            FlowTraceWriter.out_println("  Number of merged code blocks:                  " + codeMergingCount                       + disabled(codeMerging));
+            FlowTraceWriter.out_println("  Number of variable peephole optimizations:     " + codeSimplificationVariableCount        + disabled(codeSimplificationVariable));
+            FlowTraceWriter.out_println("  Number of arithmetic peephole optimizations:   " + codeSimplificationArithmeticCount      + disabled(codeSimplificationArithmetic));
+            FlowTraceWriter.out_println("  Number of cast peephole optimizations:         " + codeSimplificationCastCount            + disabled(codeSimplificationCast));
+            FlowTraceWriter.out_println("  Number of field peephole optimizations:        " + codeSimplificationFieldCount           + disabled(codeSimplificationField));
+            FlowTraceWriter.out_println("  Number of branch peephole optimizations:       " + codeSimplificationBranchCount          + disabled(codeSimplificationBranch));
+            FlowTraceWriter.out_println("  Number of object peephole optimizations:       " + codeSimplificationObjectCount          + disabled(codeSimplificationObject));
+            FlowTraceWriter.out_println("  Number of string peephole optimizations:       " + codeSimplificationStringCount          + disabled(codeSimplificationString));
+            FlowTraceWriter.out_println("  Number of math peephole optimizations:         " + codeSimplificationMathCount            + disabled(codeSimplificationMath));
             if (configuration.android)
-            System.out.println("  Number of Android math peephole optimizations: " + codeSimplificationAndroidMathCount     + disabled(codeSimplificationMath));
-            System.out.println("  Number of simplified instructions:             " + codeSimplificationAdvancedCount        + disabled(codeSimplificationAdvanced));
-            System.out.println("  Number of removed instructions:                " + codeRemovalCount                       + disabled(codeRemovalAdvanced));
-            System.out.println("  Number of removed local variables:             " + codeRemovalVariableCount               + disabled(codeRemovalVariable));
-            System.out.println("  Number of removed exception blocks:            " + codeRemovalExceptionCount              + disabled(codeRemovalException));
-            System.out.println("  Number of optimized local variable frames:     " + codeAllocationVariableCount            + disabled(codeAllocationVariable));
+            FlowTraceWriter.out_println("  Number of Android math peephole optimizations: " + codeSimplificationAndroidMathCount     + disabled(codeSimplificationMath));
+            FlowTraceWriter.out_println("  Number of simplified instructions:             " + codeSimplificationAdvancedCount        + disabled(codeSimplificationAdvanced));
+            FlowTraceWriter.out_println("  Number of removed instructions:                " + codeRemovalCount                       + disabled(codeRemovalAdvanced));
+            FlowTraceWriter.out_println("  Number of removed local variables:             " + codeRemovalVariableCount               + disabled(codeRemovalVariable));
+            FlowTraceWriter.out_println("  Number of removed exception blocks:            " + codeRemovalExceptionCount              + disabled(codeRemovalException));
+            FlowTraceWriter.out_println("  Number of optimized local variable frames:     " + codeAllocationVariableCount            + disabled(codeAllocationVariable));
         }
 
         return classMarkingFinalCount                 > 0 ||
@@ -1676,8 +1676,8 @@ public class Optimizer
 
             if (DETAILS)
             {
-                System.out.print(message);
-                System.out.print(getPadding(message.length(), 48));
+                FlowTraceWriter.out_print(message);
+                FlowTraceWriter.out_print(getPadding(message.length(), 48));
                 start = System.currentTimeMillis();
             }
 
@@ -1686,7 +1686,7 @@ public class Optimizer
             if (DETAILS)
             {
                 long end = System.currentTimeMillis();
-                System.out.println(String.format(" took: %6d ms", (end - start)));
+                FlowTraceWriter.out_println(String.format(" took: %6d ms", (end - start)));
             }
         }
 

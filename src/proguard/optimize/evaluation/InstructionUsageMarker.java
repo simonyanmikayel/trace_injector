@@ -21,6 +21,7 @@
 
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -334,10 +335,10 @@ implements   AttributeVisitor
         }
         catch (RuntimeException ex)
         {
-            System.err.println("Unexpected error while marking instruction usage after partial evaluation:");
-            System.err.println("  Class       = ["+clazz.getName()+"]");
-            System.err.println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            System.err.println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            FlowTraceWriter.err_println("Unexpected error while marking instruction usage after partial evaluation:");
+            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
+            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             if (DEBUG)
             {
@@ -353,8 +354,8 @@ implements   AttributeVisitor
     {
         if (DEBUG_RESULTS)
         {
-            System.out.println();
-            System.out.println("InstructionUsageMarker ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            FlowTraceWriter.out_println();
+            FlowTraceWriter.out_println("InstructionUsageMarker ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
         }
 
         // Initialize the necessary arrays.
@@ -374,7 +375,7 @@ implements   AttributeVisitor
         maxMarkedOffset = -1;
 
         // Mark any unused method parameters on the stack.
-        if (DEBUG) System.out.println("Invocation simplification:");
+        if (DEBUG) FlowTraceWriter.out_println("Invocation simplification:");
 
         codeAttribute.instructionsAccept(clazz, method,
             partialEvaluator.tracedInstructionFilter(parameterUsageMarker));
@@ -382,12 +383,12 @@ implements   AttributeVisitor
 
         // Mark all essential instructions that have been encountered as used.
         // Also mark infinite loops and instructions that can have side effects.
-        if (DEBUG) System.out.println("Usage initialization: ");
+        if (DEBUG) FlowTraceWriter.out_println("Usage initialization: ");
 
         codeAttribute.instructionsAccept(clazz, method,
             partialEvaluator.tracedInstructionFilter(initialUsageMarker));
 
-        if (DEBUG) System.out.println();
+        if (DEBUG) FlowTraceWriter.out_println();
 
 
         // Globally mark instructions and their produced variables and stack
@@ -395,7 +396,7 @@ implements   AttributeVisitor
         // Instead of doing this recursively, we loop across all instructions,
         // starting at the highest previously unmarked instruction that has
         // been been marked.
-        if (DEBUG) System.out.println("Usage marking:");
+        if (DEBUG) FlowTraceWriter.out_println("Usage marking:");
 
         while (maxMarkedOffset >= 0)
         {
@@ -434,27 +435,27 @@ implements   AttributeVisitor
             {
                 if (maxMarkedOffset > offset)
                 {
-                    System.out.println(" -> "+maxMarkedOffset);
+                    FlowTraceWriter.out_println(" -> "+maxMarkedOffset);
                 }
             }
         }
-        if (DEBUG) System.out.println();
+        if (DEBUG) FlowTraceWriter.out_println();
 
 
         // Mark variable initializations, even if  they aren't strictly necessary.
         // The virtual machine's verification step is not smart enough to see
         // this, and may complain otherwise.
-        if (DEBUG) System.out.println("Initialization marking: ");
+        if (DEBUG) FlowTraceWriter.out_println("Initialization marking: ");
 
         codeAttribute.instructionsAccept(clazz, method,
             necessaryInstructionFilter(
             variableInitializationMarker));
 
-        if (DEBUG) System.out.println();
+        if (DEBUG) FlowTraceWriter.out_println();
 
 
         // Mark produced stack entries, in order to keep the stack consistent.
-        if (DEBUG) System.out.println("Stack consistency fixing:");
+        if (DEBUG) FlowTraceWriter.out_println("Stack consistency fixing:");
 
         maxMarkedOffset = codeLength - 1;
 
@@ -484,12 +485,12 @@ implements   AttributeVisitor
                                        false);
             }
         }
-        if (DEBUG) System.out.println();
+        if (DEBUG) FlowTraceWriter.out_println();
 
 
         // Mark unnecessary popping instructions, in order to keep the stack
         // consistent.
-        if (DEBUG) System.out.println("Extra pop marking:");
+        if (DEBUG) FlowTraceWriter.out_println("Extra pop marking:");
 
         maxMarkedOffset = codeLength - 1;
 
@@ -520,19 +521,19 @@ implements   AttributeVisitor
                                        false);
             }
         }
-        if (DEBUG) System.out.println();
+        if (DEBUG) FlowTraceWriter.out_println();
 
 
         if (DEBUG_RESULTS)
         {
-            System.out.println("Instruction usage results:");
+            FlowTraceWriter.out_println("Instruction usage results:");
 
             int offset = 0;
             do
             {
                 Instruction instruction = InstructionFactory.create(codeAttribute.code,
                                                                     offset);
-                System.out.println((isInstructionNecessary(offset)             ? " + " :
+                FlowTraceWriter.out_println((isInstructionNecessary(offset)             ? " + " :
                                     isExtraPushPopInstructionNecessary(offset) ? " ~ " :
                                                                                  " - ") +
                                    instruction.toString(offset));
@@ -588,8 +589,8 @@ implements   AttributeVisitor
 
                             if (DEBUG)
                             {
-                                System.out.println("  ["+offset+"] Ignoring parameter #"+index+" (stack entry #"+stackIndex+" ["+stack.getBottom(stackIndex)+"])");
-                                System.out.println("    Full stack: "+stack);
+                                FlowTraceWriter.out_println("  ["+offset+"] Ignoring parameter #"+index+" (stack entry #"+stackIndex+" ["+stack.getBottom(stackIndex)+"])");
+                                FlowTraceWriter.out_println("    Full stack: "+stack);
                             }
 
                             markStackEntryUnwantedBefore(offset, stackIndex);
@@ -729,7 +730,7 @@ implements   AttributeVisitor
             if (branchInstruction.opcode == InstructionConstants.OP_GOTO &&
                 branchInstruction.branchOffset == 0)
             {
-                if (DEBUG) System.out.print("(infinite loop)");
+                if (DEBUG) FlowTraceWriter.out_print("(infinite loop)");
                 markInstruction(offset);
             }
             else
@@ -788,7 +789,7 @@ implements   AttributeVisitor
 
 //            if (referencedMethod != null)
 //            {
-//                System.out.println("InstructionUsageMarker$MyInitialUsageMarker.visitAnyMethodrefConstant [" + refConstant.getClassName(clazz) + "." + refConstant.getName(clazz) +
+//                FlowTraceWriter.out_println("InstructionUsageMarker$MyInitialUsageMarker.visitAnyMethodrefConstant [" + refConstant.getClassName(clazz) + "." + refConstant.getName(clazz) +
 //                                   "]: mark! esc = " + ParameterEscapeMarker.getEscapingParameters(referencedMethod) +
 //                                   ", mod = " + ParameterEscapeMarker.modifiesAnything(referencedMethod) +
 //                                   ", side = " + SideEffectClassChecker.mayHaveSideEffects(clazz,
@@ -814,7 +815,7 @@ implements   AttributeVisitor
                                                           refConstant.referencedClass,
                                                           referencedMethod))
             {
-//                System.out.println("  -> mark ["+referencingOffset+"]");
+//                FlowTraceWriter.out_println("  -> mark ["+referencingOffset+"]");
                 // Mark the invocation.
                 markInstruction(referencingOffset);
             }
@@ -822,7 +823,7 @@ implements   AttributeVisitor
             {
                 if (DEBUG)
                 {
-                    System.out.println("  ["+referencingOffset+"] Checking parameters of ["+refConstant.getClassName(clazz)+"."+refConstant.getName(clazz)+refConstant.getType(clazz)+"] (pop count = "+referencingPopCount+")");
+                    FlowTraceWriter.out_println("  ["+referencingOffset+"] Checking parameters of ["+refConstant.getClassName(clazz)+"."+refConstant.getName(clazz)+refConstant.getType(clazz)+"] (pop count = "+referencingPopCount+")");
                 }
 
                 // Create reverse dependencies for reference parameters that
@@ -840,7 +841,7 @@ implements   AttributeVisitor
 
             if (DEBUG)
             {
-                System.out.println("    P"+parameterIndex+
+                FlowTraceWriter.out_println("    P"+parameterIndex+
                                    ": escaping = "+ParameterEscapeMarker.isParameterEscaping(method, parameterIndex)+
                                    ", modified = "+ParameterEscapeMarker.isParameterModified(method, parameterIndex)+
                                    ", returned = "+ParameterEscapeMarker.isParameterReturned(method, parameterIndex));
@@ -879,12 +880,12 @@ implements   AttributeVisitor
         {
             TracedStack stackBefore = partialEvaluator.getStackBefore(offset);
             Value       stackEntry  = stackBefore.getTop(stackEntryIndex);
-//            System.out.println("     ["+offset+"] s"+stackEntryIndex+": ["+stackEntry+"]");
+//            FlowTraceWriter.out_println("     ["+offset+"] s"+stackEntryIndex+": ["+stackEntry+"]");
 
             if (stackEntry.computationalType() == Value.TYPE_REFERENCE)
             {
                 ReferenceValue referenceValue = stackEntry.referenceValue();
-//                System.out.println("EvaluationShrinker$MyInitialUsageMarker.createReverseDependencies: ["+offset+"] ["+referenceValue+"]?");
+//                FlowTraceWriter.out_println("EvaluationShrinker$MyInitialUsageMarker.createReverseDependencies: ["+offset+"] ["+referenceValue+"]?");
                 // The null reference value may not have a trace value.
                 if (referenceValue.isNull() != Value.ALWAYS)
                 {
@@ -898,7 +899,7 @@ implements   AttributeVisitor
                     }
                     else
                     {
-//                        System.out.println("InstructionUsageMarker$MyInitialUsageMarker.createReverseDependencies: not a TracedReferenceValue");
+//                        FlowTraceWriter.out_println("InstructionUsageMarker$MyInitialUsageMarker.createReverseDependencies: not a TracedReferenceValue");
                         markInstruction(offset);
                     }
                 }
@@ -929,7 +930,7 @@ implements   AttributeVisitor
                     // instances on the stack (like the string encryption code).
                     if (producerOffset != offset)
                     {
-                        if (DEBUG) System.out.println("  Inserting reverse dependency from instance producers ["+producerOffset+"] to ["+offset+"]");
+                        if (DEBUG) FlowTraceWriter.out_println("  Inserting reverse dependency from instance producers ["+producerOffset+"] to ["+offset+"]");
 
                         InstructionOffsetValue reverseDependency =
                             reverseDependencies[producerOffset];
@@ -1271,11 +1272,11 @@ implements   AttributeVisitor
             if (isVariableInitialization(producerOffset, variableIndex))
             {
                 // Mark the producer.
-                if (DEBUG) System.out.print("  Marking initialization of v"+variableIndex+" at ");
+                if (DEBUG) FlowTraceWriter.out_print("  Marking initialization of v"+variableIndex+" at ");
 
                 markInstruction(producerOffset);
 
-                if (DEBUG) System.out.println();
+                if (DEBUG) FlowTraceWriter.out_println();
             }
             else
             {
@@ -1472,7 +1473,7 @@ implements   AttributeVisitor
         if (!isInstructionNecessary(branchOrigin) &&
             isAnyInstructionNecessary(instructionOffsetStart, instructionOffsetEnd))
         {
-            if (DEBUG) System.out.print("["+branchOrigin+"->"+branchTarget+"]");
+            if (DEBUG) FlowTraceWriter.out_print("["+branchOrigin+"->"+branchTarget+"]");
 
             // Mark the branch instruction.
             markInstruction(branchOrigin);
@@ -1578,7 +1579,7 @@ implements   AttributeVisitor
     {
         if (!isStackEntryNecessaryAfter(instructionOffset, stackIndex))
         {
-            if (DEBUG) System.out.print("["+instructionOffset+".s"+stackIndex+"],");
+            if (DEBUG) FlowTraceWriter.out_print("["+instructionOffset+".s"+stackIndex+"],");
 
             stacksNecessaryAfter[instructionOffset][stackIndex] = true;
 
@@ -1627,7 +1628,7 @@ implements   AttributeVisitor
     {
         if (!isInstructionNecessary(instructionOffset))
         {
-            if (DEBUG) System.out.print(instructionOffset+",");
+            if (DEBUG) FlowTraceWriter.out_print(instructionOffset+",");
 
             instructionsNecessary[instructionOffset] = true;
 
@@ -1649,7 +1650,7 @@ implements   AttributeVisitor
         if (!isInstructionNecessary(instructionOffset) &&
             !isExtraPushPopInstructionNecessary(instructionOffset))
         {
-            if (DEBUG) System.out.print(instructionOffset+",");
+            if (DEBUG) FlowTraceWriter.out_print(instructionOffset+",");
 
             extraPushPopInstructionsNecessary[instructionOffset] = true;
 

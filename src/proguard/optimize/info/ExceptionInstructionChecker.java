@@ -20,6 +20,7 @@
  */
 package proguard.optimize.info;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.instruction.*;
@@ -38,7 +39,7 @@ implements   InstructionVisitor
 //             MemberVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     public  static       boolean DEBUG = System.getProperty("eic") != null;
     //*/
@@ -74,7 +75,7 @@ implements   InstructionVisitor
     {
         if (DEBUG)
         {
-            System.out.println("ExceptionInstructionChecker.mayThrowExceptions ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
+            FlowTraceWriter.out_println("ExceptionInstructionChecker.mayThrowExceptions ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
         }
 
         return firstExceptionThrowingInstructionOffset(clazz,
@@ -97,7 +98,7 @@ implements   InstructionVisitor
     {
         if (DEBUG)
         {
-            System.out.println("ExceptionInstructionChecker.firstExceptionThrowingInstructionOffset ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
+            FlowTraceWriter.out_println("ExceptionInstructionChecker.firstExceptionThrowingInstructionOffset ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
         }
 
         byte[] code = codeAttribute.code;
@@ -118,7 +119,7 @@ implements   InstructionVisitor
             {
                 if (DEBUG)
                 {
-                    System.out.println("  "+instruction.toString(offset));
+                    FlowTraceWriter.out_println("  "+instruction.toString(offset));
                 }
 
                 return offset;
@@ -144,7 +145,7 @@ implements   InstructionVisitor
     {
         if (DEBUG)
         {
-            System.out.println("ExceptionInstructionChecker.lastExceptionThrowingInstructionOffset ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
+            FlowTraceWriter.out_println("ExceptionInstructionChecker.lastExceptionThrowingInstructionOffset ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
         }
 
         byte[] code = codeAttribute.code;
@@ -167,7 +168,7 @@ implements   InstructionVisitor
             {
                 if (DEBUG)
                 {
-                    System.out.println("  "+instruction.toString(offset));
+                    FlowTraceWriter.out_println("  "+instruction.toString(offset));
                 }
 
                 // Go to the next instruction.

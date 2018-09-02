@@ -195,7 +195,7 @@ implements   ClassVisitor
 
     public void visitAnyClass(Clazz clazz)
     {
-        System.out.println("      Maybe you meant the fully qualified name '" +
+        FlowTraceWriter.out_println("      Maybe you meant the fully qualified name '" +
                            ClassUtil.externalClassName(clazz.getName()) + "'?");
     }
 }

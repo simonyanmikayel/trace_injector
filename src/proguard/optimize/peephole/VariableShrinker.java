@@ -20,6 +20,7 @@
  */
 package proguard.optimize.peephole;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -43,7 +44,7 @@ extends      SimplifiedVisitor
 implements   AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("vs") != null;
     //*/
@@ -94,9 +95,9 @@ implements   AttributeVisitor
 
             if (DEBUG)
             {
-                System.out.println("VariableShrinker: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
-                System.out.println("  Parameter size = " + parameterSize);
-                System.out.println("  Max locals     = " + maxLocals);
+                FlowTraceWriter.out_println("VariableShrinker: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+                FlowTraceWriter.out_println("  Parameter size = " + parameterSize);
+                FlowTraceWriter.out_println("  Max locals     = " + maxLocals);
             }
 
             // Figure out the local variables that are used by the code.
@@ -112,7 +113,7 @@ implements   AttributeVisitor
                 {
                     if (DEBUG)
                     {
-                        System.out.println("  Deleting local variable #"+variableIndex);
+                        FlowTraceWriter.out_println("  Deleting local variable #"+variableIndex);
                     }
 
                     // Delete the unused variable.

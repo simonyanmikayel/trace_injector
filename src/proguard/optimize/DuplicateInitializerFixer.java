@@ -20,6 +20,7 @@
  */
 package proguard.optimize;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -39,7 +40,7 @@ implements   MemberVisitor,
              AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("dif") != null;
     //*/
@@ -125,8 +126,8 @@ implements   MemberVisitor,
                     {
                         if (DEBUG)
                         {
-                            System.out.println("DuplicateInitializerFixer:");
-                            System.out.println("  ["+programClass.getName()+"."+name+descriptor+"] ("+ClassUtil.externalClassAccessFlags(programMethod.getAccessFlags())+") -> ["+newDescriptor+"]");
+                            FlowTraceWriter.out_println("DuplicateInitializerFixer:");
+                            FlowTraceWriter.out_println("  ["+programClass.getName()+"."+name+descriptor+"] ("+ClassUtil.externalClassAccessFlags(programMethod.getAccessFlags())+") -> ["+newDescriptor+"]");
                         }
 
                         // Update the descriptor.

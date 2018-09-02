@@ -20,6 +20,7 @@
  */
 package proguard.optimize.peephole;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.constant.*;
@@ -71,7 +72,7 @@ implements   InstructionVisitor,
              ConstantVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     public  static       boolean DEBUG = System.getProperty("isr") != null;
     //*/
@@ -266,18 +267,18 @@ implements   InstructionVisitor,
 
             if (DEBUG)
             {
-                System.out.println("InstructionSequenceReplacer: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-                System.out.println("  Matched:");
+                FlowTraceWriter.out_println("InstructionSequenceReplacer: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+                FlowTraceWriter.out_println("  Matched:");
                 for (int index = 0; index < patternCount; index++)
                 {
                     int matchedOffset = instructionSequenceMatcher.matchedInstructionOffset(index);
-                    System.out.println("    "+InstructionFactory.create(codeAttribute.code, matchedOffset).toString(matchedOffset));
+                    FlowTraceWriter.out_println("    "+InstructionFactory.create(codeAttribute.code, matchedOffset).toString(matchedOffset));
                 }
-                System.out.println("  Replacement:");
+                FlowTraceWriter.out_println("  Replacement:");
                 for (int index = 0; index < replacementCount; index++)
                 {
                     int matchedOffset = instructionSequenceMatcher.matchedInstructionOffset(Math.min(index, patternCount-1));
-                    System.out.println("    " + replacementInstructionFactory.create(clazz, codeAttribute, index).shrink().toString(matchedOffset));
+                    FlowTraceWriter.out_println("    " + replacementInstructionFactory.create(clazz, codeAttribute, index).shrink().toString(matchedOffset));
                 }
             }
 

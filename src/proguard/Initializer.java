@@ -315,165 +315,165 @@ public class Initializer
         int fullyQualifiedNoteCount = fullyQualifiedClassNameNotePrinter.getWarningCount();
         if (fullyQualifiedNoteCount > 0)
         {
-            System.out.println("Note: there were " + fullyQualifiedNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + fullyQualifiedNoteCount +
                                " references to unknown classes.");
-            System.out.println("      You should check your configuration for typos.");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#unknownclass)");
+            FlowTraceWriter.out_println("      You should check your configuration for typos.");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#unknownclass)");
         }
 
         int classMemberNoteCount = classMemberNotePrinter.getWarningCount();
         if (classMemberNoteCount > 0)
         {
-            System.out.println("Note: there were " + classMemberNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + classMemberNoteCount +
                                " references to unknown class members.");
-            System.out.println("      You should check your configuration for typos.");
+            FlowTraceWriter.out_println("      You should check your configuration for typos.");
         }
 
         int getAnnotationNoteCount = getAnnotationNotePrinter.getWarningCount();
         if (getAnnotationNoteCount > 0)
         {
-            System.out.println("Note: there were " + getAnnotationNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + getAnnotationNoteCount +
                                " classes trying to access annotations using reflection.");
-            System.out.println("      You should consider keeping the annotation attributes");
-            System.out.println("      (using '-keepattributes *Annotation*').");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#attributes)");
+            FlowTraceWriter.out_println("      You should consider keeping the annotation attributes");
+            FlowTraceWriter.out_println("      (using '-keepattributes *Annotation*').");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#attributes)");
         }
 
         int getSignatureNoteCount = getSignatureNotePrinter.getWarningCount();
         if (getSignatureNoteCount > 0)
         {
-            System.out.println("Note: there were " + getSignatureNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + getSignatureNoteCount +
                                " classes trying to access generic signatures using reflection.");
-            System.out.println("      You should consider keeping the signature attributes");
-            System.out.println("      (using '-keepattributes Signature').");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#attributes)");
+            FlowTraceWriter.out_println("      You should consider keeping the signature attributes");
+            FlowTraceWriter.out_println("      (using '-keepattributes Signature').");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#attributes)");
         }
 
         int getEnclosingClassNoteCount = getEnclosingClassNotePrinter.getWarningCount();
         if (getEnclosingClassNoteCount > 0)
         {
-            System.out.println("Note: there were " + getEnclosingClassNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + getEnclosingClassNoteCount +
                                " classes trying to access enclosing classes using reflection.");
-            System.out.println("      You should consider keeping the inner classes attributes");
-            System.out.println("      (using '-keepattributes InnerClasses').");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#attributes)");
+            FlowTraceWriter.out_println("      You should consider keeping the inner classes attributes");
+            FlowTraceWriter.out_println("      (using '-keepattributes InnerClasses').");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#attributes)");
         }
 
         int getEnclosingMethodNoteCount = getEnclosingMethodNotePrinter.getWarningCount();
         if (getEnclosingMethodNoteCount > 0)
         {
-            System.out.println("Note: there were " + getEnclosingMethodNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + getEnclosingMethodNoteCount +
                                " classes trying to access enclosing methods using reflection.");
-            System.out.println("      You should consider keeping the enclosing method attributes");
-            System.out.println("      (using '-keepattributes InnerClasses,EnclosingMethod').");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#attributes)");
+            FlowTraceWriter.out_println("      You should consider keeping the enclosing method attributes");
+            FlowTraceWriter.out_println("      (using '-keepattributes InnerClasses,EnclosingMethod').");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#attributes)");
         }
 
         int descriptorNoteCount = descriptorKeepNotePrinter.getWarningCount();
         if (descriptorNoteCount > 0)
         {
-            System.out.println("Note: there were " + descriptorNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + descriptorNoteCount +
                                " unkept descriptor classes in kept class members.");
-            System.out.println("      You should consider explicitly keeping the mentioned classes");
-            System.out.println("      (using '-keep').");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#descriptorclass)");
+            FlowTraceWriter.out_println("      You should consider explicitly keeping the mentioned classes");
+            FlowTraceWriter.out_println("      (using '-keep').");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#descriptorclass)");
         }
 
         int libraryNoteCount = libraryKeepNotePrinter.getWarningCount();
         if (libraryNoteCount > 0)
         {
-            System.out.println("Note: there were " + libraryNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + libraryNoteCount +
                                " library classes explicitly being kept.");
-            System.out.println("      You don't need to keep library classes; they are already left unchanged.");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#libraryclass)");
+            FlowTraceWriter.out_println("      You don't need to keep library classes; they are already left unchanged.");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#libraryclass)");
         }
 
         int dynamicClassReferenceNoteCount = dynamicClassReferenceNotePrinter.getWarningCount();
         if (dynamicClassReferenceNoteCount > 0)
         {
-            System.out.println("Note: there were " + dynamicClassReferenceNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + dynamicClassReferenceNoteCount +
                                " unresolved dynamic references to classes or interfaces.");
-            System.out.println("      You should check if you need to specify additional program jars.");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#dynamicalclass)");
+            FlowTraceWriter.out_println("      You should check if you need to specify additional program jars.");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#dynamicalclass)");
         }
 
         int classForNameNoteCount = classForNameNotePrinter.getWarningCount();
         if (classForNameNoteCount > 0)
         {
-            System.out.println("Note: there were " + classForNameNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + classForNameNoteCount +
                                " class casts of dynamically created class instances.");
-            System.out.println("      You might consider explicitly keeping the mentioned classes and/or");
-            System.out.println("      their implementations (using '-keep').");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#dynamicalclasscast)");
+            FlowTraceWriter.out_println("      You might consider explicitly keeping the mentioned classes and/or");
+            FlowTraceWriter.out_println("      their implementations (using '-keep').");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#dynamicalclasscast)");
         }
 
         int getmemberNoteCount = getMemberNotePrinter.getWarningCount();
         if (getmemberNoteCount > 0)
         {
-            System.out.println("Note: there were " + getmemberNoteCount +
+            FlowTraceWriter.out_println("Note: there were " + getmemberNoteCount +
                                " accesses to class members by means of introspection.");
-            System.out.println("      You should consider explicitly keeping the mentioned class members");
-            System.out.println("      (using '-keep' or '-keepclassmembers').");
-            System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#dynamicalclassmember)");
+            FlowTraceWriter.out_println("      You should consider explicitly keeping the mentioned class members");
+            FlowTraceWriter.out_println("      (using '-keep' or '-keepclassmembers').");
+            FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#dynamicalclassmember)");
         }
 
         // Print out a summary of the warnings, if necessary.
         int classReferenceWarningCount = classReferenceWarningPrinter.getWarningCount();
         if (classReferenceWarningCount > 0)
         {
-            System.err.println("Warning: there were " + classReferenceWarningCount +
+            FlowTraceWriter.err_println("Warning: there were " + classReferenceWarningCount +
                                " unresolved references to classes or interfaces.");
-            System.err.println("         You may need to add missing library jars or update their versions.");
-            System.err.println("         If your code works fine without the missing classes, you can suppress");
-            System.err.println("         the warnings with '-dontwarn' options.");
+            FlowTraceWriter.err_println("         You may need to add missing library jars or update their versions.");
+            FlowTraceWriter.err_println("         If your code works fine without the missing classes, you can suppress");
+            FlowTraceWriter.err_println("         the warnings with '-dontwarn' options.");
 
             if (configuration.skipNonPublicLibraryClasses)
             {
-                System.err.println("         You may also have to remove the option '-skipnonpubliclibraryclasses'.");
+                FlowTraceWriter.err_println("         You may also have to remove the option '-skipnonpubliclibraryclasses'.");
             }
 
-            System.err.println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unresolvedclass)");
+            FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unresolvedclass)");
         }
 
         int dependencyWarningCount = dependencyWarningPrinter.getWarningCount();
         if (dependencyWarningCount > 0)
         {
-            System.err.println("Warning: there were " + dependencyWarningCount +
+            FlowTraceWriter.err_println("Warning: there were " + dependencyWarningCount +
                                " instances of library classes depending on program classes.");
-            System.err.println("         You must avoid such dependencies, since the program classes will");
-            System.err.println("         be processed, while the library classes will remain unchanged.");
-            System.err.println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#dependency)");
+            FlowTraceWriter.err_println("         You must avoid such dependencies, since the program classes will");
+            FlowTraceWriter.err_println("         be processed, while the library classes will remain unchanged.");
+            FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#dependency)");
         }
 
         int programMemberReferenceWarningCount = programMemberReferenceWarningPrinter.getWarningCount();
         if (programMemberReferenceWarningCount > 0)
         {
-            System.err.println("Warning: there were " + programMemberReferenceWarningCount +
+            FlowTraceWriter.err_println("Warning: there were " + programMemberReferenceWarningCount +
                                " unresolved references to program class members.");
-            System.err.println("         Your input classes appear to be inconsistent.");
-            System.err.println("         You may need to recompile the code.");
-            System.err.println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unresolvedprogramclassmember)");
+            FlowTraceWriter.err_println("         Your input classes appear to be inconsistent.");
+            FlowTraceWriter.err_println("         You may need to recompile the code.");
+            FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unresolvedprogramclassmember)");
         }
 
         int libraryMemberReferenceWarningCount = libraryMemberReferenceWarningPrinter.getWarningCount();
         if (libraryMemberReferenceWarningCount > 0)
         {
-            System.err.println("Warning: there were " + libraryMemberReferenceWarningCount +
+            FlowTraceWriter.err_println("Warning: there were " + libraryMemberReferenceWarningCount +
                                " unresolved references to library class members.");
-            System.err.println("         You probably need to update the library versions.");
+            FlowTraceWriter.err_println("         You probably need to update the library versions.");
 
             if (!configuration.skipNonPublicLibraryClassMembers)
             {
-                System.err.println("         Alternatively, you may have to specify the option ");
-                System.err.println("         '-dontskipnonpubliclibraryclassmembers'.");
+                FlowTraceWriter.err_println("         Alternatively, you may have to specify the option ");
+                FlowTraceWriter.err_println("         '-dontskipnonpubliclibraryclassmembers'.");
             }
 
             if (configuration.skipNonPublicLibraryClasses)
             {
-                System.err.println("         You may also have to remove the option '-skipnonpubliclibraryclasses'.");
+                FlowTraceWriter.err_println("         You may also have to remove the option '-skipnonpubliclibraryclasses'.");
             }
 
-            System.err.println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unresolvedlibraryclassmember)");
+            FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unresolvedlibraryclassmember)");
         }
 
         if ((classReferenceWarningCount         > 0 ||
@@ -491,15 +491,15 @@ public class Initializer
              configuration.warn.isEmpty() ||
              configuration.ignoreWarnings))
         {
-            System.out.println("Note: you're ignoring all warnings!");
+            FlowTraceWriter.out_println("Note: you're ignoring all warnings!");
         }
 
         // Discard unused library classes.
         if (configuration.verbose)
         {
-            System.out.println("Ignoring unused library classes...");
-            System.out.println("  Original number of library classes: " + originalLibraryClassPoolSize);
-            System.out.println("  Final number of library classes:    " + libraryClassPool.size());
+            FlowTraceWriter.out_println("Ignoring unused library classes...");
+            FlowTraceWriter.out_println("  Original number of library classes: " + originalLibraryClassPoolSize);
+            FlowTraceWriter.out_println("  Final number of library classes:    " + libraryClassPool.size());
         }
     }
 

@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -43,7 +44,7 @@ implements   AttributeVisitor,
              ExceptionInfoVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("la") != null;
     //*/
@@ -247,8 +248,8 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println();
-            System.out.println("Liveness analysis: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            FlowTraceWriter.out_println();
+            FlowTraceWriter.out_println("Liveness analysis: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
         }
 
         int codeLength    = codeAttribute.u4codeLength;
@@ -384,24 +385,24 @@ implements   AttributeVisitor,
                     for (int variableIndex = 0; variableIndex < variablesSize; variableIndex++)
                     {
                         long variableMask = (1L << variableIndex);
-                        System.out.print((aliveBefore & variableMask) == 0L ? '.' :
+                        FlowTraceWriter.out_print((aliveBefore & variableMask) == 0L ? '.' :
                                          (category2   & variableMask) == 0L ? 'x' :
                                                                               '*');
                     }
 
                     // Print out the instruction itself.
-                    System.out.println(" "+ InstructionFactory.create(codeAttribute.code, offset).toString(offset));
+                    FlowTraceWriter.out_println(" "+ InstructionFactory.create(codeAttribute.code, offset).toString(offset));
 
                     // Print out the liveness of all variables after the instruction.
                     for (int variableIndex = 0; variableIndex < variablesSize; variableIndex++)
                     {
                         long variableMask = (1L << variableIndex);
-                        System.out.print((aliveAfter & variableMask) == 0L ? '.' :
+                        FlowTraceWriter.out_print((aliveAfter & variableMask) == 0L ? '.' :
                                          (category2  & variableMask) == 0L ? 'x' :
                                                                              '=');
                     }
 
-                    System.out.println();
+                    FlowTraceWriter.out_println();
                 }
             }
         }

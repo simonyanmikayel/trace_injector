@@ -20,6 +20,7 @@
  */
 package proguard.classfile.util;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -59,7 +60,7 @@ implements   AttributeVisitor,
     /*
     private static       boolean DEBUG = true;
     /*/
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     //*/
 
     private static final int CLASS_INDEX       = InstructionSequenceMatcher.A;
@@ -186,7 +187,7 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("DynamicMemberReferenceInitializer: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            FlowTraceWriter.out_println("DynamicMemberReferenceInitializer: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
         }
 
         // Set up the code attribute editor.
@@ -356,7 +357,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println("DynamicMemberReferenceInitializer: ["+clazz.getName()+"] matched string ["+memberName+"]: in ["+referencedClass+"] -> ["+referencedMember+"]");
+            FlowTraceWriter.out_println("DynamicMemberReferenceInitializer: ["+clazz.getName()+"] matched string ["+memberName+"]: in ["+referencedClass+"] -> ["+referencedMember+"]");
         }
 
         if (referencedMember != null)
@@ -513,7 +514,7 @@ implements   AttributeVisitor,
     {
         if (notePrinter.accepts(programClass.getName()))
         {
-            System.out.println("      Maybe this is program field '" +
+            FlowTraceWriter.out_println("      Maybe this is program field '" +
                                ClassUtil.externalFullClassDescription(0, programClass.getName()) +
                                " { " +
                                ClassUtil.externalFullFieldDescription(0, programField.getName(programClass), programField.getDescriptor(programClass)) +
@@ -526,7 +527,7 @@ implements   AttributeVisitor,
     {
         if (notePrinter.accepts(programClass.getName()))
         {
-            System.out.println("      Maybe this is program method '" +
+            FlowTraceWriter.out_println("      Maybe this is program method '" +
                                ClassUtil.externalFullClassDescription(0, programClass.getName()) +
                                " { " +
                                ClassUtil.externalFullMethodDescription(programClass.getName(), 0, programMethod.getName(programClass), programMethod.getDescriptor(programClass)) +
@@ -539,7 +540,7 @@ implements   AttributeVisitor,
     {
         if (notePrinter.accepts(libraryClass.getName()))
         {
-            System.out.println("      Maybe this is library field '" +
+            FlowTraceWriter.out_println("      Maybe this is library field '" +
                                ClassUtil.externalFullClassDescription(0, libraryClass.getName()) +
                                " { " +
                                ClassUtil.externalFullFieldDescription(0, libraryField.getName(libraryClass), libraryField.getDescriptor(libraryClass)) +
@@ -552,7 +553,7 @@ implements   AttributeVisitor,
     {
         if (notePrinter.accepts(libraryClass.getName()))
         {
-            System.out.println("      Maybe this is library method '" +
+            FlowTraceWriter.out_println("      Maybe this is library method '" +
                                ClassUtil.externalFullClassDescription(0, libraryClass.getName()) +
                                " { " +
                                ClassUtil.externalFullMethodDescription(libraryClass.getName(), 0, libraryMethod.getName(libraryClass), libraryMethod.getDescriptor(libraryClass)) +
@@ -607,7 +608,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("Label ["+label+"] A "+instruction.toString(offset));
+                FlowTraceWriter.out_println("Label ["+label+"] A "+instruction.toString(offset));
             }
 
             reset();
@@ -618,7 +619,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("Label ["+label+"] S "+simpleInstruction.toString(offset));
+                FlowTraceWriter.out_println("Label ["+label+"] S "+simpleInstruction.toString(offset));
             }
 
             int transition = label | simpleInstruction.canonicalOpcode() << 8;
@@ -685,7 +686,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("Label ["+label+"] C "+constantInstruction.toString(offset));
+                FlowTraceWriter.out_println("Label ["+label+"] C "+constantInstruction.toString(offset));
             }
 
             // Let the constant figure out the transition.
@@ -921,13 +922,13 @@ implements   AttributeVisitor,
 
             if (DEBUG)
             {
-                System.out.println("DynamicMemberReferenceInitializer: found member access");
-                System.out.println("  isField           = "+isField);
-                System.out.println("  isConstructor     = "+isConstructor);
-                System.out.println("  isDeclared        = "+isDeclared);
-                System.out.println("  referenced class  = "+(referencedClass  == null ? "(none)" : "["+referencedClass.getName()+"]"));
-                System.out.println("  member name       = "+(memberName       == null ? "(none)" : "["+memberName+"]"));
-                System.out.println("  member descriptor = "+(memberDescriptor == null ? "(none)" : "["+memberDescriptor+"]"));
+                FlowTraceWriter.out_println("DynamicMemberReferenceInitializer: found member access");
+                FlowTraceWriter.out_println("  isField           = "+isField);
+                FlowTraceWriter.out_println("  isConstructor     = "+isConstructor);
+                FlowTraceWriter.out_println("  isDeclared        = "+isDeclared);
+                FlowTraceWriter.out_println("  referenced class  = "+(referencedClass  == null ? "(none)" : "["+referencedClass.getName()+"]"));
+                FlowTraceWriter.out_println("  member name       = "+(memberName       == null ? "(none)" : "["+memberName+"]"));
+                FlowTraceWriter.out_println("  member descriptor = "+(memberDescriptor == null ? "(none)" : "["+memberDescriptor+"]"));
             }
 
             if (referencedClass != null)

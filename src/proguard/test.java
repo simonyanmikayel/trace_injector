@@ -8,7 +8,7 @@ public class test {
         int count = buf.length - 10;
         String descr = "abc";
         if (buf == null || offset < 0 || count <= 0 || (offset + count) > buf.length) {
-            System.out.println("HexDump: Bad parameters: offset" + offset +" coount: " + count);
+            FlowTraceWriter.out_println("HexDump: Bad parameters: offset" + offset +" coount: " + count);
             return;
         }
         int cColumn = 32;
@@ -30,7 +30,7 @@ public class test {
                 sb.append(' ');
             }
         }
-        System.out.print(sb.toString());
+        FlowTraceWriter.out_print(sb.toString());
     }
 
     static void initBuf(byte[] buf) {

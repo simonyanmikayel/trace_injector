@@ -1,5 +1,6 @@
 package proguard.classfile.inject;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -51,14 +52,14 @@ public class ClassTraceInjector
 
     private void visitMethod(Clazz clazz, Member method)
     {
-        System.out.print("Injecting traces..." + clazz.toString() + " " + method.getName(clazz));
-        System.out.println("");
+        FlowTraceWriter.out_print("Injecting traces..." + clazz.toString() + " " + method.getName(clazz));
+        FlowTraceWriter.out_println("");
     }
 
     public void visitCodeAttribute(Clazz clazz, Method method, CodeAttribute codeAttribute)
     {
-        System.out.print("Injecting traces..." + clazz.toString() + " " + method.getName(clazz) + " " + codeAttribute.getAttributeName(clazz));
-        System.out.println("");
+        FlowTraceWriter.out_print("Injecting traces..." + clazz.toString() + " " + method.getName(clazz) + " " + codeAttribute.getAttributeName(clazz));
+        FlowTraceWriter.out_println("");
 
         // Reset the code changes.
         int codeLength = codeAttribute.u4codeLength;
@@ -87,7 +88,7 @@ public class ClassTraceInjector
         if ( !method.getName(clazz).contains("<init>"))
             codeAttributeEditor.insertAfterInstruction(offset, newInstruction);
 
-        System.out.print("Injecting traces..." + clazz.toString() + " " + method.getName(clazz) + " " + codeAttribute.getAttributeName(clazz) + " " + instruction.getName() + " offset: " + offset);
-        System.out.println("");
+        FlowTraceWriter.out_print("Injecting traces..." + clazz.toString() + " " + method.getName(clazz) + " " + codeAttribute.getAttributeName(clazz) + " " + instruction.getName() + " offset: " + offset);
+        FlowTraceWriter.out_println("");
     }
 }

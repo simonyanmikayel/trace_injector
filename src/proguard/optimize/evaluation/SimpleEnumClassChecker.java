@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.visitor.*;
 import proguard.optimize.OptimizationInfoClassFilter;
@@ -35,7 +36,7 @@ public class SimpleEnumClassChecker
 implements   ClassVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("enum") != null;
     //*/
@@ -62,7 +63,7 @@ implements   ClassVisitor
         {
             if (DEBUG)
             {
-                System.out.println("SimpleEnumClassChecker: ["+programClass.getName()+"] is a candidate simple enum, without extra fields");
+                FlowTraceWriter.out_println("SimpleEnumClassChecker: ["+programClass.getName()+"] is a candidate simple enum, without extra fields");
             }
 
             // Mark it.

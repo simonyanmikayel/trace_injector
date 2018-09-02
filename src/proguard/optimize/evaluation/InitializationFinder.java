@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -42,7 +43,7 @@ implements   AttributeVisitor,
              InstructionVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("if") != null;
     //*/
@@ -294,14 +295,14 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println();
-            System.out.println("InitializationFinder: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            FlowTraceWriter.out_println();
+            FlowTraceWriter.out_println("InitializationFinder: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
 
             for (int offset = 0; offset < codeLength; offset++)
             {
                 if (partialEvaluator.isInstruction(offset))
                 {
-                    System.out.println((initializationOffsets[offset] >= 0 ? "i"+initializationOffsets[offset] : "   ") +
+                    FlowTraceWriter.out_println((initializationOffsets[offset] >= 0 ? "i"+initializationOffsets[offset] : "   ") +
                                        (uninitializedOffsets[offset] != null &&
                                         uninitializedOffsets[offset].instructionOffsetCount() > 0 ? " u"+uninitializedOffsets[offset] : "    ") +
                                        (isInitializer(offset) ? " "+creationOffsetValue(offset) : "    ") + " " +

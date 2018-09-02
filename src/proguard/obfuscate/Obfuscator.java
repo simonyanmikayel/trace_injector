@@ -182,17 +182,17 @@ public class Obfuscator
             int warningCount = warningPrinter.getWarningCount();
             if (warningCount > 0)
             {
-                System.err.println("Warning: there were " + warningCount +
+                FlowTraceWriter.err_println("Warning: there were " + warningCount +
                                    " kept classes and class members that were remapped anyway.");
-                System.err.println("         You should adapt your configuration or edit the mapping file.");
+                FlowTraceWriter.err_println("         You should adapt your configuration or edit the mapping file.");
 
                 if (!configuration.ignoreWarnings)
                 {
-                    System.err.println("         If you are sure this remapping won't hurt, you could try your luck");
-                    System.err.println("         using the '-ignorewarnings' option.");
+                    FlowTraceWriter.err_println("         If you are sure this remapping won't hurt, you could try your luck");
+                    FlowTraceWriter.err_println("         using the '-ignorewarnings' option.");
                 }
 
-                System.err.println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#mappingconflict1)");
+                FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#mappingconflict1)");
 
                 if (!configuration.ignoreWarnings)
                 {
@@ -426,17 +426,17 @@ public class Obfuscator
         int warningCount = warningPrinter.getWarningCount();
         if (warningCount > 0)
         {
-            System.err.println("Warning: there were " + warningCount +
+            FlowTraceWriter.err_println("Warning: there were " + warningCount +
                                " conflicting class member name mappings.");
-            System.err.println("         Your configuration may be inconsistent.");
+            FlowTraceWriter.err_println("         Your configuration may be inconsistent.");
 
             if (!configuration.ignoreWarnings)
             {
-                System.err.println("         If you are sure the conflicts are harmless,");
-                System.err.println("         you could try your luck using the '-ignorewarnings' option.");
+                FlowTraceWriter.err_println("         If you are sure the conflicts are harmless,");
+                FlowTraceWriter.err_println("         you could try your luck using the '-ignorewarnings' option.");
             }
 
-            System.err.println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#mappingconflict2)");
+            FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#mappingconflict2)");
 
             if (!configuration.ignoreWarnings)
             {

@@ -20,6 +20,7 @@
  */
 package proguard.optimize.info;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -51,7 +52,7 @@ implements   ClassPoolVisitor,
              ConstantVisitor
 {
     /*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("pem") != null;
     //*/
@@ -96,7 +97,7 @@ implements   ClassPoolVisitor,
 
             if (DEBUG)
             {
-                System.out.println("ParameterEscapedMarker: new iteration");
+                FlowTraceWriter.out_println("ParameterEscapedMarker: new iteration");
             }
 
             // Go over all classes and their methods once.
@@ -117,7 +118,7 @@ implements   ClassPoolVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("ParameterEscapedMarker: [" + programClass.getName() + "." + programMethod.getName(programClass) + programMethod.getDescriptor(programClass) + "]");
+            FlowTraceWriter.out_println("ParameterEscapedMarker: [" + programClass.getName() + "." + programMethod.getName(programClass) + programMethod.getDescriptor(programClass) + "]");
 
             int parameterSize =
                 ClassUtil.internalMethodParameterSize(programMethod.getDescriptor(programClass),
@@ -125,7 +126,7 @@ implements   ClassPoolVisitor,
 
             for (int index = 0; index < parameterSize; index++)
             {
-                System.out.println("  " +
+                FlowTraceWriter.out_println("  " +
                                    (hasParameterEscaped(programMethod, index) ? 'e' : '.') +
                                    " P" + index);
             }

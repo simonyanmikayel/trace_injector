@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -41,7 +42,7 @@ implements   AttributeVisitor,
              InstructionVisitor,
              ConstantVisitor
 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
 
     private final CodeAttributeEditor codeAttributeEditor = new CodeAttributeEditor();
@@ -234,7 +235,7 @@ implements   AttributeVisitor,
                        ConstantInstruction constantInstruction,
                        Instruction         replacementInstruction)
     {
-        System.out.println("MethodInvocationFixer ["+clazz.getName()+"."+
+        FlowTraceWriter.out_println("MethodInvocationFixer ["+clazz.getName()+"."+
                            method.getName(clazz)+method.getDescriptor(clazz)+"] "+
                            constantInstruction.toString(offset)+" -> "+
                            replacementInstruction.toString(offset));

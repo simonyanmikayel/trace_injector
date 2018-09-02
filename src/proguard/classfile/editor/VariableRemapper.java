@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -48,7 +49,7 @@ implements   AttributeVisitor,
              LocalVariableTargetElementVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("vr") != null;
     //*/
@@ -94,10 +95,10 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("VariableRemapper: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            FlowTraceWriter.out_println("VariableRemapper: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
             for (int index= 0; index < codeAttribute.u2maxLocals; index++)
             {
-                System.out.println("  v"+index+" -> "+variableMap[index]);
+                FlowTraceWriter.out_println("  v"+index+" -> "+variableMap[index]);
             }
         }
 

@@ -20,6 +20,7 @@
  */
 package proguard.preverify;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.preverification.*;
@@ -45,7 +46,7 @@ extends      SimplifiedVisitor
 implements   AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("cp") != null;
     //*/
@@ -90,10 +91,10 @@ implements   AttributeVisitor
         }
         catch (RuntimeException ex)
         {
-            System.err.println("Unexpected error while preverifying:");
-            System.err.println("  Class       = ["+clazz.getName()+"]");
-            System.err.println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            System.err.println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            FlowTraceWriter.err_println("Unexpected error while preverifying:");
+            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
+            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             throw ex;
         }
@@ -200,13 +201,13 @@ implements   AttributeVisitor
                 if (frameCount != originalFrameCount ||
                     !Arrays.equals(stackMapFrameList.toArray(), originalFrames))
                 {
-                    System.out.println("Original preverification ["+clazz.getName()+"]:");
+                    FlowTraceWriter.out_println("Original preverification ["+clazz.getName()+"]:");
                     new ClassPrinter().visitProgramMethod(programClass, programMethod);
                 }
             }
             else if (frameCount != 0)
             {
-                System.out.println("Original preverification empty ["+clazz.getName()+"."+method.getName(clazz)+"]");
+                FlowTraceWriter.out_println("Original preverification empty ["+clazz.getName()+"."+method.getName(clazz)+"]");
             }
         }
 
@@ -248,7 +249,7 @@ implements   AttributeVisitor
 
             if (DEBUG)
             {
-                System.out.println("Preverifier ["+programClass.getName()+"."+programMethod.getName(programClass)+"]:");
+                FlowTraceWriter.out_println("Preverifier ["+programClass.getName()+"."+programMethod.getName(programClass)+"]:");
                 stackMapAttribute.accept(programClass, programMethod, codeAttribute, new ClassPrinter());
             }
         }

@@ -21,6 +21,8 @@
 package proguard.configuration;
 
 
+import proguard.FlowTraceWriter;
+
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
@@ -123,6 +125,7 @@ public class ConfigurationLogger implements Runnable
         if (!LOG_ONCE || !missingClasses.contains(missingClassName))
         {
             missingClasses.add(missingClassName);
+            FlowTraceWriter.out_println("logMissingClass: the class '" + missingClassName);
             log(
                 "The class '" + originalClassName(callingClassName) + "' is calling " + invokedClassName + "." + invokedMethodName + " to retrieve\n" +
                 "the class '" + missingClassName + "', but the latter could not be found.\n" +
@@ -672,12 +675,12 @@ public class ConfigurationLogger implements Runnable
             }
             catch (Exception e)
             {
-                System.err.println(message);
+                FlowTraceWriter.err_println(message);
             }
         }
         else
         {
-            System.err.println(message);
+            FlowTraceWriter.err_println(message);
         }
     }
 

@@ -20,6 +20,7 @@
  */
 package proguard.optimize;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -44,7 +45,7 @@ implements   AttributeVisitor,
              ExceptionInfoVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = true;
     //*/
@@ -184,7 +185,7 @@ implements   AttributeVisitor,
                                 {
                                     if (DEBUG)
                                     {
-                                        System.out.println("TailRecursionSimplifier: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"], inlining "+constantInstruction.toString(offset));
+                                        FlowTraceWriter.out_println("TailRecursionSimplifier: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"], inlining "+constantInstruction.toString(offset));
                                     }
 
                                     // Append a label.

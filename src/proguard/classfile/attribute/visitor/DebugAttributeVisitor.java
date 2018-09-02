@@ -20,6 +20,7 @@
  */
 package proguard.classfile.attribute.visitor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -38,7 +39,7 @@ public class DebugAttributeVisitor
 implements   AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     public  static       boolean DEBUG = System.getProperty("dav") != null;
     //*/
@@ -532,9 +533,9 @@ implements   AttributeVisitor
 
             if (deltaTime > maximumTime)
             {
-                System.err.println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
+                FlowTraceWriter.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
                 //attribute.accept(clazz, new ClassPrinter());
-                System.err.println();
+                FlowTraceWriter.err_println();
             }
         }
     }
@@ -557,9 +558,9 @@ implements   AttributeVisitor
 
             if (deltaTime > maximumTime)
             {
-                System.err.println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
+                FlowTraceWriter.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
                 field.accept(clazz, new SimpleClassPrinter(true));
-                System.err.println();
+                FlowTraceWriter.err_println();
             }
         }
     }
@@ -582,9 +583,9 @@ implements   AttributeVisitor
 
             if (deltaTime > maximumTime)
             {
-                System.err.println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
+                FlowTraceWriter.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
                 method.accept(clazz, new SimpleClassPrinter(true));
-                System.err.println();
+                FlowTraceWriter.err_println();
             }
         }
     }

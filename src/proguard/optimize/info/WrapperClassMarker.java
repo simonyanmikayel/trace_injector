@@ -20,6 +20,7 @@
  */
 package proguard.optimize.info;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -50,7 +51,7 @@ implements   ClassVisitor,
              AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     public  static       boolean DEBUG = System.getProperty("wcm")  != null;
     //*/
@@ -211,7 +212,7 @@ implements   ClassVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("WrapperClassMarker: ["+clazz.getName()+"] wraps ["+wrappedClass.getName()+"]");
+            FlowTraceWriter.out_println("WrapperClassMarker: ["+clazz.getName()+"] wraps ["+wrappedClass.getName()+"]");
         }
 
         ProgramClassOptimizationInfo.getProgramClassOptimizationInfo(clazz).setWrappedClass(wrappedClass);

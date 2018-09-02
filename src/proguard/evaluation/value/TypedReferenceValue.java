@@ -20,6 +20,7 @@
  */
 package proguard.evaluation.value;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.util.ClassUtil;
 import proguard.classfile.visitor.ClassCollector;
@@ -38,7 +39,7 @@ public class TypedReferenceValue extends ReferenceValue
 {
     private static final boolean ALLOW_INCOMPLETE_CLASS_HIERARCHY = System.getProperty("allow.incomplete.class.hierarchy") != null;
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
 
     protected final String  type;
@@ -450,9 +451,9 @@ public class TypedReferenceValue extends ReferenceValue
 
         if (DEBUG)
         {
-            System.out.println("ReferenceValue.generalize this ["+class1.getName()+"] with other ["+class2.getName()+"] (interfaces = "+interfaces+")");
-            System.out.println("  This super classes:  "+superClasses1);
-            System.out.println("  Other super classes: "+superClasses2);
+            FlowTraceWriter.out_println("ReferenceValue.generalize this ["+class1.getName()+"] with other ["+class2.getName()+"] (interfaces = "+interfaces+")");
+            FlowTraceWriter.out_println("  This super classes:  "+superClasses1);
+            FlowTraceWriter.out_println("  Other super classes: "+superClasses2);
         }
 
         // Find the common superclasses.
@@ -460,7 +461,7 @@ public class TypedReferenceValue extends ReferenceValue
 
         if (DEBUG)
         {
-            System.out.println("  Common super classes: "+superClasses1);
+            FlowTraceWriter.out_println("  Common super classes: "+superClasses1);
         }
 
         if (interfaces && superClasses1.isEmpty())
@@ -529,7 +530,7 @@ public class TypedReferenceValue extends ReferenceValue
 
         if (DEBUG)
         {
-            System.out.println("  Best common class: ["+commonClass.getName()+"]");
+            FlowTraceWriter.out_println("  Best common class: ["+commonClass.getName()+"]");
         }
 
         return commonClass;

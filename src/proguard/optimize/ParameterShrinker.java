@@ -20,6 +20,7 @@
  */
 package proguard.optimize;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -42,7 +43,7 @@ extends      SimplifiedVisitor
 implements   AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("ps") != null;
     //*/
@@ -95,10 +96,10 @@ implements   AttributeVisitor
 
             if (DEBUG)
             {
-                System.out.println("ParameterShrinker: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
-                System.out.println("  Old parameter size = " + oldParameterSize);
-                System.out.println("  New parameter size = " + newParameterSize);
-                System.out.println("  Max locals         = " + maxLocals);
+                FlowTraceWriter.out_println("ParameterShrinker: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+                FlowTraceWriter.out_println("  Old parameter size = " + oldParameterSize);
+                FlowTraceWriter.out_println("  New parameter size = " + newParameterSize);
+                FlowTraceWriter.out_println("  Max locals         = " + maxLocals);
             }
 
             // Create a variable map.
@@ -119,7 +120,7 @@ implements   AttributeVisitor
                 {
                     if (DEBUG)
                     {
-                        System.out.println("  Deleting parameter #"+parameterIndex);
+                        FlowTraceWriter.out_println("  Deleting parameter #"+parameterIndex);
                     }
 
                     // Shift the variable to the unused parameter block,

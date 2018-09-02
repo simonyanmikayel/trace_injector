@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -40,7 +41,7 @@ implements   AttributeVisitor,
              LocalVariableTypeInfoVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = true;
     //*/
@@ -155,10 +156,10 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("VariableOptimizer: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+                FlowTraceWriter.out_println("VariableOptimizer: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
                 for (int index= 0; index < variableSize; index++)
                 {
-                    System.out.println("  v"+index+" -> "+variableMap[index]);
+                    FlowTraceWriter.out_println("  v"+index+" -> "+variableMap[index]);
                 }
             }
 

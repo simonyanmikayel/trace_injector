@@ -21,6 +21,7 @@
 
 package proguard.optimize.peephole;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.Attribute;
 import proguard.classfile.attribute.CodeAttribute;
@@ -59,7 +60,7 @@ implements AttributeVisitor,
         ClassVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("wc") != null;
     //*/
@@ -103,7 +104,7 @@ implements AttributeVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("WrapperClassUseSimplifier: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            FlowTraceWriter.out_println("WrapperClassUseSimplifier: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
         }
 
         int codeLength = codeAttribute.u4codeLength;

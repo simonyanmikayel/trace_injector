@@ -21,6 +21,7 @@
 
 package proguard.optimize.info;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.ClassPool;
 import proguard.classfile.visitor.ClassPoolVisitor;
 
@@ -34,7 +35,7 @@ public class RepeatedClassPoolVisitor
 implements   ClassPoolVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("rcpv") != null;
     //*/
@@ -69,7 +70,7 @@ implements   ClassPoolVisitor
         {
             if (DEBUG)
             {
-                System.out.println("RepeatedClassPoolVisitor: new iteration");
+                FlowTraceWriter.out_println("RepeatedClassPoolVisitor: new iteration");
             }
 
             repeatTrigger.reset();
@@ -81,7 +82,7 @@ implements   ClassPoolVisitor
 
         if (DEBUG)
         {
-            System.out.println("RepeatedClassPoolVisitor: done iterating");
+            FlowTraceWriter.out_println("RepeatedClassPoolVisitor: done iterating");
         }
     }
 }

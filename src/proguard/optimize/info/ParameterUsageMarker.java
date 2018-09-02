@@ -20,6 +20,7 @@
  */
 package proguard.optimize.info;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -44,7 +45,7 @@ implements   MemberVisitor,
              InstructionVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("pum") != null;
     //*/
@@ -164,12 +165,12 @@ implements   MemberVisitor,
 
             if (DEBUG)
             {
-                System.out.print("ParameterUsageMarker: ["+programClass.getName() +"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]: ");
+                FlowTraceWriter.out_print("ParameterUsageMarker: ["+programClass.getName() +"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]: ");
                 for (int variableIndex = 0; variableIndex < parameterSize; variableIndex++)
                 {
-                    System.out.print(isParameterUsed(programMethod, variableIndex) ? '+' : '-');
+                    FlowTraceWriter.out_print(isParameterUsed(programMethod, variableIndex) ? '+' : '-');
                 }
-                System.out.println();
+                FlowTraceWriter.out_println();
             }
 
         }

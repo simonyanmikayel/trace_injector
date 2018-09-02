@@ -126,8 +126,8 @@ public class OutputWriter
                 writer = new ExtraDataEntryWriter(ConfigurationLogger.CLASS_MAP_FILENAME,
                     writer,
                     new ClassMapDataEntryWriter(programClassPool, writer));
-                System.err.println("Warning: -addconfigurationdebugging is enabled; the resulting build will contain obfuscation information.");
-                System.err.println("It should only be used for debugging purposes.");
+                FlowTraceWriter.err_println("Warning: -addconfigurationdebugging is enabled; the resulting build will contain obfuscation information.");
+                FlowTraceWriter.err_println("It should only be used for debugging purposes.");
             }
 
             DataEntryWriter resourceWriter = writer;

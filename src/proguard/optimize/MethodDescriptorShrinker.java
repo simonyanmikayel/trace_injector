@@ -20,6 +20,7 @@
  */
 package proguard.optimize;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -45,7 +46,7 @@ implements   MemberVisitor,
              AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("mds") != null;
     //*/
@@ -80,7 +81,7 @@ implements   MemberVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("MethodDescriptorShrinker: ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]");
+            FlowTraceWriter.out_println("MethodDescriptorShrinker: ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]");
         }
 
         // Update the descriptor if it has any unused parameters.
@@ -124,7 +125,7 @@ implements   MemberVisitor,
 
             if (DEBUG)
             {
-                System.out.println("    -> ["+newName+newDescriptor+"]");
+                FlowTraceWriter.out_println("    -> ["+newName+newDescriptor+"]");
             }
 
             // Visit the method, if required.
@@ -145,7 +146,7 @@ implements   MemberVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("  ["+signatureAttribute.getSignature(clazz)+"]");
+            FlowTraceWriter.out_println("  ["+signatureAttribute.getSignature(clazz)+"]");
         }
 
         // Compute the new signature.
@@ -166,7 +167,7 @@ implements   MemberVisitor,
 
             if (DEBUG)
             {
-                System.out.println("    -> ["+newSignature+"]");
+                FlowTraceWriter.out_println("    -> ["+newSignature+"]");
             }
         }
     }
@@ -250,7 +251,7 @@ implements   MemberVisitor,
             }
             else if (DEBUG)
             {
-                System.out.println("  Deleting parameter #"+parameterIndex+" ["+type+"]");
+                FlowTraceWriter.out_println("  Deleting parameter #"+parameterIndex+" ["+type+"]");
             }
 
             parameterIndex += ClassUtil.internalTypeSize(type);

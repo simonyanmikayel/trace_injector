@@ -20,6 +20,7 @@
  */
 package proguard.optimize.info;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -59,7 +60,7 @@ implements   MemberVisitor,
              ParameterVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("pem") != null;
     //*/
@@ -191,7 +192,7 @@ implements   MemberVisitor,
         {
             // These results are not complete yet, since this class must still
             // be called as an InstructionVisitor.
-            System.out.println("ParameterEscapeMarker: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "]");
+            FlowTraceWriter.out_println("ParameterEscapeMarker: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "]");
 
             int parameterCount =
                 ClassUtil.internalMethodParameterCount(method.getDescriptor(clazz),
@@ -199,7 +200,7 @@ implements   MemberVisitor,
 
             for (int index = 0; index < parameterCount; index++)
             {
-                System.out.println("  " +
+                FlowTraceWriter.out_println("  " +
 //                                   (hasParameterEscaped(method, index) ? 'e' : '.') +
                                    (isParameterEscaping(method, index) ? 'E' : '.') +
                                    (isParameterReturned(method, index) ? 'R' : '.') +
@@ -207,7 +208,7 @@ implements   MemberVisitor,
                                    " P" + index);
             }
 
-            System.out.println("  " +
+            FlowTraceWriter.out_println("  " +
                                (returnsExternalValues(method) ? 'X' : '.') +
                                "   Return value");
         }

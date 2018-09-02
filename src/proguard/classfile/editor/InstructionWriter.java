@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -41,7 +42,7 @@ implements   InstructionVisitor,
              AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     public  static       boolean DEBUG = false;
     //*/
@@ -109,7 +110,7 @@ implements   InstructionVisitor,
 
             if (DEBUG)
             {
-                System.out.println("  "+constantInstruction.toString(offset)+" will be widened to "+replacementInstruction.toString());
+                FlowTraceWriter.out_println("  "+constantInstruction.toString(offset)+" will be widened to "+replacementInstruction.toString());
             }
 
             replaceInstruction(offset, replacementInstruction);
@@ -141,7 +142,7 @@ implements   InstructionVisitor,
 
             if (DEBUG)
             {
-                System.out.println("  "+variableInstruction.toString(offset)+" will be widened to "+replacementInstruction.toString());
+                FlowTraceWriter.out_println("  "+variableInstruction.toString(offset)+" will be widened to "+replacementInstruction.toString());
             }
 
             // Write out a dummy variable instruction for now.
@@ -223,7 +224,7 @@ implements   InstructionVisitor,
 
             if (DEBUG)
             {
-                System.out.println("  "+branchInstruction.toString(offset)+" will be widened to "+replacementInstruction.toString());
+                FlowTraceWriter.out_println("  "+branchInstruction.toString(offset)+" will be widened to "+replacementInstruction.toString());
             }
 
             replaceInstruction(offset, replacementInstruction);
@@ -252,7 +253,7 @@ implements   InstructionVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("InstructionWriter: widening instructions in "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+                FlowTraceWriter.out_println("InstructionWriter: widening instructions in "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
             }
 
             // Apply the collected expansions.

@@ -20,6 +20,7 @@
  */
 package proguard.optimize.peephole;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -59,7 +60,7 @@ implements   AttributeVisitor,
     static final int INLINED_METHOD_END_LINE_NUMBER = -1;
 
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     public  static       boolean DEBUG = System.getProperty("mi") != null;
     //*/
@@ -173,18 +174,18 @@ implements   AttributeVisitor,
         }
         catch (RuntimeException ex)
         {
-            System.err.println("Unexpected error while inlining method:");
-            System.err.println("  Target class   = ["+targetClass.getName()+"]");
-            System.err.println("  Target method  = ["+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
+            FlowTraceWriter.err_println("Unexpected error while inlining method:");
+            FlowTraceWriter.err_println("  Target class   = ["+targetClass.getName()+"]");
+            FlowTraceWriter.err_println("  Target method  = ["+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
             if (inlining)
             {
-                System.err.println("  Inlined class  = ["+clazz.getName()+"]");
-                System.err.println("  Inlined method = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+                FlowTraceWriter.err_println("  Inlined class  = ["+clazz.getName()+"]");
+                FlowTraceWriter.err_println("  Inlined method = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
             }
-            System.err.println("  Exception      = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            FlowTraceWriter.err_println("  Exception      = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             ex.printStackTrace();
-            System.err.println("Not inlining this method");
+            FlowTraceWriter.err_println("Not inlining this method");
 
             if (DEBUG)
             {
@@ -250,7 +251,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("MethodInliner: inlining ["+
+                FlowTraceWriter.out_println("MethodInliner: inlining ["+
                                    clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] in ["+
                                    targetClass.getName()+"."+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
             }
@@ -719,15 +720,15 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.err.println("Invalid line number while inlining method:");
-                System.err.println("  Target class   = ["+targetClass.getName()+"]");
-                System.err.println("  Target method  = ["+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
+                FlowTraceWriter.err_println("Invalid line number while inlining method:");
+                FlowTraceWriter.err_println("  Target class   = ["+targetClass.getName()+"]");
+                FlowTraceWriter.err_println("  Target method  = ["+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
                 if (inlining)
                 {
-                    System.err.println("  Inlined class  = ["+clazz.getName()+"]");
-                    System.err.println("  Inlined method = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+                    FlowTraceWriter.err_println("  Inlined class  = ["+clazz.getName()+"]");
+                    FlowTraceWriter.err_println("  Inlined method = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
                 }
-                System.err.println("  Exception      = ["+e.getClass().getName()+"] ("+e.getMessage()+")");
+                FlowTraceWriter.err_println("  Exception      = ["+e.getClass().getName()+"] ("+e.getMessage()+")");
             }
         }
     }

@@ -91,7 +91,7 @@ public class ArgumentWordReader extends WordReader
                     if (word == null)
                         System.exit(-1);
 
-                    System.err.println("["+word+"]");
+                    FlowTraceWriter.err_println("["+word+"]");
                 }
             }
             catch (Exception ex)

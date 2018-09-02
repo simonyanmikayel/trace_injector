@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -46,7 +47,7 @@ implements   ClassVisitor,
              InstructionVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("enum") != null;
     //*/
@@ -143,7 +144,7 @@ implements   ClassVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("SimpleEnumClassSimplifier: ["+programClass.getName()+"]");
+            FlowTraceWriter.out_println("SimpleEnumClassSimplifier: ["+programClass.getName()+"]");
         }
 
         // Unmark the class as an enum.

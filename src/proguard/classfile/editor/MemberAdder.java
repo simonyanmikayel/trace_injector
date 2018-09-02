@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.Attribute;
 import proguard.classfile.util.SimplifiedVisitor;
@@ -38,7 +39,7 @@ extends      SimplifiedVisitor
 implements   MemberVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = true;
     //*/
@@ -138,7 +139,7 @@ implements   MemberVisitor
         //
         //        if (DEBUG)
         //        {
-        //            System.out.println("MemberAdder: renaming field ["+targetClass.getName()+"."+name+" "+descriptor+"] to ["+newName+"]");
+        //            FlowTraceWriter.out_println("MemberAdder: renaming field ["+targetClass.getName()+"."+name+" "+descriptor+"] to ["+newName+"]");
         //        }
         //
         //        targetField.u2nameIndex = constantPoolEditor.addUtf8Constant(newName);
@@ -149,7 +150,7 @@ implements   MemberVisitor
         //        // contents, in order to keep any references to it valid.
         //        if (DEBUG)
         //        {
-        //            System.out.println("MemberAdder: updating field ["+programClass+"."+programField.getName(programClass)+" "+programField.getDescriptor(programClass)+"] into ["+targetClass.getName()+"]");
+        //            FlowTraceWriter.out_println("MemberAdder: updating field ["+programClass+"."+programField.getName(programClass)+" "+programField.getDescriptor(programClass)+"] into ["+targetClass.getName()+"]");
         //        }
         //
         //        // Combine the access flags.
@@ -168,7 +169,7 @@ implements   MemberVisitor
 
         if (DEBUG)
         {
-            System.out.println("MemberAdder: copying field ["+programClass+"."+programField.getName(programClass)+" "+programField.getDescriptor(programClass)+"] into ["+targetClass.getName()+"]");
+            FlowTraceWriter.out_println("MemberAdder: copying field ["+programClass+"."+programField.getName(programClass)+" "+programField.getDescriptor(programClass)+"] into ["+targetClass.getName()+"]");
         }
 
         // Create a copy of the field.
@@ -223,7 +224,7 @@ implements   MemberVisitor
                 // Keep the target method.
                 if (DEBUG)
                 {
-                    System.out.println("MemberAdder: skipping abstract method ["+programClass.getName()+"."+name+descriptor+"] into ["+targetClass.getName()+"]");
+                    FlowTraceWriter.out_println("MemberAdder: skipping abstract method ["+programClass.getName()+"."+name+descriptor+"] into ["+targetClass.getName()+"]");
                 }
 
                 // Don't add a new method.
@@ -238,7 +239,7 @@ implements   MemberVisitor
                 // to keep any references to it valid.
                 if (DEBUG)
                 {
-                    System.out.println("MemberAdder: updating method ["+programClass.getName()+"."+name+descriptor+"] into ["+targetClass.getName()+"]");
+                    FlowTraceWriter.out_println("MemberAdder: updating method ["+programClass.getName()+"."+name+descriptor+"] into ["+targetClass.getName()+"]");
                 }
 
                 // Replace the access flags.
@@ -257,7 +258,7 @@ implements   MemberVisitor
 
             if (DEBUG)
             {
-                System.out.println("MemberAdder: renaming method ["+targetClass.getName()+"."+name+descriptor+"]");
+                FlowTraceWriter.out_println("MemberAdder: renaming method ["+targetClass.getName()+"."+name+descriptor+"]");
             }
 
             // TODO: Handle non-abstract method with the same name and descriptor in the target class.
@@ -270,7 +271,7 @@ implements   MemberVisitor
 
         if (DEBUG)
         {
-            System.out.println("MemberAdder: copying method ["+programClass.getName()+"."+name+descriptor+"] into ["+targetClass.getName()+"]");
+            FlowTraceWriter.out_println("MemberAdder: copying method ["+programClass.getName()+"."+name+descriptor+"] into ["+targetClass.getName()+"]");
         }
 
         // Create a copy of the method.

@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -46,7 +47,7 @@ implements   MemberVisitor,
              InstructionVisitor,
              ConstantVisitor
 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
 
     // Return values for the visitor methods.
@@ -97,7 +98,7 @@ implements   MemberVisitor,
                 {
                     if (DEBUG)
                     {
-                        System.out.println("BridgeMethodFixer: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] does not bridge to ["+bridgedMethodName+"]");
+                        FlowTraceWriter.out_println("BridgeMethodFixer: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] does not bridge to ["+bridgedMethodName+"]");
                     }
 
                     // Clear the bridge flag.

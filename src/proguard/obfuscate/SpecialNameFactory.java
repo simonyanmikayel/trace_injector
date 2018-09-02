@@ -20,6 +20,8 @@
  */
 package proguard.obfuscate;
 
+import proguard.FlowTraceWriter;
+
 /**
  * This <code>NameFactory</code> generates names that are special, by appending
  * a suffix.
@@ -77,7 +79,7 @@ public class SpecialNameFactory implements NameFactory
 
         for (int counter = 0; counter < 50; counter++)
         {
-            System.out.println("["+factory.nextName()+"]");
+            FlowTraceWriter.out_println("["+factory.nextName()+"]");
         }
     }
 }

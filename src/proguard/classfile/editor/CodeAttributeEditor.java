@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -85,7 +86,7 @@ implements   AttributeVisitor,
              LocalVariableTargetElementVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     public  static       boolean DEBUG = System.getProperty("cae") != null;
     //*/
@@ -512,10 +513,10 @@ implements   AttributeVisitor,
         }
         catch (RuntimeException ex)
         {
-            System.err.println("Unexpected error while editing code:");
-            System.err.println("  Class       = ["+clazz.getName()+"]");
-            System.err.println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            System.err.println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            FlowTraceWriter.err_println("Unexpected error while editing code:");
+            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
+            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             throw ex;
         }
@@ -529,7 +530,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("CodeAttributeEditor: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+                FlowTraceWriter.out_println("CodeAttributeEditor: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
             }
 
             // Can we perform a faster simple replacement of instructions?
@@ -537,7 +538,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    System.out.println("  Simple editing");
+                    FlowTraceWriter.out_println("  Simple editing");
                 }
 
                 // Simply overwrite the instructions.
@@ -547,7 +548,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    System.out.println("  Full editing");
+                    FlowTraceWriter.out_println("  Full editing");
                 }
 
                 // Move and remap the instructions.
@@ -682,7 +683,7 @@ implements   AttributeVisitor,
 
                 if (DEBUG)
                 {
-                    System.out.println("  Replaced "+replacementInstruction.toString(offset));
+                    FlowTraceWriter.out_println("  Replaced "+replacementInstruction.toString(offset));
                 }
             }
         }
@@ -874,7 +875,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("  Pre-inserted  ["+oldOffset+"] -> "+preOffsetInstruction.toString(newOffset));
+                FlowTraceWriter.out_println("  Pre-inserted  ["+oldOffset+"] -> "+preOffsetInstruction.toString(newOffset));
             }
 
             // Update the instruction.
@@ -887,7 +888,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("  Pre-inserted  ["+oldOffset+"] -> "+preInstruction.toString(newOffset));
+                FlowTraceWriter.out_println("  Pre-inserted  ["+oldOffset+"] -> "+preInstruction.toString(newOffset));
             }
 
             // Update the instruction.
@@ -901,7 +902,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("  Replaced      ["+oldOffset+"] -> "+replacementInstruction.toString(newOffset));
+                FlowTraceWriter.out_println("  Replaced      ["+oldOffset+"] -> "+replacementInstruction.toString(newOffset));
             }
 
             // Update the instruction.
@@ -911,7 +912,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("  Copied        ["+oldOffset+"] -> "+instruction.toString(newOffset));
+                FlowTraceWriter.out_println("  Copied        ["+oldOffset+"] -> "+instruction.toString(newOffset));
             }
 
             // Update the instruction.
@@ -924,7 +925,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("  Post-inserted ["+oldOffset+"] -> "+postInstruction.toString(newOffset));
+                FlowTraceWriter.out_println("  Post-inserted ["+oldOffset+"] -> "+postInstruction.toString(newOffset));
             }
 
             // Update the instruction.

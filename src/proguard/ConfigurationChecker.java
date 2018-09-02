@@ -111,10 +111,10 @@ public class ConfigurationChecker
                             !entry.isJmod()  &&
                             !entry.isZip())
                         {
-                            System.out.println("Note: you're writing the processed class files to a directory [" + entry.getName() + "].");
-                            System.out.println("      This will likely cause problems with obfuscated mixed-case class names.");
-                            System.out.println("      You should consider writing the output to a jar file, or otherwise");
-                            System.out.println("      specify '-dontusemixedcaseclassnames'.");
+                            FlowTraceWriter.out_println("Note: you're writing the processed class files to a directory [" + entry.getName() + "].");
+                            FlowTraceWriter.out_println("      This will likely cause problems with obfuscated mixed-case class names.");
+                            FlowTraceWriter.out_println("      You should consider writing the output to a jar file, or otherwise");
+                            FlowTraceWriter.out_println("      specify '-dontusemixedcaseclassnames'.");
 
                             break;
                         }
@@ -127,8 +127,8 @@ public class ConfigurationChecker
                 (configuration.adaptResourceFileContents.isEmpty() ||
                  configuration.adaptResourceFileContents.get(0).equals(ConfigurationConstants.ANY_FILE_KEYWORD)))
             {
-                System.out.println("Note: you're specifying '-adaptresourcefilecontents' for all resource files.");
-                System.out.println("      This will most likely cause problems with binary files.");
+                FlowTraceWriter.out_println("Note: you're specifying '-adaptresourcefilecontents' for all resource files.");
+                FlowTraceWriter.out_println("      This will most likely cause problems with binary files.");
             }
 
             // Check if all -keepclassmembers options indeed have class members.
@@ -145,21 +145,21 @@ public class ConfigurationChecker
             int keepClassMemberNoteCount = keepClassMemberNotePrinter.getWarningCount();
             if (keepClassMemberNoteCount > 0)
             {
-                System.out.println("Note: there were " + keepClassMemberNoteCount +
+                FlowTraceWriter.out_println("Note: there were " + keepClassMemberNoteCount +
                                    " '-keepclassmembers' options that didn't specify class");
-                System.out.println("      members. You should specify at least some class members or consider");
-                System.out.println("      if you just need '-keep'.");
-                System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#classmembers)");
+                FlowTraceWriter.out_println("      members. You should specify at least some class members or consider");
+                FlowTraceWriter.out_println("      if you just need '-keep'.");
+                FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#classmembers)");
             }
 
             int assumeNoSideEffectsNoteCount = assumeNoSideEffectsNotePrinter.getWarningCount();
             if (assumeNoSideEffectsNoteCount > 0)
             {
-                System.out.println("Note: there were " + assumeNoSideEffectsNoteCount +
+                FlowTraceWriter.out_println("Note: there were " + assumeNoSideEffectsNoteCount +
                                    " '-assumenosideeffects' options that try to match all");
-                System.out.println("      methods with wildcards. This will likely cause problems with methods like");
-                System.out.println("      'wait()' and 'notify()'. You should specify the methods more precisely.");
-                System.out.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#nosideeffects)");
+                FlowTraceWriter.out_println("      methods with wildcards. This will likely cause problems with methods like");
+                FlowTraceWriter.out_println("      'wait()' and 'notify()'. You should specify the methods more precisely.");
+                FlowTraceWriter.out_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#nosideeffects)");
             }
         }
     }

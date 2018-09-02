@@ -21,6 +21,7 @@
 
 package proguard.optimize.info;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -48,7 +49,7 @@ implements   AttributeVisitor,
              ConstantVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("rec") != null;
     //*/
@@ -175,14 +176,14 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            System.out.println();
-            System.out.println("ReferenceEscapeChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            FlowTraceWriter.out_println();
+            FlowTraceWriter.out_println("ReferenceEscapeChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
 
             for (int index = 0; index < codeLength; index++)
             {
                 if (partialEvaluator.isInstruction(index))
                 {
-                    System.out.println("  " +
+                    FlowTraceWriter.out_println("  " +
                                        (instanceEscaping[index] ? 'E' : '.') +
                                        (instanceReturned[index] ? 'R' : '.') +
                                        (instanceModified[index] ? 'M' : '.') +

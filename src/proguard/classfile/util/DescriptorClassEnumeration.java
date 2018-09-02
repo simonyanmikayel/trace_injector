@@ -20,6 +20,7 @@
  */
 package proguard.classfile.util;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 
 import java.util.Stack;
@@ -234,13 +235,13 @@ public class DescriptorClassEnumeration
             {
                 String descriptor = args[index];
 
-                System.out.println("Descriptor ["+descriptor+"]");
+                FlowTraceWriter.out_println("Descriptor ["+descriptor+"]");
                 DescriptorClassEnumeration enumeration = new DescriptorClassEnumeration(descriptor);
-                System.out.println("  Fluff: ["+enumeration.nextFluff()+"]");
+                FlowTraceWriter.out_println("  Fluff: ["+enumeration.nextFluff()+"]");
                 while (enumeration.hasMoreClassNames())
                 {
-                    System.out.println("  Name:  ["+enumeration.nextClassName()+"]");
-                    System.out.println("  Fluff: ["+enumeration.nextFluff()+"]");
+                    FlowTraceWriter.out_println("  Name:  ["+enumeration.nextClassName()+"]");
+                    FlowTraceWriter.out_println("  Fluff: ["+enumeration.nextFluff()+"]");
                 }
             }
         }

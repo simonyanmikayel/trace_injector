@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -39,7 +40,7 @@ extends      SimplifiedVisitor
 implements   ClassVisitor,
              AttributeVisitor
 {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
 
     // Implementations for ClassVisitor.
@@ -126,7 +127,7 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                System.out.println("InterfaceDeleter:   type parameters = " + type);
+                FlowTraceWriter.out_println("InterfaceDeleter:   type parameters = " + type);
             }
         }
 
@@ -153,7 +154,7 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                System.out.println("InterfaceSorter:   super class type = " + type);
+                FlowTraceWriter.out_println("InterfaceSorter:   super class type = " + type);
             }
         }
 
@@ -206,7 +207,7 @@ implements   ClassVisitor,
 
                     if (DEBUG)
                     {
-                        System.out.println("InterfaceSorter:   interface type = " + type);
+                        FlowTraceWriter.out_println("InterfaceSorter:   interface type = " + type);
                     }
                 }
                 else
@@ -230,14 +231,14 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                System.out.println("InterfaceSorter: result = "+newSignature);
-                System.out.println("InterfaceSorter: referenced classes:");
+                FlowTraceWriter.out_println("InterfaceSorter: result = "+newSignature);
+                FlowTraceWriter.out_println("InterfaceSorter: referenced classes:");
 
                 if (newReferencedClasses != null)
                 {
                     for (int index = 0; index < newReferencedClasses.length; index++)
                     {
-                        System.out.println("  #"+index+" "+newReferencedClasses[index]);
+                        FlowTraceWriter.out_println("  #"+index+" "+newReferencedClasses[index]);
                     }
                 }
             }

@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -51,7 +52,7 @@ implements   ClassVisitor,
              ParameterVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("enum") != null;
     //*/
@@ -155,7 +156,7 @@ implements   ClassVisitor,
                     {
                         if (isPoppingSimpleEnumType(offset))
                         {
-                            System.out.println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] stores enum ["+
+                            FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] stores enum ["+
                                                partialEvaluator.getStackBefore(offset).getTop(0).referenceValue().getType()+"] in more general array ["+
                                                partialEvaluator.getStackBefore(offset).getTop(2).referenceValue().getType()+"]");
                         }
@@ -175,7 +176,7 @@ implements   ClassVisitor,
                     {
                         if (isPoppingSimpleEnumType(offset))
                         {
-                            System.out.println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] returns enum [" +
+                            FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] returns enum [" +
                                                partialEvaluator.getStackBefore(offset).getTop(0).referenceValue().getType()+"] as more general type");
                         }
                     }
@@ -192,7 +193,7 @@ implements   ClassVisitor,
                 {
                     if (isPoppingSimpleEnumType(offset))
                     {
-                        System.out.println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] uses enum ["+
+                        FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] uses enum ["+
                                            partialEvaluator.getStackBefore(offset).getTop(0).referenceValue().getType()+"] as monitor");
                     }
                 }
@@ -239,7 +240,7 @@ implements   ClassVisitor,
                 {
                     if (DEBUG)
                     {
-                        System.out.println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] calls ["+partialEvaluator.getStackBefore(offset).getTop(stackEntryIndex).referenceValue().getType()+"."+invokedMethodName+"]");
+                        FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] calls ["+partialEvaluator.getStackBefore(offset).getTop(stackEntryIndex).referenceValue().getType()+"."+invokedMethodName+"]");
                     }
 
                     markPoppedComplexEnumType(offset, stackEntryIndex);
@@ -279,7 +280,7 @@ implements   ClassVisitor,
                     {
                         if (isPoppingSimpleEnumType(offset))
                         {
-                            System.out.println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] is casting or checking ["+
+                            FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] is casting or checking ["+
                                                partialEvaluator.getStackBefore(offset).getTop(0).referenceValue().getType()+"] as ["+
                                                clazz.getClassName(constantInstruction.constantIndex)+"]");
                         }
@@ -300,7 +301,7 @@ implements   ClassVisitor,
                         {
                             if (isSimpleEnum(((ClassConstant)((ProgramClass)clazz).getConstant(constantInstruction.constantIndex)).referencedClass))
                             {
-                                System.out.println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] is casting or checking ["+
+                                FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] is casting or checking ["+
                                                    partialEvaluator.getStackBefore(offset).getTop(0).referenceValue().getType()+"] as ["+
                                                    clazz.getClassName(constantInstruction.constantIndex)+"]");
                             }
@@ -329,12 +330,12 @@ implements   ClassVisitor,
                     {
                         if (isPoppingSimpleEnumType(offset, 0))
                         {
-                            System.out.println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] compares ["+partialEvaluator.getStackBefore(offset).getTop(0).referenceValue().getType()+"] to plain type");
+                            FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] compares ["+partialEvaluator.getStackBefore(offset).getTop(0).referenceValue().getType()+"] to plain type");
                         }
 
                         if (isPoppingSimpleEnumType(offset, 1))
                         {
-                            System.out.println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] compares ["+partialEvaluator.getStackBefore(offset).getTop(1).referenceValue().getType()+"] to plain type");
+                            FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] compares ["+partialEvaluator.getStackBefore(offset).getTop(1).referenceValue().getType()+"] to plain type");
                         }
                     }
 
@@ -368,7 +369,7 @@ implements   ClassVisitor,
         {
             if (DEBUG)
             {
-                System.out.println("SimpleEnumUseChecker: invocation of ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]");
+                FlowTraceWriter.out_println("SimpleEnumUseChecker: invocation of ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]");
             }
 
             complexEnumMarker.visitProgramClass(programClass);
@@ -395,7 +396,7 @@ implements   ClassVisitor,
                     partialEvaluator.getStackBefore(invocationOffset).getTop(stackEntryIndex).referenceValue();
                 if (isSimpleEnumType(poppedValue))
                 {
-                    System.out.println("SimpleEnumUseChecker: ["+poppedValue.getType()+"] "+
+                    FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+poppedValue.getType()+"] "+
                                        (member instanceof Field ?
                                             ("is stored as more general type ["+parameterType+"] in field ["+clazz.getName()+"."+member.getName(clazz)+"]") :
                                             ("is passed as more general argument #"+parameterIndex+" ["+parameterType+"] to ["+clazz.getName()+"."+member.getName(clazz)+"]")));
@@ -487,7 +488,7 @@ implements   ClassVisitor,
                                         partialEvaluator.getStackAfter(producerOffset).getTop(0).referenceValue();
                                     if (isSimpleEnumType(producedValue))
                                     {
-                                        System.out.println("SimpleEnumUseChecker: ["+producedValue.getType()+"] mixed with general type on stack");
+                                        FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+producedValue.getType()+"] mixed with general type on stack");
                                     }
                                 }
 
@@ -549,7 +550,7 @@ implements   ClassVisitor,
                                         partialEvaluator.getVariablesAfter(producerOffset).getValue(variableIndex).referenceValue();
                                     if (isSimpleEnumType(producedValue))
                                     {
-                                        System.out.println("SimpleEnumUseChecker: ["+producedValue.getType()+"] mixed with general type in variables");
+                                        FlowTraceWriter.out_println("SimpleEnumUseChecker: ["+producedValue.getType()+"] mixed with general type in variables");
                                     }
                                 }
 

@@ -51,6 +51,7 @@ extends      SimplifiedVisitor
 implements   // Implementation interfaces.
              InstructionVisitor
 {
+    static final boolean DEBUG = true;
     private final Configuration configuration;
 
     // Field acting as parameter for the visitor methods.
@@ -75,6 +76,9 @@ implements   // Implementation interfaces.
     {
         // Load the logging utility classes in the program class pool.
         // TODO: The initialization could be incomplete if the loaded classes depend on one another.
+        if (configuration.verbose)
+            FlowTraceWriter.out_println("ConfigurationLoggingAdder.execute");
+
         ClassReader classReader =
             new ClassReader(false, false, false, null,
             new MultiClassVisitor(

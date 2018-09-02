@@ -20,6 +20,8 @@
  */
 package proguard.util;
 
+import proguard.FlowTraceWriter;
+
 import java.io.File;
 
 /**
@@ -103,14 +105,14 @@ public class FileNameParser implements StringParser
     {
         try
         {
-            System.out.println("Regular expression ["+args[0]+"]");
+            FlowTraceWriter.out_println("Regular expression ["+args[0]+"]");
             FileNameParser parser  = new FileNameParser();
             StringMatcher  matcher = parser.parse(args[0]);
             for (int index = 1; index < args.length; index++)
             {
                 String string = args[index];
-                System.out.print("String             ["+string+"]");
-                System.out.println(" -> match = "+matcher.matches(args[index]));
+                FlowTraceWriter.out_print("String             ["+string+"]");
+                FlowTraceWriter.out_println(" -> match = "+matcher.matches(args[index]));
             }
         }
         catch (Exception ex)

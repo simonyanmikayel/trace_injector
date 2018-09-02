@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -49,7 +50,7 @@ implements   AttributeVisitor,
              ParameterVisitor
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("enum") != null;
     //*/
@@ -103,7 +104,7 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            System.out.println("SimpleEnumUseSimplifier: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            FlowTraceWriter.out_println("SimpleEnumUseSimplifier: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
         }
 
         // Skip the non-static methods of simple enum classes.
@@ -606,7 +607,7 @@ implements   AttributeVisitor,
                                      Instruction   instruction,
                                      Instruction[] replacementInstructions)
     {
-        if (DEBUG) System.out.println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstructions.length+" instructions");
+        if (DEBUG) FlowTraceWriter.out_println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstructions.length+" instructions");
 
         codeAttributeEditor.replaceInstruction(offset, replacementInstructions);
 
@@ -636,7 +637,7 @@ implements   AttributeVisitor,
 
         insertPopInstructions(offset, popCount);
 
-        if (DEBUG) System.out.println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstruction.toString()+(popCount == 0 ? "" : " ("+popCount+" pops)"));
+        if (DEBUG) FlowTraceWriter.out_println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstruction.toString()+(popCount == 0 ? "" : " ("+popCount+" pops)"));
 
         codeAttributeEditor.replaceInstruction(offset, replacementInstruction);
 
@@ -663,9 +664,9 @@ implements   AttributeVisitor,
         //
         //insertPopInstructions(offset, popCount);
         //
-        //if (DEBUG) System.out.println("  Deleting instruction "+instruction.toString(offset)+(popCount == 0 ? "" : " ("+popCount+" pops)"));
+        //if (DEBUG) FlowTraceWriter.out_println("  Deleting instruction "+instruction.toString(offset)+(popCount == 0 ? "" : " ("+popCount+" pops)"));
 
-        if (DEBUG) System.out.println("  Deleting instruction "+instruction.toString(offset));
+        if (DEBUG) FlowTraceWriter.out_println("  Deleting instruction "+instruction.toString(offset));
 
         codeAttributeEditor.deleteInstruction(offset);
 

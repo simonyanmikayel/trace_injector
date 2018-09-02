@@ -20,6 +20,7 @@
  */
 package proguard.classfile.editor;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.constant.Constant;
 import proguard.classfile.instruction.*;
@@ -1947,14 +1948,14 @@ public class InstructionSequenceBuilder
 
         for (Instruction instruction : instructions)
         {
-            System.out.println(instruction);
+            FlowTraceWriter.out_println(instruction);
         }
 
-        System.out.println();
+        FlowTraceWriter.out_println();
 
         for (int index = 0; index < constants.length; index++)
         {
-            System.out.println("#"+index+": " + constants[index]);
+            FlowTraceWriter.out_println("#"+index+": " + constants[index]);
         }
     }
 

@@ -20,6 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.constant.RefConstant;
 import proguard.classfile.util.ClassUtil;
@@ -41,7 +42,7 @@ public class ParameterTracingInvocationUnit
 extends      ReferenceTracingInvocationUnit
 {
     //*
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     /*/
     private static       boolean DEBUG = System.getProperty("ptiu") != null;
     //*/
@@ -129,7 +130,7 @@ extends      ReferenceTracingInvocationUnit
 
             if (DEBUG)
             {
-                System.out.println("ParameterTracingInvocationUnit.getMethodReturnValue: calling ["+refConstant.getClassName(clazz)+"."+refConstant.getName(clazz)+refConstant.getType(clazz)+"] returns ["+traceValue+" "+returnValue+"]");
+                FlowTraceWriter.out_println("ParameterTracingInvocationUnit.getMethodReturnValue: calling ["+refConstant.getClassName(clazz)+"."+refConstant.getName(clazz)+refConstant.getType(clazz)+"] returns ["+traceValue+" "+returnValue+"]");
             }
 
             // Did we find more detailed information on the return value?

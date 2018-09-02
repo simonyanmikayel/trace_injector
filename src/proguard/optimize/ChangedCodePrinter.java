@@ -20,6 +20,7 @@
  */
 package proguard.optimize;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -351,15 +352,15 @@ implements   AttributeVisitor
                                   CodeAttribute codeAttribute,
                                   byte[]        oldCode)
     {
-        System.out.println("Class "+ClassUtil.externalClassName(clazz.getName()));
-        System.out.println("Method "+ClassUtil.externalFullMethodDescription(clazz.getName(),
+        FlowTraceWriter.out_println("Class "+ClassUtil.externalClassName(clazz.getName()));
+        FlowTraceWriter.out_println("Method "+ClassUtil.externalFullMethodDescription(clazz.getName(),
                                                                              0,
                                                                              method.getName(clazz),
                                                                              method.getDescriptor(clazz)));
 
         for (int index = 0; index < codeAttribute.u4codeLength; index++)
         {
-            System.out.println(
+            FlowTraceWriter.out_println(
                 (oldCode[index] == codeAttribute.code[index]? "  -- ":"  => ")+
                 index+": "+
                 Integer.toHexString(0x100|oldCode[index]           &0xff).substring(1)+" "+

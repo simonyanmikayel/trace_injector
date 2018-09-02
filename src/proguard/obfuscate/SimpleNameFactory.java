@@ -20,6 +20,8 @@
  */
 package proguard.obfuscate;
 
+import proguard.FlowTraceWriter;
+
 import java.util.*;
 
 
@@ -135,13 +137,13 @@ public class SimpleNameFactory implements NameFactory
 
     public static void main(String[] args)
     {
-        System.out.println("Some mixed-case names:");
+        FlowTraceWriter.out_println("Some mixed-case names:");
         printNameSamples(new SimpleNameFactory(true), 60);
-        System.out.println("Some lower-case names:");
+        FlowTraceWriter.out_println("Some lower-case names:");
         printNameSamples(new SimpleNameFactory(false), 60);
-        System.out.println("Some more mixed-case names:");
+        FlowTraceWriter.out_println("Some more mixed-case names:");
         printNameSamples(new SimpleNameFactory(true), 80);
-        System.out.println("Some more lower-case names:");
+        FlowTraceWriter.out_println("Some more lower-case names:");
         printNameSamples(new SimpleNameFactory(false), 80);
     }
 
@@ -150,7 +152,7 @@ public class SimpleNameFactory implements NameFactory
     {
         for (int counter = 0; counter < count; counter++)
         {
-            System.out.println("  ["+factory.nextName()+"]");
+            FlowTraceWriter.out_println("  ["+factory.nextName()+"]");
         }
     }
 }

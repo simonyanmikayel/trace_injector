@@ -20,6 +20,7 @@
  */
 package proguard.classfile.util;
 
+import proguard.FlowTraceWriter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.constant.*;
@@ -731,7 +732,7 @@ implements   InstructionVisitor,
     {
         if (DEBUG_MORE)
         {
-            System.out.println("InstructionSequenceMatcher: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+instruction.toString(offset)+(condition?"\t== ":"\t   ")+patternInstructions[patternInstructionIndex].toString(patternInstructionIndex));
+            FlowTraceWriter.out_println("InstructionSequenceMatcher: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+instruction.toString(offset)+(condition?"\t== ":"\t   ")+patternInstructions[patternInstructionIndex].toString(patternInstructionIndex));
         }
 
         // Did the instruction match?
@@ -753,17 +754,17 @@ implements   InstructionVisitor,
 
                 if (DEBUG)
                 {
-                    System.out.println("InstructionSequenceMatcher: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+                    FlowTraceWriter.out_println("InstructionSequenceMatcher: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
                     for (int index = 0; index < patternInstructionIndex; index++)
                     {
-                        System.out.println("    "+InstructionFactory.create(codeAttribute.code, matchedInstructionOffsets[index]).toString(matchedInstructionOffsets[index]));
+                        FlowTraceWriter.out_println("    "+InstructionFactory.create(codeAttribute.code, matchedInstructionOffsets[index]).toString(matchedInstructionOffsets[index]));
                     }
 
                     for (int index = 0; index < matchedArguments.length; index++)
                     {
                         if ((matchedArgumentFlags & (1 << index)) != 0)
                         {
-                            System.out.println("      Arg #"+index+": "+matchedArguments[index]);
+                            FlowTraceWriter.out_println("      Arg #"+index+": "+matchedArguments[index]);
                         }
                     }
 
@@ -771,7 +772,7 @@ implements   InstructionVisitor,
                     {
                         if (isMatchingConstantIndex(index))
                         {
-                            System.out.println("      Constant #"+index+": "+matchedConstantIndices[index]);
+                            FlowTraceWriter.out_println("      Constant #"+index+": "+matchedConstantIndices[index]);
                         }
                     }
                 }

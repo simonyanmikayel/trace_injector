@@ -48,10 +48,10 @@ public class GPL
         {
             String uniquePackageNames = uniquePackageNames(unknownPackageNames);
 
-            System.out.println("ProGuard is released under the GNU General Public License. You therefore");
-            System.out.println("must ensure that programs that link to it ("+uniquePackageNames+"...)");
-            System.out.println("carry the GNU General Public License as well. Alternatively, you can");
-            System.out.println("apply for an exception with the author of ProGuard.");
+            FlowTraceWriter.out_println("ProGuard is released under the GNU General Public License. You therefore");
+            FlowTraceWriter.out_println("must ensure that programs that link to it ("+uniquePackageNames+"...)");
+            FlowTraceWriter.out_println("carry the GNU General Public License as well. Alternatively, you can");
+            FlowTraceWriter.out_println("apply for an exception with the author of ProGuard.");
         }
     }
 
@@ -190,7 +190,7 @@ public class GPL
         {
             String uniquePackageNames = uniquePackageNames(unknownPackageNames);
 
-            System.out.println(uniquePackageNames);
+            FlowTraceWriter.out_println(uniquePackageNames);
         }
     }
 }

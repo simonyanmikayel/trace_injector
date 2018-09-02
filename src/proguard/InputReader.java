@@ -127,25 +127,25 @@ public class InputReader
         int noteCount = notePrinter.getWarningCount();
         if (noteCount > 0)
         {
-            System.err.println("Note: there were " + noteCount +
+            FlowTraceWriter.err_println("Note: there were " + noteCount +
                                " duplicate class definitions.");
-            System.err.println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#duplicateclass)");
+            FlowTraceWriter.err_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#duplicateclass)");
         }
 
         // Print out a summary of the warnings, if necessary.
         int warningCount = warningPrinter.getWarningCount();
         if (warningCount > 0)
         {
-            System.err.println("Warning: there were " + warningCount +
+            FlowTraceWriter.err_println("Warning: there were " + warningCount +
                                " classes in incorrectly named files.");
-            System.err.println("         You should make sure all file names correspond to their class names.");
-            System.err.println("         The directory hierarchies must correspond to the package hierarchies.");
-            System.err.println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unexpectedclass)");
+            FlowTraceWriter.err_println("         You should make sure all file names correspond to their class names.");
+            FlowTraceWriter.err_println("         The directory hierarchies must correspond to the package hierarchies.");
+            FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unexpectedclass)");
 
             if (!configuration.ignoreWarnings)
             {
-                System.err.println("         If you don't mind the mentioned classes not being written out,");
-                System.err.println("         you could try your luck using the '-ignorewarnings' option.");
+                FlowTraceWriter.err_println("         If you don't mind the mentioned classes not being written out,");
+                FlowTraceWriter.err_println("         you could try your luck using the '-ignorewarnings' option.");
                 throw new IOException("Please correct the above warnings first.");
             }
         }
