@@ -24,7 +24,7 @@ import proguard.backport.Backporter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.visitor.AllAttributeVisitor;
 import proguard.classfile.editor.*;
-import proguard.classfile.inject.traceInjector;
+import proguard.inject.TraceInjector;
 import proguard.classfile.util.*;
 import proguard.classfile.visitor.*;
 import proguard.configuration.ConfigurationLoggingAdder;
@@ -127,6 +127,12 @@ public class ProGuard
             backport();
         }
 
+        if (configuration.injectTraces)
+        {
+            injectTraces();
+        }
+
+
         if (configuration.addConfigurationDebugging)
         {
             addConfigurationLogging();
@@ -198,11 +204,6 @@ public class ProGuard
         if (configuration.preverify)
         {
             preverify();
-        }
-
-        if (configuration.injectTraces)
-        {
-            //injectTraces();
         }
 
         if (configuration.shrink    ||
@@ -310,6 +311,14 @@ public class ProGuard
                                               injectedClassNameMap);
     }
 
+    /**
+     * Performs the trace injection.
+     */
+    private void injectTraces() throws IOException {
+        new TraceInjector(configuration).execute(programClassPool,
+                                                             libraryClassPool,
+                                                             injectedClassNameMap);
+    }
 
     /**
      * Adds configuration logging code, providing suggestions on improving
@@ -358,19 +367,6 @@ public class ProGuard
         finally
         {
             PrintWriterUtil.closePrintWriter(configuration.printSeeds, pw);
-        }
-    }
-
-    /**
-     * Performs the trace injection.
-     */
-    private void injectTraces() throws IOException {
-        if (configuration.verbose) {
-            FlowTraceWriter.out_println("Injecting traces...");
-
-            // Perform the actual trace injection.
-            new traceInjector(configuration).execute(programClassPool,
-                    libraryClassPool);
         }
     }
 

@@ -10,10 +10,10 @@
 -dontpreverify
 -dontobfuscate
 
--addconfigurationdebugging
+#-addconfigurationdebugging
 
--dontinject
--dontinjectlibs
+#-dontinject
+#-dontinjectlibs
 
 -keep class * {
 }
