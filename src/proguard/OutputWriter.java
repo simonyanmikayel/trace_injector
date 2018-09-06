@@ -121,6 +121,7 @@ public class OutputWriter
                                                              fromOutputIndex,
                                                              toOutputIndex);
 
+
             if (configuration.addConfigurationDebugging)
             {
                 writer = new ExtraDataEntryWriter(ConfigurationLogger.CLASS_MAP_FILENAME,

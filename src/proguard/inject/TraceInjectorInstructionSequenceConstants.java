@@ -12,7 +12,7 @@ import static proguard.optimize.peephole.InstructionSequenceReplacer.catch_;
 
 public class TraceInjectorInstructionSequenceConstants
 {
-    private static String LOGGER_CLASS_NAME = ClassUtil.internalClassName(TraceInjector.class.getName());
+    private static String LOGGER_CLASS_NAME = ClassUtil.internalClassName(FlowTracer.class.getName());
 
     // Exceptions classes.
     public static final String NAME_CLASS_NOT_FOUND_EXCEPTION     = "java/lang/ClassNotFoundException";

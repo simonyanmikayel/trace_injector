@@ -9,7 +9,6 @@ import proguard.classfile.instruction.Instruction;
 import proguard.classfile.instruction.visitor.InstructionVisitor;
 import proguard.classfile.util.*;
 import proguard.classfile.visitor.*;
-import proguard.configuration.ConfigurationLogger;
 import proguard.io.*;
 import proguard.optimize.peephole.*;
 import proguard.util.MultiValueMap;
@@ -57,8 +56,8 @@ public class TraceInjector
 
         try
         {
-            classReader.read(new ClassPathDataEntry(ConfigurationLogger.MethodSignature.class));
-            classReader.read(new ClassPathDataEntry(ConfigurationLogger.class));
+            classReader.read(new ClassPathDataEntry(FlowTracer.MethodSignature.class));
+            classReader.read(new ClassPathDataEntry(FlowTracer.class));
         }
         catch (IOException e)
         {
@@ -95,7 +94,7 @@ public class TraceInjector
     public void visitAnyInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, Instruction instruction)
     {
         // Add a dependency from the modified class on the injector class.
-        injectedClassMap.put(clazz.getName(), internalClassName(ConfigurationLogger.class.getName()));
-        injectedClassMap.put(clazz.getName(), internalClassName(ConfigurationLogger.MethodSignature.class.getName()));
+        injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.class.getName()));
+        injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.MethodSignature.class.getName()));
     }
 }
