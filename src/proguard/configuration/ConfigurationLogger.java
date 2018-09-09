@@ -21,8 +21,6 @@
 package proguard.configuration;
 
 
-import proguard.FlowTraceWriter;
-
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
@@ -36,6 +34,8 @@ import java.util.*;
  */
 public class ConfigurationLogger implements Runnable
 {
+    public static final boolean DEBUG = true;
+
     public static final boolean LOG_ONCE = true;
 
     private static final String LOG_TAG = "ProGuard";
@@ -95,7 +95,10 @@ public class ConfigurationLogger implements Runnable
     public static void logForName(String callingClassName,
                                   String missingClassName)
     {
-        logMissingClass(callingClassName, "Class", "forName", missingClassName);
+        if (DEBUG)
+            System.err.println("Missing " + missingClassName + " in " + callingClassName);
+        else
+            logMissingClass(callingClassName, "Class", "forName", missingClassName);
     }
 
     /**
@@ -125,7 +128,6 @@ public class ConfigurationLogger implements Runnable
         if (!LOG_ONCE || !missingClasses.contains(missingClassName))
         {
             missingClasses.add(missingClassName);
-            FlowTraceWriter.out_println("logMissingClass: the class '" + missingClassName);
             log(
                 "The class '" + originalClassName(callingClassName) + "' is calling " + invokedClassName + "." + invokedMethodName + " to retrieve\n" +
                 "the class '" + missingClassName + "', but the latter could not be found.\n" +
@@ -675,12 +677,12 @@ public class ConfigurationLogger implements Runnable
             }
             catch (Exception e)
             {
-                FlowTraceWriter.err_println(message);
+                System.err.println(message);
             }
         }
         else
         {
-            FlowTraceWriter.err_println(message);
+            System.err.println(message);
         }
     }
 

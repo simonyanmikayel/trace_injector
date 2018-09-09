@@ -34,7 +34,7 @@ import proguard.optimize.peephole.WildcardConstantFilter;
  */
 public class ConstantPoolEditor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private final ProgramClass    targetClass;
     private final ConstantVisitor constantReferenceInitializer;

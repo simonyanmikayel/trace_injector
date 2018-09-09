@@ -1,5 +1,3 @@
-# test rules
-
 -injars 'C:\flowtrace\trace_injector\out\production\test'(**.class)
 -outjars 'c:\flowtrace\trace_injector\out\proguard'
 
@@ -15,5 +13,6 @@
 #-dontinject
 #-dontinjectlibs
 
--keep class * {
+-keep class *.* {
+
 }
