@@ -93,6 +93,10 @@ public class TraceInjector
 
     public void visitAnyInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, Instruction instruction)
     {
+        if (DEBUG)
+        {
+            FlowTraceWriter.out_println("visitAnyInstruction: " + clazz.getName() + " " + method.getName(clazz) + " " + instruction.getName());
+        }
         // Add a dependency from the modified class on the injector class.
         injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.class.getName()));
         injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.MethodSignature.class.getName()));

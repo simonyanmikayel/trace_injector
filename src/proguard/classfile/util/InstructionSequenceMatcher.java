@@ -755,6 +755,12 @@ implements   InstructionVisitor,
                 if (DEBUG)
                 {
                     FlowTraceWriter.out_println("InstructionSequenceMatcher: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+
+                    if (matching)
+                    {
+                        FlowTraceWriter.out_println("InstructionSequenceMatcher: matching == true");
+                    }
+
                     for (int index = 0; index < patternInstructionIndex; index++)
                     {
                         FlowTraceWriter.out_println("    "+InstructionFactory.create(codeAttribute.code, matchedInstructionOffsets[index]).toString(matchedInstructionOffsets[index]));

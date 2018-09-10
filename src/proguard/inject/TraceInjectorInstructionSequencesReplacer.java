@@ -103,7 +103,9 @@ public class TraceInjectorInstructionSequencesReplacer
         {
             Instruction[][] instructionSequencePair = instructionSequences[index];
             instructionSequenceReplacers[index] =
-                    new TraceInjectorInstructionSequenceReplacer(constants,
+                    new TraceInjectorInstructionSequenceReplacer(
+                            //new TraceInjectorInstructionSequenceMatcher(constants, instructionSequencePair[PATTERN_INDEX]),
+                            constants,
                             instructionSequencePair[PATTERN_INDEX],
                             constants,
                             instructionSequencePair[REPLACEMENT_INDEX],
