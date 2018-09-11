@@ -43,12 +43,7 @@ implements   InstructionVisitor,
              ConstantVisitor
 {
     //*
-    private static final boolean DEBUG      = false;
-    private static final boolean DEBUG_MORE = false;
-    /*/
-    public  static       boolean DEBUG      = System.getProperty("ism")  != null;
-    public  static       boolean DEBUG_MORE = System.getProperty("ismm") != null;
-    //*/
+    private static final boolean DEBUG      = true;
 
     public static final int X = 0x40000000;
     public static final int Y = 0x40000001;
@@ -730,12 +725,12 @@ implements   InstructionVisitor,
                             int           offset,
                             Instruction   instruction)
     {
-        if (DEBUG_MORE)
+        // Did the instruction match?
+        if (DEBUG)
         {
-            FlowTraceWriter.out_println("InstructionSequenceMatcher: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+instruction.toString(offset)+(condition?"\t== ":"\t   ")+patternInstructions[patternInstructionIndex].toString(patternInstructionIndex));
+            FlowTraceWriter.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset));
         }
 
-        // Did the instruction match?
         if (condition)
         {
             // Remember the offset of the matching instruction.
@@ -754,12 +749,7 @@ implements   InstructionVisitor,
 
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("InstructionSequenceMatcher: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-
-                    if (matching)
-                    {
-                        FlowTraceWriter.out_println("InstructionSequenceMatcher: matching == true");
-                    }
+                    FlowTraceWriter.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " matching = " + matching);
 
                     for (int index = 0; index < patternInstructionIndex; index++)
                     {
