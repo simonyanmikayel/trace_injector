@@ -130,7 +130,7 @@ implements   InstructionVisitor,
     private static int labelCounter;
 
 
-    private final InstructionSequenceMatcher instructionSequenceMatcher;
+    private final InstructionSequenceMatcherInterface instructionSequenceMatcher;
     private final Constant[]                 patternConstants;
     private final Instruction[]              replacementInstructions;
     private final BranchTargetFinder         branchTargetFinder;
@@ -224,14 +224,14 @@ implements   InstructionVisitor,
      * @param extraInstructionVisitor    an optional extra visitor for all deleted
      *                                   load instructions.
      */
-    protected InstructionSequenceReplacer(InstructionSequenceMatcher instructionSequenceMatcher,
-                                          Constant[]                 patternConstants,
-                                          Instruction[]              patternInstructions,
-                                          Constant[]                 replacementConstants,
-                                          Instruction[]              replacementInstructions,
-                                          BranchTargetFinder         branchTargetFinder,
-                                          CodeAttributeEditor        codeAttributeEditor,
-                                          InstructionVisitor         extraInstructionVisitor)
+    public InstructionSequenceReplacer(InstructionSequenceMatcherInterface instructionSequenceMatcher,
+                                       Constant[] patternConstants,
+                                       Instruction[] patternInstructions,
+                                       Constant[] replacementConstants,
+                                       Instruction[] replacementInstructions,
+                                       BranchTargetFinder branchTargetFinder,
+                                       CodeAttributeEditor codeAttributeEditor,
+                                       InstructionVisitor extraInstructionVisitor)
     {
         this.instructionSequenceMatcher = instructionSequenceMatcher;
         this.patternConstants           = patternConstants;
@@ -624,7 +624,7 @@ implements   InstructionVisitor,
     }
 
 
-    protected InstructionSequenceMatcher getInstructionSequenceMatcher()
+    protected InstructionSequenceMatcherInterface getInstructionSequenceMatcher()
     {
         return instructionSequenceMatcher;
     }

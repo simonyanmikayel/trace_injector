@@ -45,6 +45,7 @@ public class CodeAttribute extends Attribute
     public ExceptionInfo[] exceptionTable;
     public int             u2attributesCount;
     public Attribute[]     attributes;
+    public LineNumberTableAttribute lineNumberTableAttribute; //added to encrease perfomance
 
 
     /**
@@ -238,5 +239,15 @@ public class CodeAttribute extends Attribute
         {
             attributes[index].accept(clazz, method, this, attributeVisitor);
         }
+    }
+
+    public int getLineNumber(int pc) {
+        int lineNumper = -1;
+        if(lineNumberTableAttribute != null) {
+            LineNumberInfo  lineNumberInfo = lineNumberTableAttribute.getLineNumberInfo(pc);
+            if (lineNumberInfo != null)
+                lineNumper = lineNumberInfo.u2lineNumber;
+        }
+        return lineNumper;
     }
 }

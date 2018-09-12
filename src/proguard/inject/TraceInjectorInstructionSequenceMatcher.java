@@ -7,25 +7,44 @@ import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.constant.*;
 import proguard.classfile.instruction.*;
 import proguard.classfile.util.InstructionSequenceMatcher;
+import proguard.classfile.util.InstructionSequenceMatcherInterface;
 
-public class TraceInjectorInstructionSequenceMatcher extends InstructionSequenceMatcher {
+public class TraceInjectorInstructionSequenceMatcher
+implements InstructionSequenceMatcherInterface
+{
 
     private static boolean DEBUG = true;
     private static boolean TEST = true;
     private static boolean VISIT_CONSTANTS = true;
+    private InstructionSequenceMatcher instructionSequenceMatcher;
+    protected final Constant[]    patternConstants;
+    protected final Instruction[] patternInstructions;
 
     public TraceInjectorInstructionSequenceMatcher(Constant[] patternConstants, Instruction[] patternInstructions) {
-        super(patternConstants, patternInstructions);
+        this.patternConstants    = patternConstants;
+        this.patternInstructions = patternInstructions;
+        instructionSequenceMatcher = new InstructionSequenceMatcher(patternConstants, patternInstructions);
     }
 
     public void reset()
     {
-        super.reset();
+        instructionSequenceMatcher.reset();
+    }
+
+    public boolean isIvokeOp()
+    {
+        if (instructionSequenceMatcher.isMatching())
+            return false;
+        return  visitInfo.instruction.opcode == InstructionConstants.OP_INVOKEVIRTUAL ||
+                visitInfo.instruction.opcode == InstructionConstants.OP_INVOKESPECIAL ||
+                visitInfo.instruction.opcode == InstructionConstants.OP_INVOKESTATIC ||
+                visitInfo.instruction.opcode == InstructionConstants.OP_INVOKEINTERFACE ||
+                visitInfo.instruction.opcode == InstructionConstants.OP_INVOKEDYNAMIC;
     }
 
     public boolean isMatching()
     {
-        return super.isMatching();
+        return instructionSequenceMatcher.isMatching() || isIvokeOp();
     }
 
     public int instructionCount()
@@ -35,76 +54,76 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
 
     public int matchedInstructionOffset(int index)
     {
-        return super.matchedInstructionOffset(index);
+        return instructionSequenceMatcher.matchedInstructionOffset(index);
     }
 
     public boolean wasConstant(int argument)
     {
-        return super.wasConstant(argument);
+        return instructionSequenceMatcher.wasConstant(argument);
     }
 
     public int matchedArgument(int argument)
     {
-        return super.matchedArgument(argument);
+        return instructionSequenceMatcher.matchedArgument(argument);
     }
 
     public int[] matchedArguments(int[] arguments)
     {
-        return super.matchedArguments(arguments);
+        return instructionSequenceMatcher.matchedArguments(arguments);
     }
 
     public int matchedConstantIndex(int constantIndex)
     {
-        return super.matchedConstantIndex(constantIndex);
+        return instructionSequenceMatcher.matchedConstantIndex(constantIndex);
     }
 
     public int matchedBranchOffset(int offset, int branchOffset)
     {
-        return super.matchedBranchOffset(offset, branchOffset);
+        return instructionSequenceMatcher.matchedBranchOffset(offset, branchOffset);
     }
 
     public int[] matchedJumpOffsets(int offset, int[] jumpOffsets)
     {
-        return super.matchedJumpOffsets(offset, jumpOffsets);
+        return instructionSequenceMatcher.matchedJumpOffsets(offset, jumpOffsets);
     }
 
 
     public void visitSimpleInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, SimpleInstruction simpleInstruction)
     {
         FlowTraceWriter.out_println("visit simpleInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+simpleInstruction.toString(offset));
-        super.visitSimpleInstruction(clazz, method, codeAttribute, offset, simpleInstruction);
+        instructionSequenceMatcher.visitSimpleInstruction(clazz, method, codeAttribute, offset, simpleInstruction);
     }
 
     public void visitVariableInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, VariableInstruction variableInstruction)
     {
         FlowTraceWriter.out_println("visit variableInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+variableInstruction.toString(offset));
-        super.visitVariableInstruction(clazz, method, codeAttribute, offset, variableInstruction);
+        instructionSequenceMatcher.visitVariableInstruction(clazz, method, codeAttribute, offset, variableInstruction);
     }
 
     public void visitConstantInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, ConstantInstruction constantInstruction)
     {
         FlowTraceWriter.out_println("visit constantInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+constantInstruction.toString(offset));
-        super.visitConstantInstruction(clazz, method, codeAttribute, offset, constantInstruction);
+        instructionSequenceMatcher.visitConstantInstruction(clazz, method, codeAttribute, offset, constantInstruction);
     }
 
     public void visitBranchInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, BranchInstruction branchInstruction)
     {
         FlowTraceWriter.out_println("visit branchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+branchInstruction.toString(offset));
-        super.visitBranchInstruction(clazz, method, codeAttribute, offset, branchInstruction);
+        instructionSequenceMatcher.visitBranchInstruction(clazz, method, codeAttribute, offset, branchInstruction);
     }
 
 
     public void visitTableSwitchInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, TableSwitchInstruction tableSwitchInstruction)
     {
         FlowTraceWriter.out_println("visit tableSwitchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+tableSwitchInstruction.toString(offset));
-        super.visitTableSwitchInstruction(clazz, method, codeAttribute, offset, tableSwitchInstruction);
+        instructionSequenceMatcher.visitTableSwitchInstruction(clazz, method, codeAttribute, offset, tableSwitchInstruction);
     }
 
 
     public void visitLookUpSwitchInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, LookUpSwitchInstruction lookUpSwitchInstruction)
     {
         FlowTraceWriter.out_println("visit lookUpSwitchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+lookUpSwitchInstruction.toString(offset));
-        super.visitLookUpSwitchInstruction(clazz, method, codeAttribute, offset, lookUpSwitchInstruction);
+        instructionSequenceMatcher.visitLookUpSwitchInstruction(clazz, method, codeAttribute, offset, lookUpSwitchInstruction);
     }
 
 
@@ -114,7 +133,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit integerConstant: "+clazz.getName());
-            super.visitIntegerConstant(clazz, integerConstant);
+            instructionSequenceMatcher.visitIntegerConstant(clazz, integerConstant);
         }
     }
 
@@ -123,7 +142,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit longConstant: "+clazz.getName());
-            super.visitLongConstant(clazz, longConstant);
+            instructionSequenceMatcher.visitLongConstant(clazz, longConstant);
         }
     }
 
@@ -132,7 +151,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit floatConstant: "+clazz.getName());
-            super.visitFloatConstant(clazz, floatConstant);
+            instructionSequenceMatcher.visitFloatConstant(clazz, floatConstant);
         }
     }
 
@@ -141,7 +160,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit doubleConstant: "+clazz.getName());
-            super.visitDoubleConstant(clazz, doubleConstant);
+            instructionSequenceMatcher.visitDoubleConstant(clazz, doubleConstant);
         }
     }
 
@@ -150,7 +169,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit primitiveArrayConstant: "+clazz.getName());
-            super.visitPrimitiveArrayConstant(clazz, primitiveArrayConstant);
+            instructionSequenceMatcher.visitPrimitiveArrayConstant(clazz, primitiveArrayConstant);
         }
     }
 
@@ -159,7 +178,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit stringConstant: "+clazz.getName()+" " + stringConstant.getString(clazz));
-            super.visitStringConstant(clazz, stringConstant);
+            instructionSequenceMatcher.visitStringConstant(clazz, stringConstant);
         }
     }
 
@@ -168,7 +187,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit utf8Constant: "+clazz.getName());
-            super.visitUtf8Constant(clazz, utf8Constant);
+            instructionSequenceMatcher.visitUtf8Constant(clazz, utf8Constant);
         }
     }
 
@@ -177,7 +196,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit invokeDynamicConstant: "+clazz.getName());
-            super.visitInvokeDynamicConstant(clazz, invokeDynamicConstant);
+            instructionSequenceMatcher.visitInvokeDynamicConstant(clazz, invokeDynamicConstant);
         }
     }
 
@@ -186,7 +205,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit methodHandleConstant: "+clazz.getName());
-            super.visitMethodHandleConstant(clazz, methodHandleConstant);
+            instructionSequenceMatcher.visitMethodHandleConstant(clazz, methodHandleConstant);
         }
     }
 
@@ -195,7 +214,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit visitAnyRefConstant: "+clazz.getName());
-            super.visitAnyRefConstant(clazz, refConstant);
+            instructionSequenceMatcher.visitAnyRefConstant(clazz, refConstant);
         }
     }
 
@@ -204,7 +223,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit classConstant: "+clazz.getName());
-            super.visitClassConstant(clazz, classConstant);
+            instructionSequenceMatcher.visitClassConstant(clazz, classConstant);
         }
     }
 
@@ -212,7 +231,7 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit methodTypeConstant: "+clazz.getName());
-            super.visitMethodTypeConstant(clazz, methodTypeConstant);
+            instructionSequenceMatcher.visitMethodTypeConstant(clazz, methodTypeConstant);
         }
     }
 
@@ -221,41 +240,25 @@ public class TraceInjectorInstructionSequenceMatcher extends InstructionSequence
     {
         if (VISIT_CONSTANTS) {
             FlowTraceWriter.out_println("visit nameAndTypeConstant: "+clazz.getName());
-            super.visitNameAndTypeConstant(clazz, nameAndTypeConstant);
+            instructionSequenceMatcher.visitNameAndTypeConstant(clazz, nameAndTypeConstant);
         }
     }
 
-    protected boolean matchingOpcodes(Instruction instruction1, Instruction instruction2)
+    public void setVisitInfo(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, Instruction instruction)
     {
-        return super.matchingOpcodes(instruction1, instruction2);
+        visitInfo.clazz = clazz;
+        visitInfo.method = method;
+        visitInfo.codeAttribute = codeAttribute;
+        visitInfo.offset = offset;
+        visitInfo.instruction = instruction;
     }
 
-
-    protected boolean matchingArguments(int argument1, int argument2)
-    {
-        return super.matchingArguments(argument1, argument2);
+    private VisitInfo visitInfo = new VisitInfo();
+    private class VisitInfo {
+        Clazz clazz;
+        Method method;
+        CodeAttribute codeAttribute;
+        int offset;
+        Instruction instruction;
     }
-
-    protected boolean matchingArguments(int[] arguments1, int[] arguments2)
-    {
-        return super.matchingArguments(arguments1, arguments2);
-    }
-
-
-    protected boolean matchingConstantIndices(Clazz clazz, int constantIndex1, int constantIndex2)
-    {
-        return super.matchingConstantIndices(clazz, constantIndex1, constantIndex2);
-    }
-
-    protected boolean matchingBranchOffsets(int offset, int branchOffset1, int branchOffset2)
-    {
-        return super.matchingBranchOffsets(offset, branchOffset1, branchOffset2);
-    }
-
-
-    protected boolean matchingJumpOffsets(int   offset, int[] jumpOffsets1, int[] jumpOffsets2)
-    {
-        return super.matchingJumpOffsets(offset, jumpOffsets1, jumpOffsets2);
-    }
-
 }

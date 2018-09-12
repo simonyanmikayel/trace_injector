@@ -6,9 +6,8 @@ import proguard.classfile.constant.Constant;
 import proguard.classfile.editor.*;
 import proguard.classfile.instruction.Instruction;
 import proguard.classfile.util.*;
-import proguard.optimize.peephole.InstructionSequenceReplacer;
 
-import static proguard.optimize.peephole.InstructionSequenceReplacer.catch_;
+import static proguard.inject.TraceInjectorInstructionSequenceReplacer.catch_;
 
 public class TraceInjectorInstructionSequenceConstants
 {
@@ -35,16 +34,16 @@ public class TraceInjectorInstructionSequenceConstants
     public final Constant[]        CONSTANTS;
 
     // Labels.
-    private final InstructionSequenceReplacer.Label TRY_START = InstructionSequenceReplacer.label();
-    private final InstructionSequenceReplacer.Label TRY_END   = InstructionSequenceReplacer.label();
-    private final InstructionSequenceReplacer.Label CATCH_END = InstructionSequenceReplacer.label();
+    private final TraceInjectorInstructionSequenceReplacer.Label TRY_START = TraceInjectorInstructionSequenceReplacer.label();
+    private final TraceInjectorInstructionSequenceReplacer.Label TRY_END   = TraceInjectorInstructionSequenceReplacer.label();
+    private final TraceInjectorInstructionSequenceReplacer.Label CATCH_END = TraceInjectorInstructionSequenceReplacer.label();
 
-    private final InstructionSequenceReplacer.Label CLASS_NOT_FOUND_EXCEPTION;
-    private final InstructionSequenceReplacer.Label NO_SUCH_METHOD_EXCEPTION;
-    private final InstructionSequenceReplacer.Label NO_SUCH_FIELD_EXCEPTION;
-    private final InstructionSequenceReplacer.Label IO_EXCEPTION;
-    private final InstructionSequenceReplacer.Label RUNTIME_EXCEPTION;
-    private final InstructionSequenceReplacer.Label UNSATISFIED_LINK_ERROR;
+    private final TraceInjectorInstructionSequenceReplacer.Label CLASS_NOT_FOUND_EXCEPTION;
+    private final TraceInjectorInstructionSequenceReplacer.Label NO_SUCH_METHOD_EXCEPTION;
+    private final TraceInjectorInstructionSequenceReplacer.Label NO_SUCH_FIELD_EXCEPTION;
+    private final TraceInjectorInstructionSequenceReplacer.Label IO_EXCEPTION;
+    private final TraceInjectorInstructionSequenceReplacer.Label RUNTIME_EXCEPTION;
+    private final TraceInjectorInstructionSequenceReplacer.Label UNSATISFIED_LINK_ERROR;
 
     /**
      * Creates a new instance of ResourceIdInstructionSequenceConstants,

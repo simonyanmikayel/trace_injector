@@ -39,7 +39,7 @@ import java.util.Arrays;
  */
 public class InstructionSequenceMatcher
 extends      SimplifiedVisitor
-implements   InstructionVisitor,
+implements   InstructionSequenceMatcherInterface,
              ConstantVisitor
 {
     //*
@@ -728,7 +728,8 @@ implements   InstructionVisitor,
         // Did the instruction match?
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset));
+            int lineNumper = codeAttribute.getLineNumber(offset);
+            FlowTraceWriter.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper);
         }
 
         if (condition)
@@ -749,7 +750,8 @@ implements   InstructionVisitor,
 
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " matching = " + matching);
+                    int lineNumper = codeAttribute.getLineNumber(offset);
+                    FlowTraceWriter.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper + " matching = " + matching);
 
                     for (int index = 0; index < patternInstructionIndex; index++)
                     {

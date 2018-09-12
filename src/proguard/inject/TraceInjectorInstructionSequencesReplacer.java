@@ -74,8 +74,6 @@ public class TraceInjectorInstructionSequencesReplacer
 
 
     /**
-     * Creates an array of InstructionSequenceReplacer instances.
-     *
      * @param constants               any constants referenced by the pattern
      *                                instructions and replacement instructions.
      * @param instructionSequences    the instruction sequences to be replaced,
@@ -96,13 +94,13 @@ public class TraceInjectorInstructionSequencesReplacer
                                                                            CodeAttributeEditor codeAttributeEditor,
                                                                            InstructionVisitor  extraInstructionVisitor)
     {
-        InstructionVisitor[] instructionSequenceReplacers =
-                new InstructionSequenceReplacer[instructionSequences.length];
+        InstructionVisitor[] replacers =
+                new TraceInjectorInstructionSequenceReplacer[instructionSequences.length];
 
-        for (int index = 0; index < instructionSequenceReplacers.length; index++)
+        for (int index = 0; index < replacers.length; index++)
         {
             Instruction[][] instructionSequencePair = instructionSequences[index];
-            instructionSequenceReplacers[index] =
+            replacers[index] =
                     new TraceInjectorInstructionSequenceReplacer(
                             new TraceInjectorInstructionSequenceMatcher(constants, instructionSequencePair[PATTERN_INDEX]),
                             constants,
@@ -114,6 +112,6 @@ public class TraceInjectorInstructionSequencesReplacer
                             extraInstructionVisitor);
         }
 
-        return instructionSequenceReplacers;
+        return replacers;
     }
 }

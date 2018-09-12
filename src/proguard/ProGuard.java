@@ -24,6 +24,7 @@ import proguard.backport.Backporter;
 import proguard.classfile.*;
 import proguard.classfile.attribute.visitor.AllAttributeVisitor;
 import proguard.classfile.editor.*;
+import proguard.inject.FlowTraceInjector;
 import proguard.inject.TraceInjector;
 import proguard.classfile.util.*;
 import proguard.classfile.visitor.*;
@@ -315,6 +316,7 @@ public class ProGuard
      * Performs the trace injection.
      */
     private void injectTraces() throws IOException {
+        //FlowTraceInjector
         new TraceInjector(configuration).execute(programClassPool,
                                                              libraryClassPool,
                                                              injectedClassNameMap);
