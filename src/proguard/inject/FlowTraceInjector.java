@@ -2,11 +2,10 @@ package proguard.inject;
 
 import proguard.Configuration;
 import proguard.FlowTraceWriter;
-import proguard.classfile.ClassPool;
-import proguard.classfile.Clazz;
-import proguard.classfile.Method;
+import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.attribute.visitor.AllAttributeVisitor;
+import proguard.classfile.attribute.visitor.AttributeVisitor;
 import proguard.classfile.editor.CodeAttributeEditor;
 import proguard.classfile.instruction.Instruction;
 import proguard.classfile.instruction.visitor.InstructionVisitor;
@@ -29,11 +28,12 @@ extends SimplifiedVisitor
 implements
         ClassVisitor,
         MemberVisitor,
+        AttributeVisitor,
         InstructionVisitor
 {
     static final boolean DEBUG = true;
     private final Configuration configuration;
-
+    private CodeAttributeEditor codeAttributeEditor;
     // Field acting as parameter for the visitor methods.
     private MultiValueMap<String, String> injectedClassMap;
 
@@ -44,6 +44,7 @@ implements
     public FlowTraceInjector(Configuration configuration)
     {
         this.configuration = configuration;
+        codeAttributeEditor = new CodeAttributeEditor(false, false);
     }
 
     /**
@@ -53,7 +54,6 @@ implements
                         ClassPool                     libraryClassPool,
                         MultiValueMap<String, String> injectedClassMap )
     {
-        // TODO: The initialization could be incomplete if the loaded classes depend on one another.
         ClassReader classReader =
                 new ClassReader(false, false, false, null,
                         new MultiClassVisitor(
@@ -72,9 +72,6 @@ implements
             throw new RuntimeException(e);
         }
 
-        BranchTargetFinder branchTargetFinder  = new BranchTargetFinder();
-        CodeAttributeEditor codeAttributeEditor = new CodeAttributeEditor();
-
         // Set the injected class map for the extra visitor.
         this.injectedClassMap = injectedClassMap;
 
@@ -85,16 +82,32 @@ implements
     }
 
 
-    public void visitAnyClass(Clazz clazz)
+    public void visitProgramClass(ProgramClass programClass)
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("visitAnyClass: " + clazz.getName());
+            FlowTraceWriter.out_println("visitProgramClass: " + programClass.getName());
         }
-        injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.class.getName()));
-        injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.MethodSignature.class.getName()));
+        injectedClassMap.put(programClass.getName(), internalClassName(FlowTracer.class.getName()));
+        injectedClassMap.put(programClass.getName(), internalClassName(FlowTracer.MethodSignature.class.getName()));
 
-        clazz.accept(this);
+        programClass.methodsAccept(this);
+    }
+
+    public void visitProgramMethod(ProgramClass programClass, ProgramMethod programMethod)
+    {
+        programMethod.attributesAccept(programClass, this);
+    }
+
+    public void visitCodeAttribute(Clazz clazz, Method method, CodeAttribute codeAttribute)
+    {
+        // Set up the code attribute editor.
+        codeAttributeEditor.reset(codeAttribute.u4codeLength);
+
+        codeAttribute.instructionsAccept(clazz, method, this);
+
+        //write if modified
+        codeAttributeEditor.visitCodeAttribute(clazz, method, codeAttribute);
     }
 
     public void visitAnyInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, Instruction instruction)

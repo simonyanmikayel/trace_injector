@@ -317,7 +317,7 @@ public class ProGuard
      */
     private void injectTraces() throws IOException {
         //FlowTraceInjector
-        new TraceInjector(configuration).execute(programClassPool,
+        new FlowTraceInjector(configuration).execute(programClassPool,
                                                              libraryClassPool,
                                                              injectedClassNameMap);
     }
