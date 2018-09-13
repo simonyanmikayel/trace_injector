@@ -38,6 +38,7 @@ implements
     private MultiValueMap<String, String> injectedClassMap;
     private ClassPool programClassPool;
     private ClassPool libraryClassPool;
+    private InstructionSequenceBuilder ____;
 
 
     /**
@@ -93,9 +94,10 @@ implements
         {
             Logger.out_println("visitProgramClass: " + programClass.getName());
         }
-        injectedClassMap.put(programClass.getName(), internalClassName(FlowTracer.class.getName()));
-        injectedClassMap.put(programClass.getName(), internalClassName(FlowTracer.MethodSignature.class.getName()));
+        injectedClassMap.put(programClass.getName(), internalClassName(FlowTraceWriter.class.getName()));
+        injectedClassMap.put(programClass.getName(), internalClassName(FlowTraceWriter.MethodSignature.class.getName()));
 
+        ____ = new InstructionSequenceBuilder(programClass, programClassPool, libraryClassPool);
         programClass.methodsAccept(this);
     }
 
@@ -122,21 +124,18 @@ implements
             Logger.out_println("visitAnyInstruction: " + clazz.getName() + " " + method.getName(clazz) + " " + instruction.getName());
         }
 
-//        injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.class.getName()));
-//        injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.MethodSignature.class.getName()));
-
         if (instruction.opcode == InstructionConstants.OP_INVOKEVIRTUAL ||
-            //instruction.opcode == InstructionConstants.OP_INVOKESPECIAL ||
+            instruction.opcode == InstructionConstants.OP_INVOKESPECIAL ||
             instruction.opcode == InstructionConstants.OP_INVOKESTATIC ||
             instruction.opcode == InstructionConstants.OP_INVOKEINTERFACE ||
             instruction.opcode == InstructionConstants.OP_INVOKEDYNAMIC)
         {
             String LOGGER_CLASS_NAME = ClassUtil.internalClassName(proguard.inject.FlowTraceWriter.class.getName());
 
-            InstructionSequenceBuilder ____ = new InstructionSequenceBuilder(programClassPool, libraryClassPool);
-            Instruction[] insBefore =  //____.dup()
-            ____.invokestatic(LOGGER_CLASS_NAME, "logBefore", "()V").__();
+            Instruction[] insBefore =  ____.invokestatic(LOGGER_CLASS_NAME, "logBefore", "()V").__();
+            Instruction[] insAfter =  ____.invokestatic(LOGGER_CLASS_NAME, "logAfter", "()V").__();
             codeAttributeEditor.insertBeforeInstruction(offset, insBefore);
+            codeAttributeEditor.insertAfterInstruction(offset, insAfter);
         }
     }
 }

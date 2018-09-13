@@ -2,8 +2,7 @@ package proguard.inject;
 
 import java.util.Arrays;
 
-public class FlowTracer {
-
+public class FlowTraceWriter {
     static public void logBefore() {
         System.out.println("Before");
     }
@@ -36,7 +35,7 @@ public class FlowTracer {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            MethodSignature that = (MethodSignature)o;
+            FlowTraceWriter.MethodSignature that = (FlowTraceWriter.MethodSignature)o;
 
             if (!name.equals(that.name)) return false;
             return Arrays.equals(parameters, that.parameters);
@@ -50,5 +49,4 @@ public class FlowTracer {
             return result;
         }
     }
-
 }
