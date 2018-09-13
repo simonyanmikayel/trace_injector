@@ -20,7 +20,7 @@
  */
 package proguard.optimize;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -81,7 +81,7 @@ implements   MemberVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("MethodDescriptorShrinker: ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]");
+            Logger.out_println("MethodDescriptorShrinker: ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]");
         }
 
         // Update the descriptor if it has any unused parameters.
@@ -125,7 +125,7 @@ implements   MemberVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("    -> ["+newName+newDescriptor+"]");
+                Logger.out_println("    -> ["+newName+newDescriptor+"]");
             }
 
             // Visit the method, if required.
@@ -146,7 +146,7 @@ implements   MemberVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("  ["+signatureAttribute.getSignature(clazz)+"]");
+            Logger.out_println("  ["+signatureAttribute.getSignature(clazz)+"]");
         }
 
         // Compute the new signature.
@@ -167,7 +167,7 @@ implements   MemberVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("    -> ["+newSignature+"]");
+                Logger.out_println("    -> ["+newSignature+"]");
             }
         }
     }
@@ -251,7 +251,7 @@ implements   MemberVisitor,
             }
             else if (DEBUG)
             {
-                FlowTraceWriter.out_println("  Deleting parameter #"+parameterIndex+" ["+type+"]");
+                Logger.out_println("  Deleting parameter #"+parameterIndex+" ["+type+"]");
             }
 
             parameterIndex += ClassUtil.internalTypeSize(type);

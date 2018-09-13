@@ -95,7 +95,7 @@ public class TraceInjector
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("visitAnyInstruction: " + clazz.getName() + " " + method.getName(clazz) + " " + instruction.getName());
+            Logger.out_println("visitAnyInstruction: " + clazz.getName() + " " + method.getName(clazz) + " " + instruction.getName());
         }
         // Add a dependency from the modified class on the injector class.
         injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.class.getName()));

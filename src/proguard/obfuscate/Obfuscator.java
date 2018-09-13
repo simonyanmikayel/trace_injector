@@ -27,7 +27,6 @@ import proguard.classfile.constant.visitor.*;
 import proguard.classfile.editor.*;
 import proguard.classfile.util.*;
 import proguard.classfile.visitor.*;
-import proguard.util.*;
 
 import java.io.*;
 import java.util.*;
@@ -182,17 +181,17 @@ public class Obfuscator
             int warningCount = warningPrinter.getWarningCount();
             if (warningCount > 0)
             {
-                FlowTraceWriter.err_println("Warning: there were " + warningCount +
+                Logger.err_println("Warning: there were " + warningCount +
                                    " kept classes and class members that were remapped anyway.");
-                FlowTraceWriter.err_println("         You should adapt your configuration or edit the mapping file.");
+                Logger.err_println("         You should adapt your configuration or edit the mapping file.");
 
                 if (!configuration.ignoreWarnings)
                 {
-                    FlowTraceWriter.err_println("         If you are sure this remapping won't hurt, you could try your luck");
-                    FlowTraceWriter.err_println("         using the '-ignorewarnings' option.");
+                    Logger.err_println("         If you are sure this remapping won't hurt, you could try your luck");
+                    Logger.err_println("         using the '-ignorewarnings' option.");
                 }
 
-                FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#mappingconflict1)");
+                Logger.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#mappingconflict1)");
 
                 if (!configuration.ignoreWarnings)
                 {
@@ -426,17 +425,17 @@ public class Obfuscator
         int warningCount = warningPrinter.getWarningCount();
         if (warningCount > 0)
         {
-            FlowTraceWriter.err_println("Warning: there were " + warningCount +
+            Logger.err_println("Warning: there were " + warningCount +
                                " conflicting class member name mappings.");
-            FlowTraceWriter.err_println("         Your configuration may be inconsistent.");
+            Logger.err_println("         Your configuration may be inconsistent.");
 
             if (!configuration.ignoreWarnings)
             {
-                FlowTraceWriter.err_println("         If you are sure the conflicts are harmless,");
-                FlowTraceWriter.err_println("         you could try your luck using the '-ignorewarnings' option.");
+                Logger.err_println("         If you are sure the conflicts are harmless,");
+                Logger.err_println("         you could try your luck using the '-ignorewarnings' option.");
             }
 
-            FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#mappingconflict2)");
+            Logger.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#mappingconflict2)");
 
             if (!configuration.ignoreWarnings)
             {

@@ -20,7 +20,7 @@
  */
 package proguard.classfile.editor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -235,7 +235,7 @@ implements   AttributeVisitor,
                        ConstantInstruction constantInstruction,
                        Instruction         replacementInstruction)
     {
-        FlowTraceWriter.out_println("MethodInvocationFixer ["+clazz.getName()+"."+
+        Logger.out_println("MethodInvocationFixer ["+clazz.getName()+"."+
                            method.getName(clazz)+method.getDescriptor(clazz)+"] "+
                            constantInstruction.toString(offset)+" -> "+
                            replacementInstruction.toString(offset));

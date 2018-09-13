@@ -20,7 +20,7 @@
  */
 package proguard.optimize.peephole;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.visitor.*;
 import proguard.classfile.constant.visitor.*;
@@ -134,10 +134,10 @@ implements   ClassVisitor,
         }
         catch (RuntimeException ex)
         {
-            FlowTraceWriter.err_println("Unexpected error while merging classes:");
-            FlowTraceWriter.err_println("  Class        = ["+programClass.getName()+"]");
-            FlowTraceWriter.err_println("  Target class = ["+targetClass.getName()+"]");
-            FlowTraceWriter.err_println("  Exception    = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            Logger.err_println("Unexpected error while merging classes:");
+            Logger.err_println("  Class        = ["+programClass.getName()+"]");
+            Logger.err_println("  Target class = ["+targetClass.getName()+"]");
+            Logger.err_println("  Exception    = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             if (DEBUG)
             {
@@ -299,15 +299,15 @@ implements   ClassVisitor,
             // will finally remove the source class.
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("ClassMerger ["+programClass.getName()+"] -> ["+targetClass.getName()+"]");
-                FlowTraceWriter.out_println("  Source interface? ["+((programClass.getAccessFlags() & ClassConstants.ACC_INTERFACE)!=0)+"]");
-                FlowTraceWriter.out_println("  Target interface? ["+((targetClass.getAccessFlags() & ClassConstants.ACC_INTERFACE)!=0)+"]");
-                FlowTraceWriter.out_println("  Source subclasses ["+programClass.subClasses+"]");
-                FlowTraceWriter.out_println("  Target subclasses ["+targetClass.subClasses+"]");
-                FlowTraceWriter.out_println("  Source superclass ["+programClass.getSuperClass().getName()+"]");
-                FlowTraceWriter.out_println("  Target superclass ["+targetClass.getSuperClass().getName()+"]");
+                Logger.out_println("ClassMerger ["+programClass.getName()+"] -> ["+targetClass.getName()+"]");
+                Logger.out_println("  Source interface? ["+((programClass.getAccessFlags() & ClassConstants.ACC_INTERFACE)!=0)+"]");
+                Logger.out_println("  Target interface? ["+((targetClass.getAccessFlags() & ClassConstants.ACC_INTERFACE)!=0)+"]");
+                Logger.out_println("  Source subclasses ["+programClass.subClasses+"]");
+                Logger.out_println("  Target subclasses ["+targetClass.subClasses+"]");
+                Logger.out_println("  Source superclass ["+programClass.getSuperClass().getName()+"]");
+                Logger.out_println("  Target superclass ["+targetClass.getSuperClass().getName()+"]");
 
-                //FlowTraceWriter.out_println("=== Before ===");
+                //Logger.out_println("=== Before ===");
                 //programClass.accept(new ClassPrinter());
                 //targetClass.accept(new ClassPrinter());
             }
@@ -380,7 +380,7 @@ implements   ClassVisitor,
 
             //if (DEBUG)
             //{
-            //    FlowTraceWriter.out_println("=== After ====");
+            //    Logger.out_println("=== After ====");
             //    targetClass.accept(new ClassPrinter());
             //}
 
@@ -401,7 +401,7 @@ implements   ClassVisitor,
 
     private boolean print(ProgramClass programClass, String message)
     {
-        FlowTraceWriter.out_println("Merge ["+targetClass.getName()+"] <- ["+programClass.getName()+"] "+message);
+        Logger.out_println("Merge ["+targetClass.getName()+"] <- ["+programClass.getName()+"] "+message);
 
         return true;
     }

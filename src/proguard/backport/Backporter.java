@@ -56,7 +56,7 @@ public class Backporter
 
         if (configuration.verbose)
         {
-            FlowTraceWriter.out_println("Backporting class files...");
+            Logger.out_println("Backporting class files...");
         }
 
         // Clean up any previous visitor info.
@@ -221,11 +221,11 @@ public class Backporter
 
         if (configuration.verbose)
         {
-            FlowTraceWriter.out_println("  Number of converted string concatenations:     " + replacedStringConcatCounter.getCount());
-            FlowTraceWriter.out_println("  Number of converted lambda expressions:        " + lambdaExpressionCounter.getCount());
-            FlowTraceWriter.out_println("  Number of converted static interface methods:  " + staticInterfaceMethodCounter.getCount());
-            FlowTraceWriter.out_println("  Number of converted default interface methods: " + defaultInterfaceMethodCounter.getCount());
-            FlowTraceWriter.out_println("  Number of replaced Java 7+ method calls:       " + replacedMethodCallCounter.getCount());
+            Logger.out_println("  Number of converted string concatenations:     " + replacedStringConcatCounter.getCount());
+            Logger.out_println("  Number of converted lambda expressions:        " + lambdaExpressionCounter.getCount());
+            Logger.out_println("  Number of converted static interface methods:  " + staticInterfaceMethodCounter.getCount());
+            Logger.out_println("  Number of converted default interface methods: " + defaultInterfaceMethodCounter.getCount());
+            Logger.out_println("  Number of replaced Java 7+ method calls:       " + replacedMethodCallCounter.getCount());
         }
     }
 }

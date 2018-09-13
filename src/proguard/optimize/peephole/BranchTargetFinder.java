@@ -20,7 +20,7 @@
  */
 package proguard.optimize.peephole;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -405,14 +405,14 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println();
-            FlowTraceWriter.out_println("Branch targets: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            Logger.out_println();
+            Logger.out_println("Branch targets: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
 
             for (int index = 0; index < codeLength; index++)
             {
                 if (isInstruction(index))
                 {
-                    FlowTraceWriter.out_println("" +
+                    Logger.out_println("" +
                                        (isInitializer(index)          ? 'I' : '-') +
                                        (isBranchOrigin(index)         ? 'B' : '-') +
                                        (isAfterBranch(index)          ? 'b' : '-') +

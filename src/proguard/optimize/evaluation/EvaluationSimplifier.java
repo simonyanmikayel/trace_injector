@@ -20,7 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -108,11 +108,11 @@ implements   AttributeVisitor,
         }
         catch (RuntimeException ex)
         {
-            FlowTraceWriter.err_println("Unexpected error while simplifying instructions after partial evaluation:");
-            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
-            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
-            FlowTraceWriter.err_println("Not optimizing this method");
+            Logger.err_println("Unexpected error while simplifying instructions after partial evaluation:");
+            Logger.err_println("  Class       = ["+clazz.getName()+"]");
+            Logger.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            Logger.err_println("Not optimizing this method");
 
             if (DEBUG)
             {
@@ -128,8 +128,8 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println();
-            FlowTraceWriter.out_println("EvaluationSimplifier ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.out_println();
+            Logger.out_println("EvaluationSimplifier ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
         }
 
         // Evaluate the method.
@@ -1016,7 +1016,7 @@ implements   AttributeVisitor,
             (!partialEvaluator.isSubroutineReturning(offset) ||
              partialEvaluator.branchOrigins(offset).instructionOffsetCount() == 1))
         {
-            if (DEBUG) FlowTraceWriter.out_println("  Deleting store of subroutine return address "+instruction.toString(offset));
+            if (DEBUG) Logger.out_println("  Deleting store of subroutine return address "+instruction.toString(offset));
 
             // A reference value can only be specific if it is null.
             codeAttributeEditor.deleteInstruction(offset);
@@ -1042,7 +1042,7 @@ implements   AttributeVisitor,
             int branchOffset = branchTargets.instructionOffset(0) - offset;
             if (branchOffset == instruction.length(offset))
             {
-                if (DEBUG) FlowTraceWriter.out_println("  Ignoring zero branch instruction at ["+offset+"]");
+                if (DEBUG) Logger.out_println("  Ignoring zero branch instruction at ["+offset+"]");
             }
             else
             {
@@ -1475,7 +1475,7 @@ implements   AttributeVisitor,
                 new SimpleInstruction(InstructionConstants.OP_ATHROW)
             };
 
-        if (DEBUG) FlowTraceWriter.out_println("  Replacing instruction by explicit exception "+exceptionClass);
+        if (DEBUG) Logger.out_println("  Replacing instruction by explicit exception "+exceptionClass);
 
         codeAttributeEditor.replaceInstruction(offset, replacementInstructions);
 
@@ -1504,7 +1504,7 @@ implements   AttributeVisitor,
         Instruction replacementInstruction =
             new BranchInstruction(InstructionConstants.OP_GOTO, 0);
 
-        if (DEBUG) FlowTraceWriter.out_println("  Replacing unreachable instruction by infinite loop "+replacementInstruction.toString(offset));
+        if (DEBUG) Logger.out_println("  Replacing unreachable instruction by infinite loop "+replacementInstruction.toString(offset));
 
         codeAttributeEditor.replaceInstruction(offset, replacementInstruction);
 
@@ -1537,7 +1537,7 @@ implements   AttributeVisitor,
 
         insertPopInstructions(offset, popCount);
 
-        if (DEBUG) FlowTraceWriter.out_println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstruction.toString()+(popCount == 0 ? "" : " ("+popCount+" pops)"));
+        if (DEBUG) Logger.out_println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstruction.toString()+(popCount == 0 ? "" : " ("+popCount+" pops)"));
 
         codeAttributeEditor.replaceInstruction(offset, replacementInstruction);
 
@@ -1622,7 +1622,7 @@ implements   AttributeVisitor,
                                                     int               switchOffset,
                                                     SwitchInstruction replacementSwitchInstruction)
     {
-        if (DEBUG) FlowTraceWriter.out_println("  Replacing switch instruction at ["+switchOffset+"] -> ["+loadOffset+"] swap + pop, "+replacementSwitchInstruction.toString(switchOffset)+")");
+        if (DEBUG) Logger.out_println("  Replacing switch instruction at ["+switchOffset+"] -> ["+loadOffset+"] swap + pop, "+replacementSwitchInstruction.toString(switchOffset)+")");
 
         // Remove the array load instruction.
         codeAttributeEditor.replaceInstruction(loadOffset, new Instruction[]

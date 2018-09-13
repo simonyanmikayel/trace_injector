@@ -1,6 +1,6 @@
 package proguard.inject;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.Clazz;
 import proguard.classfile.Method;
 import proguard.classfile.ProgramClass;
@@ -166,18 +166,18 @@ public class TraceInjectorInstructionSequenceReplacer
 
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("Injector: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-                    FlowTraceWriter.out_println("  Matched:");
+                    Logger.out_println("Injector: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+                    Logger.out_println("  Matched:");
                     for (int index = 0; index < patternCount; index++)
                     {
                         int matchedOffset = instructionSequenceMatcher.matchedInstructionOffset(index);
-                        FlowTraceWriter.out_println("    "+ InstructionFactory.create(codeAttribute.code, matchedOffset).toString(matchedOffset));
+                        Logger.out_println("    "+ InstructionFactory.create(codeAttribute.code, matchedOffset).toString(matchedOffset));
                     }
-                    FlowTraceWriter.out_println("  Replacement:");
+                    Logger.out_println("  Replacement:");
                     for (int index = 0; index < replacementCount; index++)
                     {
                         int matchedOffset = instructionSequenceMatcher.matchedInstructionOffset(Math.min(index, patternCount-1));
-                        FlowTraceWriter.out_println("    " + replacementInstructionFactory.create(clazz, codeAttribute, index).shrink().toString(matchedOffset));
+                        Logger.out_println("    " + replacementInstructionFactory.create(clazz, codeAttribute, index).shrink().toString(matchedOffset));
                     }
                 }
 

@@ -20,7 +20,7 @@
  */
 package proguard.optimize.info;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -212,7 +212,7 @@ implements   ClassVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("WrapperClassMarker: ["+clazz.getName()+"] wraps ["+wrappedClass.getName()+"]");
+            Logger.out_println("WrapperClassMarker: ["+clazz.getName()+"] wraps ["+wrappedClass.getName()+"]");
         }
 
         ProgramClassOptimizationInfo.getProgramClassOptimizationInfo(clazz).setWrappedClass(wrappedClass);

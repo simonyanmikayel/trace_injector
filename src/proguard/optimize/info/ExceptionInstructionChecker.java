@@ -20,7 +20,7 @@
  */
 package proguard.optimize.info;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.instruction.*;
@@ -75,7 +75,7 @@ implements   InstructionVisitor
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("ExceptionInstructionChecker.mayThrowExceptions ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
+            Logger.out_println("ExceptionInstructionChecker.mayThrowExceptions ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
         }
 
         return firstExceptionThrowingInstructionOffset(clazz,
@@ -98,7 +98,7 @@ implements   InstructionVisitor
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("ExceptionInstructionChecker.firstExceptionThrowingInstructionOffset ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
+            Logger.out_println("ExceptionInstructionChecker.firstExceptionThrowingInstructionOffset ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
         }
 
         byte[] code = codeAttribute.code;
@@ -119,7 +119,7 @@ implements   InstructionVisitor
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("  "+instruction.toString(offset));
+                    Logger.out_println("  "+instruction.toString(offset));
                 }
 
                 return offset;
@@ -145,7 +145,7 @@ implements   InstructionVisitor
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("ExceptionInstructionChecker.lastExceptionThrowingInstructionOffset ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
+            Logger.out_println("ExceptionInstructionChecker.lastExceptionThrowingInstructionOffset ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+startOffset+" -> "+endOffset);
         }
 
         byte[] code = codeAttribute.code;
@@ -168,7 +168,7 @@ implements   InstructionVisitor
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("  "+instruction.toString(offset));
+                    Logger.out_println("  "+instruction.toString(offset));
                 }
 
                 // Go to the next instruction.

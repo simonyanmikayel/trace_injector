@@ -20,7 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -232,50 +232,50 @@ implements   AttributeVisitor,
         }
         catch (RuntimeException ex)
         {
-            FlowTraceWriter.err_println("Unexpected error while performing partial evaluation:");
-            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
-            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            Logger.err_println("Unexpected error while performing partial evaluation:");
+            Logger.err_println("  Class       = ["+clazz.getName()+"]");
+            Logger.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             if (DEBUG)
             {
                 method.accept(clazz, new ClassPrinter());
 
-                FlowTraceWriter.out_println("Evaluation results:");
+                Logger.out_println("Evaluation results:");
 
                 int offset = 0;
                 do
                 {
                     if (isBranchOrExceptionTarget(offset))
                     {
-                        FlowTraceWriter.out_println("Branch target from ["+branchOriginValues[offset]+"]:");
+                        Logger.out_println("Branch target from ["+branchOriginValues[offset]+"]:");
                         if (isTraced(offset))
                         {
-                            FlowTraceWriter.out_println("  Vars:  "+variablesBefore[offset]);
-                            FlowTraceWriter.out_println("  Stack: "+stacksBefore[offset]);
+                            Logger.out_println("  Vars:  "+variablesBefore[offset]);
+                            Logger.out_println("  Stack: "+stacksBefore[offset]);
                         }
                     }
 
                     Instruction instruction = InstructionFactory.create(codeAttribute.code,
                                                                         offset);
-                    FlowTraceWriter.out_println(instruction.toString(offset));
+                    Logger.out_println(instruction.toString(offset));
 
                     if (isTraced(offset))
                     {
 //                        int initializationOffset = branchTargetFinder.initializationOffset(offset);
 //                        if (initializationOffset != NONE)
 //                        {
-//                            FlowTraceWriter.out_println("     is to be initialized at ["+initializationOffset+"]");
+//                            Logger.out_println("     is to be initialized at ["+initializationOffset+"]");
 //                        }
 
                         InstructionOffsetValue branchTargets = branchTargets(offset);
                         if (branchTargets != null)
                         {
-                            FlowTraceWriter.out_println("     has overall been branching to "+branchTargets);
+                            Logger.out_println("     has overall been branching to "+branchTargets);
                         }
 
-                        FlowTraceWriter.out_println("  Vars:  "+variablesAfter[offset]);
-                        FlowTraceWriter.out_println("  Stack: "+stacksAfter[offset]);
+                        Logger.out_println("  Vars:  "+variablesAfter[offset]);
+                        Logger.out_println("  Stack: "+stacksAfter[offset]);
                     }
 
                     offset += instruction.length(offset);
@@ -293,10 +293,10 @@ implements   AttributeVisitor,
         // Evaluate the instructions, starting at the entry point.
         if (DEBUG)
         {
-            FlowTraceWriter.out_println();
-            FlowTraceWriter.out_println("Partial evaluation: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
-            FlowTraceWriter.out_println("  Max locals = "+codeAttribute.u2maxLocals);
-            FlowTraceWriter.out_println("  Max stack  = "+codeAttribute.u2maxStack);
+            Logger.out_println();
+            Logger.out_println("Partial evaluation: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            Logger.out_println("  Max locals = "+codeAttribute.u2maxLocals);
+            Logger.out_println("  Max stack  = "+codeAttribute.u2maxStack);
         }
 
         // Reuse the existing variables and stack objects, ensuring the right size.
@@ -325,41 +325,41 @@ implements   AttributeVisitor,
 
         if (DEBUG_RESULTS)
         {
-            FlowTraceWriter.out_println("Evaluation results:");
+            Logger.out_println("Evaluation results:");
 
             int offset = 0;
             do
             {
                 if (isBranchOrExceptionTarget(offset))
                 {
-                    FlowTraceWriter.out_println("Branch target from ["+branchOriginValues[offset]+"]:");
+                    Logger.out_println("Branch target from ["+branchOriginValues[offset]+"]:");
                     if (isTraced(offset))
                     {
-                        FlowTraceWriter.out_println("  Vars:  "+variablesBefore[offset]);
-                        FlowTraceWriter.out_println("  Stack: "+stacksBefore[offset]);
+                        Logger.out_println("  Vars:  "+variablesBefore[offset]);
+                        Logger.out_println("  Stack: "+stacksBefore[offset]);
                     }
                 }
 
                 Instruction instruction = InstructionFactory.create(codeAttribute.code,
                                                                     offset);
-                FlowTraceWriter.out_println(instruction.toString(offset));
+                Logger.out_println(instruction.toString(offset));
 
                 if (isTraced(offset))
                 {
 //                    int initializationOffset = branchTargetFinder.initializationOffset(offset);
 //                    if (initializationOffset != NONE)
 //                    {
-//                        FlowTraceWriter.out_println("     is to be initialized at ["+initializationOffset+"]");
+//                        Logger.out_println("     is to be initialized at ["+initializationOffset+"]");
 //                    }
 
                     InstructionOffsetValue branchTargets = branchTargets(offset);
                     if (branchTargets != null)
                     {
-                        FlowTraceWriter.out_println("     has overall been branching to "+branchTargets);
+                        Logger.out_println("     has overall been branching to "+branchTargets);
                     }
 
-                    FlowTraceWriter.out_println("  Vars:  "+variablesAfter[offset]);
-                    FlowTraceWriter.out_println("  Stack: "+stacksAfter[offset]);
+                    Logger.out_println("  Vars:  "+variablesAfter[offset]);
+                    Logger.out_println("  Stack: "+stacksAfter[offset]);
                 }
 
                 offset += instruction.length(offset);
@@ -716,7 +716,7 @@ implements   AttributeVisitor,
         // Execute all resulting instruction blocks on the execution stack.
         while (!instructionBlockStack.empty())
         {
-            if (DEBUG) FlowTraceWriter.out_println("Popping alternative branch out of "+instructionBlockStack.size()+" blocks");
+            if (DEBUG) Logger.out_println("Popping alternative branch out of "+instructionBlockStack.size()+" blocks");
 
             MyInstructionBlock instructionBlock =
                 (MyInstructionBlock)instructionBlockStack.pop();
@@ -748,13 +748,13 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-             FlowTraceWriter.out_println("Instruction block starting at ["+startOffset+"] in "+
+             Logger.out_println("Instruction block starting at ["+startOffset+"] in "+
                                 ClassUtil.externalFullMethodDescription(clazz.getName(),
                                                                         0,
                                                                         method.getName(clazz),
                                                                         method.getDescriptor(clazz)));
-             FlowTraceWriter.out_println("Init vars:  "+variables);
-             FlowTraceWriter.out_println("Init stack: "+stack);
+             Logger.out_println("Init vars:  "+variables);
+             Logger.out_println("Init stack: "+stack);
         }
 
         Processor processor = new Processor(variables,
@@ -805,15 +805,15 @@ implements   AttributeVisitor,
                 boolean variablesChanged = variablesBefore[instructionOffset].generalize(variables, true);
                 boolean stackChanged     = stacksBefore[instructionOffset].generalize(stack);
 
-                //FlowTraceWriter.out_println("GVars:  "+variablesBefore[instructionOffset]);
-                //FlowTraceWriter.out_println("GStack: "+stacksBefore[instructionOffset]);
+                //Logger.out_println("GVars:  "+variablesBefore[instructionOffset]);
+                //Logger.out_println("GStack: "+stacksBefore[instructionOffset]);
 
                 // Bail out if the current context is the same as last time.
                 if (!variablesChanged &&
                     !stackChanged     &&
                     generalizedContexts[instructionOffset])
                 {
-                    if (DEBUG) FlowTraceWriter.out_println("Repeated variables, stack, and branch targets");
+                    if (DEBUG) Logger.out_println("Repeated variables, stack, and branch targets");
 
                     break;
                 }
@@ -822,7 +822,7 @@ implements   AttributeVisitor,
                 // of times.
                 if (evaluationCount >= MAXIMUM_EVALUATION_COUNT)
                 {
-                    if (DEBUG) FlowTraceWriter.out_println("Generalizing current context after "+evaluationCount+" evaluations");
+                    if (DEBUG) Logger.out_println("Generalizing current context after "+evaluationCount+" evaluations");
 
                     // Continue, but generalize the current context.
                     // Note that the most recent variable values have to remain
@@ -857,7 +857,7 @@ implements   AttributeVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println(instruction.toString(instructionOffset));
+                Logger.out_println(instruction.toString(instructionOffset));
             }
 
             if (extraInstructionVisitor != null)
@@ -883,11 +883,11 @@ implements   AttributeVisitor,
             }
             catch (RuntimeException ex)
             {
-                FlowTraceWriter.err_println("Unexpected error while evaluating instruction:");
-                FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
-                FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-                FlowTraceWriter.err_println("  Instruction = "+instruction.toString(instructionOffset));
-                FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+                Logger.err_println("Unexpected error while evaluating instruction:");
+                Logger.err_println("  Class       = ["+clazz.getName()+"]");
+                Logger.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+                Logger.err_println("  Instruction = "+instruction.toString(instructionOffset));
+                Logger.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
                 throw ex;
             }
@@ -900,15 +900,15 @@ implements   AttributeVisitor,
             {
                 if (branchUnit.wasCalled())
                 {
-                    FlowTraceWriter.out_println("     is branching to "+branchTargets);
+                    Logger.out_println("     is branching to "+branchTargets);
                 }
                 if (branchTargetValues[instructionOffset] != null)
                 {
-                    FlowTraceWriter.out_println("     has up till now been branching to "+branchTargetValues[instructionOffset]);
+                    Logger.out_println("     has up till now been branching to "+branchTargetValues[instructionOffset]);
                 }
 
-                FlowTraceWriter.out_println(" Vars:  "+variables);
-                FlowTraceWriter.out_println(" Stack: "+stack);
+                Logger.out_println(" Vars:  "+variables);
+                Logger.out_println(" Stack: "+stack);
             }
 
             // Maintain a generalized local variable frame and stack at this
@@ -967,7 +967,7 @@ implements   AttributeVisitor,
                     // Push them on the execution stack and exit from this block.
                     for (int index = 0; index < branchTargetCount; index++)
                     {
-                        if (DEBUG) FlowTraceWriter.out_println("Pushing alternative branch #"+index+" out of "+branchTargetCount+", from ["+instructionOffset+"] to ["+branchTargets.instructionOffset(index)+"]");
+                        if (DEBUG) Logger.out_println("Pushing alternative branch #"+index+" out of "+branchTargetCount+", from ["+instructionOffset+"] to ["+branchTargets.instructionOffset(index)+"]");
 
                         pushInstructionBlock(new TracedVariables(variables),
                                              new TracedStack(stack),
@@ -977,7 +977,7 @@ implements   AttributeVisitor,
                     break;
                 }
 
-                if (DEBUG) FlowTraceWriter.out_println("Definite branch from ["+instructionOffset+"] to ["+branchTargets.instructionOffset(0)+"]");
+                if (DEBUG) Logger.out_println("Definite branch from ["+instructionOffset+"] to ["+branchTargets.instructionOffset(0)+"]");
 
                 // Continue at the definite branch target.
                 instructionOffset = branchTargets.instructionOffset(0);
@@ -1013,7 +1013,7 @@ implements   AttributeVisitor,
             }
         }
 
-        if (DEBUG) FlowTraceWriter.out_println("Ending processing of instruction block starting at ["+startOffset+"]");
+        if (DEBUG) Logger.out_println("Ending processing of instruction block starting at ["+startOffset+"]");
     }
 
 
@@ -1030,7 +1030,7 @@ implements   AttributeVisitor,
     {
         int subroutineEnd = branchTargetFinder.subroutineEnd(subroutineStart);
 
-        if (DEBUG) FlowTraceWriter.out_println("Evaluating subroutine from "+subroutineStart+" to "+subroutineEnd);
+        if (DEBUG) Logger.out_println("Evaluating subroutine from "+subroutineStart+" to "+subroutineEnd);
 
         // Create a temporary partial evaluator, so there are no conflicts
         // with variables that are alive across subroutine invocations, between
@@ -1053,7 +1053,7 @@ implements   AttributeVisitor,
         // the lowest common denominator of stacks and variables.
         generalize(subroutinePartialEvaluator, 0, codeAttribute.u4codeLength);
 
-        if (DEBUG) FlowTraceWriter.out_println("Ending subroutine from "+subroutineStart+" to "+subroutineEnd);
+        if (DEBUG) Logger.out_println("Ending subroutine from "+subroutineStart+" to "+subroutineEnd);
     }
 
 
@@ -1065,7 +1065,7 @@ implements   AttributeVisitor,
                             int              codeStart,
                             int              codeEnd)
     {
-        if (DEBUG) FlowTraceWriter.out_println("Generalizing with temporary partial evaluation");
+        if (DEBUG) Logger.out_println("Generalizing with temporary partial evaluation");
 
         for (int offset = codeStart; offset < codeEnd; offset++)
         {
@@ -1118,7 +1118,7 @@ implements   AttributeVisitor,
                                            int           startOffset,
                                            int           endOffset)
     {
-        if (DEBUG) FlowTraceWriter.out_println("Evaluating exceptions covering ["+startOffset+" -> "+endOffset+"]:");
+        if (DEBUG) Logger.out_println("Evaluating exceptions covering ["+startOffset+" -> "+endOffset+"]:");
 
         ExceptionHandlerFilter exceptionEvaluator =
             new ExceptionHandlerFilter(startOffset,
@@ -1156,7 +1156,7 @@ implements   AttributeVisitor,
             int handlerPC = exceptionInfo.u2handlerPC;
             int catchType = exceptionInfo.u2catchType;
 
-            if (DEBUG) FlowTraceWriter.out_println("Evaluating exception ["+startPC +" -> "+endPC +": "+handlerPC+"]:");
+            if (DEBUG) Logger.out_println("Evaluating exception ["+startPC +" -> "+endPC +": "+handlerPC+"]:");
 
             // Reuse the existing variables and stack objects, ensuring the
             // right size.
@@ -1202,7 +1202,7 @@ implements   AttributeVisitor,
         }
 //        else if (evaluateAllCode)
 //        {
-//            if (DEBUG) FlowTraceWriter.out_println("No information for partial evaluation of exception ["+startPC +" -> "+endPC +": "+exceptionInfo.u2handlerPC+"] yet");
+//            if (DEBUG) Logger.out_println("No information for partial evaluation of exception ["+startPC +" -> "+endPC +": "+exceptionInfo.u2handlerPC+"] yet");
 //
 //            // We don't have any information on the try block yet, but we do
 //            // have to evaluate the exception handler.
@@ -1211,7 +1211,7 @@ implements   AttributeVisitor,
 //        }
         else
         {
-            if (DEBUG) FlowTraceWriter.out_println("No information for partial evaluation of exception ["+startPC +" -> "+endPC +": "+exceptionInfo.u2handlerPC+"]");
+            if (DEBUG) Logger.out_println("No information for partial evaluation of exception ["+startPC +" -> "+endPC +": "+exceptionInfo.u2handlerPC+"]");
         }
     }
 
@@ -1320,7 +1320,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("  Params: "+parameters);
+            Logger.out_println("  Params: "+parameters);
         }
 
         // Initialize the variables with the parameters.

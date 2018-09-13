@@ -20,7 +20,7 @@
  */
 package proguard.util;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 
 import java.util.*;
 
@@ -154,29 +154,29 @@ public class ListUtil
     {
         if (args.length == 1)
         {
-            FlowTraceWriter.out_println("Input string: ["+args[0]+"]");
+            Logger.out_println("Input string: ["+args[0]+"]");
 
             List list = commaSeparatedList(args[0]);
 
-            FlowTraceWriter.out_println("Resulting list:");
+            Logger.out_println("Resulting list:");
             for (int index = 0; index < list.size(); index++)
             {
-                FlowTraceWriter.out_println("["+list.get(index)+"]");
+                Logger.out_println("["+list.get(index)+"]");
             }
         }
         else
         {
             List list = Arrays.asList(args);
 
-            FlowTraceWriter.out_println("Input list:");
+            Logger.out_println("Input list:");
             for (int index = 0; index < list.size(); index++)
             {
-                FlowTraceWriter.out_println("["+list.get(index)+"]");
+                Logger.out_println("["+list.get(index)+"]");
             }
 
             String string = commaSeparatedString(list, true);
 
-            FlowTraceWriter.out_println("Resulting string: ["+string+"]");
+            Logger.out_println("Resulting string: ["+string+"]");
         }
     }
 }

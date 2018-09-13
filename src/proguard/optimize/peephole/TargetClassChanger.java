@@ -20,7 +20,7 @@
  */
 package proguard.optimize.peephole;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -222,8 +222,8 @@ implements   ClassVisitor,
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("TargetClassChanger:");
-                FlowTraceWriter.out_println("  ["+clazz.getName()+"] changing reference from ["+refConstant.referencedClass+"."+refConstant.referencedMember.getName(refConstant.referencedClass)+refConstant.referencedMember.getDescriptor(refConstant.referencedClass)+"]");
+                Logger.out_println("TargetClassChanger:");
+                Logger.out_println("  ["+clazz.getName()+"] changing reference from ["+refConstant.referencedClass+"."+refConstant.referencedMember.getName(refConstant.referencedClass)+refConstant.referencedMember.getDescriptor(refConstant.referencedClass)+"]");
             }
 
             // Change the referenced class.
@@ -238,7 +238,7 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("  ["+clazz.getName()+"]                    to   ["+refConstant.referencedClass+"."+refConstant.referencedMember.getName(refConstant.referencedClass)+refConstant.referencedMember.getDescriptor(refConstant.referencedClass)+"]");
+                Logger.out_println("  ["+clazz.getName()+"]                    to   ["+refConstant.referencedClass+"."+refConstant.referencedMember.getName(refConstant.referencedClass)+refConstant.referencedMember.getDescriptor(refConstant.referencedClass)+"]");
             }
         }
     }

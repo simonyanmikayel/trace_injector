@@ -20,7 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -248,8 +248,8 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println();
-            FlowTraceWriter.out_println("Liveness analysis: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            Logger.out_println();
+            Logger.out_println("Liveness analysis: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
         }
 
         int codeLength    = codeAttribute.u4codeLength;
@@ -385,24 +385,24 @@ implements   AttributeVisitor,
                     for (int variableIndex = 0; variableIndex < variablesSize; variableIndex++)
                     {
                         long variableMask = (1L << variableIndex);
-                        FlowTraceWriter.out_print((aliveBefore & variableMask) == 0L ? '.' :
+                        Logger.out_print((aliveBefore & variableMask) == 0L ? '.' :
                                          (category2   & variableMask) == 0L ? 'x' :
                                                                               '*');
                     }
 
                     // Print out the instruction itself.
-                    FlowTraceWriter.out_println(" "+ InstructionFactory.create(codeAttribute.code, offset).toString(offset));
+                    Logger.out_println(" "+ InstructionFactory.create(codeAttribute.code, offset).toString(offset));
 
                     // Print out the liveness of all variables after the instruction.
                     for (int variableIndex = 0; variableIndex < variablesSize; variableIndex++)
                     {
                         long variableMask = (1L << variableIndex);
-                        FlowTraceWriter.out_print((aliveAfter & variableMask) == 0L ? '.' :
+                        Logger.out_print((aliveAfter & variableMask) == 0L ? '.' :
                                          (category2  & variableMask) == 0L ? 'x' :
                                                                              '=');
                     }
 
-                    FlowTraceWriter.out_println();
+                    Logger.out_println();
                 }
             }
         }

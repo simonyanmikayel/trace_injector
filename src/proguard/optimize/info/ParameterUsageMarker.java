@@ -20,7 +20,7 @@
  */
 package proguard.optimize.info;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -165,12 +165,12 @@ implements   MemberVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_print("ParameterUsageMarker: ["+programClass.getName() +"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]: ");
+                Logger.out_print("ParameterUsageMarker: ["+programClass.getName() +"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]: ");
                 for (int variableIndex = 0; variableIndex < parameterSize; variableIndex++)
                 {
-                    FlowTraceWriter.out_print(isParameterUsed(programMethod, variableIndex) ? '+' : '-');
+                    Logger.out_print(isParameterUsed(programMethod, variableIndex) ? '+' : '-');
                 }
-                FlowTraceWriter.out_println();
+                Logger.out_println();
             }
 
         }

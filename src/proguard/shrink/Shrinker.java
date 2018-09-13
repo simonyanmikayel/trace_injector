@@ -108,7 +108,7 @@ public class Shrinker
         // Should we explain ourselves?
         if (configuration.whyAreYouKeeping != null)
         {
-            FlowTraceWriter.out_println();
+            Logger.out_println();
 
             // Create a visitor for explaining classes and class members.
             ShortestUsagePrinter shortestUsagePrinter =
@@ -172,9 +172,9 @@ public class Shrinker
 
         if (configuration.verbose)
         {
-            FlowTraceWriter.out_println("Removing unused program classes and class elements...");
-            FlowTraceWriter.out_println("  Original number of program classes: " + originalProgramClassPoolSize);
-            FlowTraceWriter.out_println("  Final number of program classes:    " + newProgramClassPoolSize);
+            Logger.out_println("Removing unused program classes and class elements...");
+            Logger.out_println("  Original number of program classes: " + originalProgramClassPoolSize);
+            Logger.out_println("  Final number of program classes:    " + newProgramClassPoolSize);
         }
 
         if (newProgramClassPoolSize == 0 &&
@@ -182,7 +182,7 @@ public class Shrinker
         {
             if (configuration.ignoreWarnings)
             {
-                FlowTraceWriter.err_println("Warning: the output jar is empty. Did you specify the proper '-keep' options?");
+                Logger.err_println("Warning: the output jar is empty. Did you specify the proper '-keep' options?");
             }
             else
             {

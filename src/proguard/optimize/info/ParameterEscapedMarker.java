@@ -20,7 +20,7 @@
  */
 package proguard.optimize.info;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -97,7 +97,7 @@ implements   ClassPoolVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("ParameterEscapedMarker: new iteration");
+                Logger.out_println("ParameterEscapedMarker: new iteration");
             }
 
             // Go over all classes and their methods once.
@@ -118,7 +118,7 @@ implements   ClassPoolVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("ParameterEscapedMarker: [" + programClass.getName() + "." + programMethod.getName(programClass) + programMethod.getDescriptor(programClass) + "]");
+            Logger.out_println("ParameterEscapedMarker: [" + programClass.getName() + "." + programMethod.getName(programClass) + programMethod.getDescriptor(programClass) + "]");
 
             int parameterSize =
                 ClassUtil.internalMethodParameterSize(programMethod.getDescriptor(programClass),
@@ -126,7 +126,7 @@ implements   ClassPoolVisitor,
 
             for (int index = 0; index < parameterSize; index++)
             {
-                FlowTraceWriter.out_println("  " +
+                Logger.out_println("  " +
                                    (hasParameterEscaped(programMethod, index) ? 'e' : '.') +
                                    " P" + index);
             }

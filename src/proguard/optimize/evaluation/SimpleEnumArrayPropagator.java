@@ -20,7 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.util.SimplifiedVisitor;
 import proguard.classfile.visitor.*;
@@ -91,7 +91,7 @@ implements   ClassVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("SimpleEnumArrayPropagator: ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]: propagating ["+propagatedArray+"] as return value");
+            Logger.out_println("SimpleEnumArrayPropagator: ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"]: propagating ["+propagatedArray+"] as return value");
         }
 
         setMethodReturnValue(programMethod, propagatedArray);

@@ -20,7 +20,7 @@
  */
 package proguard.classfile.editor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -185,11 +185,11 @@ implements   ClassVisitor,
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("MemberReferenceFixer:");
-                    FlowTraceWriter.out_println("  Class file     = "+clazz.getName());
-                    FlowTraceWriter.out_println("  Ref class      = "+referencedClass.getName());
-                    FlowTraceWriter.out_println("  Ref method     = "+interfaceMethodrefConstant.getName(clazz)+interfaceMethodrefConstant.getType(clazz));
-                    FlowTraceWriter.out_println("    -> ordinary method");
+                    Logger.out_println("MemberReferenceFixer:");
+                    Logger.out_println("  Class file     = "+clazz.getName());
+                    Logger.out_println("  Ref class      = "+referencedClass.getName());
+                    Logger.out_println("  Ref method     = "+interfaceMethodrefConstant.getName(clazz)+interfaceMethodrefConstant.getType(clazz));
+                    Logger.out_println("    -> ordinary method");
                 }
 
                 // Replace the interface method reference by a method reference.
@@ -241,11 +241,11 @@ implements   ClassVisitor,
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("MemberReferenceFixer:");
-                    FlowTraceWriter.out_println("  Class file     = "+clazz.getName());
-                    FlowTraceWriter.out_println("  Ref class      = "+referencedClass.getName());
-                    FlowTraceWriter.out_println("  Ref method     = "+methodrefConstant.getName(clazz)+methodrefConstant.getType(clazz));
-                    FlowTraceWriter.out_println("    -> interface method");
+                    Logger.out_println("MemberReferenceFixer:");
+                    Logger.out_println("  Class file     = "+clazz.getName());
+                    Logger.out_println("  Ref class      = "+referencedClass.getName());
+                    Logger.out_println("  Ref method     = "+methodrefConstant.getName(clazz)+methodrefConstant.getType(clazz));
+                    Logger.out_println("    -> interface method");
                 }
 
                 // Replace the method reference by an interface method reference.
@@ -428,8 +428,8 @@ implements   ClassVisitor,
                        Clazz          referencedClass,
                        Member         referencedMember)
     {
-        FlowTraceWriter.out_println("MemberReferenceFixer:");
-        FlowTraceWriter.out_println("  ["+clazz.getName()+"]: String ["+
+        Logger.out_println("MemberReferenceFixer:");
+        Logger.out_println("  ["+clazz.getName()+"]: String ["+
                            stringConstant.getString(clazz)+"] -> ["+
                            referencedClass.getName()+"."+referencedMember.getName(referencedClass)+" "+referencedMember.getDescriptor(referencedClass)+"]");
     }
@@ -440,8 +440,8 @@ implements   ClassVisitor,
                        Clazz       referencedClass,
                        Member      referencedMember)
     {
-        FlowTraceWriter.out_println("MemberReferenceFixer:");
-        FlowTraceWriter.out_println("  ["+clazz.getName()+"]: ["+
+        Logger.out_println("MemberReferenceFixer:");
+        Logger.out_println("  ["+clazz.getName()+"]: ["+
                            refConstant.getClassName(clazz)+"."+refConstant.getName(clazz)+" "+refConstant.getType(clazz)+"] -> ["+
                            referencedClass.getName()+"."+referencedMember.getName(referencedClass)+" "+referencedMember.getDescriptor(referencedClass)+"]");
     }

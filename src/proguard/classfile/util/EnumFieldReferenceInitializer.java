@@ -20,7 +20,7 @@
  */
 package proguard.classfile.util;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.attribute.annotation.*;
@@ -96,7 +96,7 @@ implements   ElementValueVisitor,
 
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("EnumFieldReferenceInitializer: ["+referencedEnumClass.getName()+"."+enumConstantName+"] -> "+referencedEnumField);
+                    Logger.out_println("EnumFieldReferenceInitializer: ["+referencedEnumClass.getName()+"."+enumConstantName+"] -> "+referencedEnumField);
                 }
 
                 enumConstantElementValue.referencedField = referencedEnumField;

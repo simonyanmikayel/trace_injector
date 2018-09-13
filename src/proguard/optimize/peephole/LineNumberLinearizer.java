@@ -20,7 +20,7 @@
  */
 package proguard.optimize.peephole;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -104,7 +104,7 @@ implements   ClassVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("LineNumberLinearizer ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]:");
+            Logger.out_println("LineNumberLinearizer ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]:");
         }
 
         enclosingLineNumbers.clear();
@@ -123,7 +123,7 @@ implements   ClassVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_print("    [" + lineNumberInfo.u2startPC + "] line " + lineNumberInfo.u2lineNumber + (source == null ? "" : " [" + source + "]"));
+            Logger.out_print("    [" + lineNumberInfo.u2startPC + "] line " + lineNumberInfo.u2lineNumber + (source == null ? "" : " [" + source + "]"));
         }
 
         // Is it an inlined line number?
@@ -171,7 +171,7 @@ implements   ClassVisitor,
 
                     if (DEBUG)
                     {
-                        FlowTraceWriter.out_print(" (enter with shift "+currentLineNumberShift+")");
+                        Logger.out_print(" (enter with shift "+currentLineNumberShift+")");
                     }
 
                     // Apply the shift.
@@ -183,7 +183,7 @@ implements   ClassVisitor,
                 {
                     if (DEBUG)
                     {
-                        FlowTraceWriter.err_println("Problem linearizing line numbers for optimized code ("+clazz.getName()+"."+method.getName(clazz)+")");
+                        Logger.err_println("Problem linearizing line numbers for optimized code ("+clazz.getName()+"."+method.getName(clazz)+")");
                     }
                 }
 
@@ -204,7 +204,7 @@ implements   ClassVisitor,
 
                     if (DEBUG)
                     {
-                        FlowTraceWriter.out_print(" (exit to shift "+currentLineNumberShift+")");
+                        Logger.out_print(" (exit to shift "+currentLineNumberShift+")");
                     }
                 }
             }
@@ -212,7 +212,7 @@ implements   ClassVisitor,
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_print(" (apply shift "+currentLineNumberShift+")");
+                    Logger.out_print(" (apply shift "+currentLineNumberShift+")");
                 }
 
                 // Apply the shift.
@@ -224,7 +224,7 @@ implements   ClassVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println(" -> line " + lineNumberInfo.u2lineNumber);
+            Logger.out_println(" -> line " + lineNumberInfo.u2lineNumber);
         }
     }
 

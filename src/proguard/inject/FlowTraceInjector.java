@@ -1,22 +1,22 @@
 package proguard.inject;
 
 import proguard.Configuration;
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
-import proguard.classfile.attribute.visitor.AllAttributeVisitor;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
 import proguard.classfile.editor.CodeAttributeEditor;
+import proguard.classfile.editor.InstructionSequenceBuilder;
 import proguard.classfile.instruction.Instruction;
+import proguard.classfile.instruction.InstructionConstants;
 import proguard.classfile.instruction.visitor.InstructionVisitor;
 import proguard.classfile.util.ClassReferenceInitializer;
 import proguard.classfile.util.ClassSubHierarchyInitializer;
+import proguard.classfile.util.ClassUtil;
 import proguard.classfile.util.SimplifiedVisitor;
 import proguard.classfile.visitor.*;
 import proguard.io.ClassPathDataEntry;
 import proguard.io.ClassReader;
-import proguard.optimize.peephole.BranchTargetFinder;
-import proguard.optimize.peephole.PeepholeOptimizer;
 import proguard.util.MultiValueMap;
 
 import java.io.IOException;
@@ -36,6 +36,8 @@ implements
     private CodeAttributeEditor codeAttributeEditor;
     // Field acting as parameter for the visitor methods.
     private MultiValueMap<String, String> injectedClassMap;
+    private ClassPool programClassPool;
+    private ClassPool libraryClassPool;
 
 
     /**
@@ -44,7 +46,7 @@ implements
     public FlowTraceInjector(Configuration configuration)
     {
         this.configuration = configuration;
-        codeAttributeEditor = new CodeAttributeEditor(false, false);
+        codeAttributeEditor = new CodeAttributeEditor(true, true);
     }
 
     /**
@@ -54,6 +56,9 @@ implements
                         ClassPool                     libraryClassPool,
                         MultiValueMap<String, String> injectedClassMap )
     {
+        this.programClassPool = programClassPool;
+        this.libraryClassPool = libraryClassPool;
+
         ClassReader classReader =
                 new ClassReader(false, false, false, null,
                         new MultiClassVisitor(
@@ -64,8 +69,8 @@ implements
 
         try
         {
-            classReader.read(new ClassPathDataEntry(FlowTracer.MethodSignature.class));
-            classReader.read(new ClassPathDataEntry(FlowTracer.class));
+            classReader.read(new ClassPathDataEntry(FlowTraceWriter.MethodSignature.class));
+            classReader.read(new ClassPathDataEntry(FlowTraceWriter.class));
         }
         catch (IOException e)
         {
@@ -86,7 +91,7 @@ implements
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("visitProgramClass: " + programClass.getName());
+            Logger.out_println("visitProgramClass: " + programClass.getName());
         }
         injectedClassMap.put(programClass.getName(), internalClassName(FlowTracer.class.getName()));
         injectedClassMap.put(programClass.getName(), internalClassName(FlowTracer.MethodSignature.class.getName()));
@@ -114,7 +119,24 @@ implements
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("visitAnyInstruction: " + clazz.getName() + " " + method.getName(clazz) + " " + instruction.getName());
+            Logger.out_println("visitAnyInstruction: " + clazz.getName() + " " + method.getName(clazz) + " " + instruction.getName());
+        }
+
+//        injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.class.getName()));
+//        injectedClassMap.put(clazz.getName(), internalClassName(FlowTracer.MethodSignature.class.getName()));
+
+        if (instruction.opcode == InstructionConstants.OP_INVOKEVIRTUAL ||
+            //instruction.opcode == InstructionConstants.OP_INVOKESPECIAL ||
+            instruction.opcode == InstructionConstants.OP_INVOKESTATIC ||
+            instruction.opcode == InstructionConstants.OP_INVOKEINTERFACE ||
+            instruction.opcode == InstructionConstants.OP_INVOKEDYNAMIC)
+        {
+            String LOGGER_CLASS_NAME = ClassUtil.internalClassName(proguard.inject.FlowTraceWriter.class.getName());
+
+            InstructionSequenceBuilder ____ = new InstructionSequenceBuilder(programClassPool, libraryClassPool);
+            Instruction[] insBefore =  //____.dup()
+            ____.invokestatic(LOGGER_CLASS_NAME, "logBefore", "()V").__();
+            codeAttributeEditor.insertBeforeInstruction(offset, insBefore);
         }
     }
 }

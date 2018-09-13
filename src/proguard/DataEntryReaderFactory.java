@@ -66,7 +66,7 @@ public class DataEntryReaderFactory
         List jmodFilter = classPathEntry.getJmodFilter();
         List zipFilter  = classPathEntry.getZipFilter();
 
-        FlowTraceWriter.out_println(messagePrefix +
+        Logger.out_println(messagePrefix +
                            (isApk  ? "apk"  :
                             isJar  ? "jar"  :
                             isAar  ? "aar"  :

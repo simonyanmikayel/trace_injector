@@ -20,7 +20,7 @@
  */
 package proguard.optimize;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.editor.ClassReferenceFixer;
 import proguard.classfile.util.*;
@@ -79,8 +79,8 @@ implements   MemberVisitor
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("MemberDescriptorSpecializer: "+programClass.getName()+"."+programField.getName(programClass)+" "+programField.getDescriptor(programClass));
-                    FlowTraceWriter.out_println("  "+programField.referencedClass.getName()+" -> "+referencedClass.getName());
+                    Logger.out_println("MemberDescriptorSpecializer: "+programClass.getName()+"."+programField.getName(programClass)+" "+programField.getDescriptor(programClass));
+                    Logger.out_println("  "+programField.referencedClass.getName()+" -> "+referencedClass.getName());
                 }
 
                 programField.referencedClass = referencedClass;
@@ -119,8 +119,8 @@ implements   MemberVisitor
                  {
                      if (DEBUG)
                      {
-                         FlowTraceWriter.out_println("MemberDescriptorSpecializer: "+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass));
-                         FlowTraceWriter.out_println("  "+programMethod.referencedClasses[classIndex].getName()+" -> "+referencedClass.getName());
+                         Logger.out_println("MemberDescriptorSpecializer: "+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass));
+                         Logger.out_println("  "+programMethod.referencedClasses[classIndex].getName()+" -> "+referencedClass.getName());
                      }
 
                      programMethod.referencedClasses[classIndex] = referencedClass;

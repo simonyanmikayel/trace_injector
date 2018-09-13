@@ -39,7 +39,7 @@ public class MutableBoolean
         flag = true;
 
         /*
-        FlowTraceWriter.out_println("MutableBoolean.set: "+resetCounter+", "+setCounter++ +", "+totalCounter++);
+        Logger.out_println("MutableBoolean.set: "+resetCounter+", "+setCounter++ +", "+totalCounter++);
         if (totalCounter > 5000)
         {
             Thread.dumpStack();

@@ -145,14 +145,14 @@ implements   MemberVisitor
 
     public void visitProgramField(ProgramClass programClass, ProgramField programField)
     {
-        FlowTraceWriter.out_println("      Maybe you meant the field '" +
+        Logger.out_println("      Maybe you meant the field '" +
                            ClassUtil.externalFullFieldDescription(0, programField.getName(programClass), programField.getDescriptor(programClass)) + "'?");
     }
 
 
     public void visitProgramMethod(ProgramClass programClass, ProgramMethod programMethod)
     {
-        FlowTraceWriter.out_println("      Maybe you meant the method '" +
+        Logger.out_println("      Maybe you meant the method '" +
                            ClassUtil.externalFullMethodDescription(programClass.getName(), 0, programMethod.getName(programClass), programMethod.getDescriptor(programClass)) + "'?");
     }
 }

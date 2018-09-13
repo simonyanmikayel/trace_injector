@@ -20,7 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.visitor.*;
 import proguard.optimize.OptimizationInfoClassFilter;
@@ -63,7 +63,7 @@ implements   ClassVisitor
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("SimpleEnumClassChecker: ["+programClass.getName()+"] is a candidate simple enum, without extra fields");
+                Logger.out_println("SimpleEnumClassChecker: ["+programClass.getName()+"] is a candidate simple enum, without extra fields");
             }
 
             // Mark it.

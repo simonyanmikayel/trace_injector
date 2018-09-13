@@ -127,25 +127,25 @@ public class InputReader
         int noteCount = notePrinter.getWarningCount();
         if (noteCount > 0)
         {
-            FlowTraceWriter.err_println("Note: there were " + noteCount +
+            Logger.err_println("Note: there were " + noteCount +
                                " duplicate class definitions.");
-            FlowTraceWriter.err_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#duplicateclass)");
+            Logger.err_println("      (http://proguard.sourceforge.net/manual/troubleshooting.html#duplicateclass)");
         }
 
         // Print out a summary of the warnings, if necessary.
         int warningCount = warningPrinter.getWarningCount();
         if (warningCount > 0)
         {
-            FlowTraceWriter.err_println("Warning: there were " + warningCount +
+            Logger.err_println("Warning: there were " + warningCount +
                                " classes in incorrectly named files.");
-            FlowTraceWriter.err_println("         You should make sure all file names correspond to their class names.");
-            FlowTraceWriter.err_println("         The directory hierarchies must correspond to the package hierarchies.");
-            FlowTraceWriter.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unexpectedclass)");
+            Logger.err_println("         You should make sure all file names correspond to their class names.");
+            Logger.err_println("         The directory hierarchies must correspond to the package hierarchies.");
+            Logger.err_println("         (http://proguard.sourceforge.net/manual/troubleshooting.html#unexpectedclass)");
 
             if (!configuration.ignoreWarnings)
             {
-                FlowTraceWriter.err_println("         If you don't mind the mentioned classes not being written out,");
-                FlowTraceWriter.err_println("         you could try your luck using the '-ignorewarnings' option.");
+                Logger.err_println("         If you don't mind the mentioned classes not being written out,");
+                Logger.err_println("         you could try your luck using the '-ignorewarnings' option.");
                 throw new IOException("Please correct the above warnings first.");
             }
         }

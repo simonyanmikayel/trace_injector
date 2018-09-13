@@ -20,7 +20,7 @@
  */
 package proguard.io;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.util.StringUtil;
 
 import java.io.*;
@@ -213,7 +213,7 @@ public class ZipOutput
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("ZipOutput.writeEndOfCentralDirectory ("+zipEntries.size()+" entries)");
+            Logger.out_println("ZipOutput.writeEndOfCentralDirectory ("+zipEntries.size()+" entries)");
         }
 
        // The size of the central directory, not counting this trailer.
@@ -308,7 +308,7 @@ public class ZipOutput
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("ZipOutput.writeLocalFileHeader ["+name+"] (compressed = "+compressed+", offset = "+offset+", "+compressedSize+"/"+uncompressedSize+" bytes)");
+                Logger.out_println("ZipOutput.writeLocalFileHeader ["+name+"] (compressed = "+compressed+", offset = "+offset+", "+compressedSize+"/"+uncompressedSize+" bytes)");
             }
 
             writeInt(MAGIC_LOCAL_FILE_HEADER);
@@ -344,7 +344,7 @@ public class ZipOutput
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("ZipOutput.writeCentralDirectoryFileHeader ["+name+"] (compressed = "+compressed+", offset = "+offset+", "+compressedSize+"/"+uncompressedSize+" bytes)");
+                Logger.out_println("ZipOutput.writeCentralDirectoryFileHeader ["+name+"] (compressed = "+compressed+", offset = "+offset+", "+compressedSize+"/"+uncompressedSize+" bytes)");
             }
 
             writeInt(MAGIC_CENTRAL_DIRECTORY_FILE_HEADER);

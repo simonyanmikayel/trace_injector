@@ -20,7 +20,7 @@
  */
 package proguard.classfile.io;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -693,7 +693,7 @@ implements   ClassVisitor,
         }
         if (DEBUG) {
             if (codeAttribute.lineNumberTableAttribute != null)
-                FlowTraceWriter.out_println("ERROR: lineNumberTableAttribute allready set: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] ");
+                Logger.out_println("ERROR: lineNumberTableAttribute allready set: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] ");
         }
         codeAttribute.lineNumberTableAttribute = lineNumberTableAttribute;
     }

@@ -20,7 +20,7 @@
  */
 package proguard.util;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.ClassConstants;
 
 import java.util.*;
@@ -315,7 +315,7 @@ public class ClassNameParser implements StringParser
 
         if (variableStringMatchers == null)
         {
-            FlowTraceWriter.err_println(string);
+            Logger.err_println(string);
             throw new IllegalArgumentException("References to wildcards are not supported in this argument");
         }
 
@@ -346,14 +346,14 @@ public class ClassNameParser implements StringParser
     {
         try
         {
-            FlowTraceWriter.out_println("Regular expression ["+args[0]+"]");
+            Logger.out_println("Regular expression ["+args[0]+"]");
             ClassNameParser parser  = new ClassNameParser();
             StringMatcher  matcher = parser.parse(args[0]);
             for (int index = 1; index < args.length; index++)
             {
                 String string = args[index];
-                FlowTraceWriter.out_print("String             ["+string+"]");
-                FlowTraceWriter.out_println(" -> match = "+matcher.matches(args[index]));
+                Logger.out_print("String             ["+string+"]");
+                Logger.out_println(" -> match = "+matcher.matches(args[index]));
             }
         }
         catch (Exception ex)

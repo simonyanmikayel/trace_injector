@@ -20,7 +20,7 @@
  */
 package proguard.classfile.editor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.preverification.*;
@@ -322,7 +322,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println(" -> ["+exceptionInfo.u2startPC+" -> "+exceptionInfo.u2endPC+": "+exceptionInfo.u2handlerPC+"]");
+            Logger.out_println(" -> ["+exceptionInfo.u2startPC+" -> "+exceptionInfo.u2endPC+": "+exceptionInfo.u2handlerPC+"]");
         }
 
         // Don't add the exception if its instruction range is empty.
@@ -376,7 +376,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println(" -> ["+lineNumberInfo.u2startPC+"] line "+lineNumberInfo.u2lineNumber+(lineNumberInfo.getSource()==null ? "":" ["+lineNumberInfo.getSource()+"]"));
+            Logger.out_println(" -> ["+lineNumberInfo.u2startPC+"] line "+lineNumberInfo.u2lineNumber+(lineNumberInfo.getSource()==null ? "":" ["+lineNumberInfo.getSource()+"]"));
         }
 
         lineNumberTable =
@@ -416,7 +416,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println(" -> ["+lineNumberInfo.u2startPC+"] line "+lineNumberInfo.u2lineNumber+(lineNumberInfo.getSource()==null ? "":" ["+lineNumberInfo.getSource()+"]"));
+            Logger.out_println(" -> ["+lineNumberInfo.u2startPC+"] line "+lineNumberInfo.u2lineNumber+(lineNumberInfo.getSource()==null ? "":" ["+lineNumberInfo.getSource()+"]"));
         }
 
         // Add the line number.
@@ -506,7 +506,7 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("CodeAttributeComposer: putting results in ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.out_println("CodeAttributeComposer: putting results in ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
         }
 
         if (level != -1)
@@ -1032,19 +1032,19 @@ implements   AttributeVisitor,
     {
         print(string1, string2);
 
-        FlowTraceWriter.out_println();
+        Logger.out_println();
     }
 
     private void print(String string1, String string2)
     {
-        FlowTraceWriter.out_print(string1);
+        Logger.out_print(string1);
 
         for (int index = 0; index < level; index++)
         {
-            FlowTraceWriter.out_print("  ");
+            Logger.out_print("  ");
         }
 
-        FlowTraceWriter.out_print(string2);
+        Logger.out_print(string2);
     }
 
 

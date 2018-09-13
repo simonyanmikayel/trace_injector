@@ -20,7 +20,7 @@
  */
 package proguard.classfile.editor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -95,10 +95,10 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("VariableRemapper: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            Logger.out_println("VariableRemapper: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
             for (int index= 0; index < codeAttribute.u2maxLocals; index++)
             {
-                FlowTraceWriter.out_println("  v"+index+" -> "+variableMap[index]);
+                Logger.out_println("  v"+index+" -> "+variableMap[index]);
             }
         }
 

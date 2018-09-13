@@ -20,7 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -64,7 +64,7 @@ implements   ClassVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("SimpleEnumDescriptorSimplifier: "+programClass.getName());
+            Logger.out_println("SimpleEnumDescriptorSimplifier: "+programClass.getName());
         }
 
         // Simplify the class members.
@@ -197,7 +197,7 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("SimpleEnumDescriptorSimplifier: ["+programClass.getName()+"."+name+" "+descriptor + "] -> ["+newName+" "+newDescriptor+"]");
+                Logger.out_println("SimpleEnumDescriptorSimplifier: ["+programClass.getName()+"."+name+" "+descriptor + "] -> ["+newName+" "+newDescriptor+"]");
             }
 
             ConstantPoolEditor constantPoolEditor =
@@ -258,7 +258,7 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("SimpleEnumDescriptorSimplifier: ["+programClass.getName()+"."+name+descriptor+"] -> ["+newName+newDescriptor+"]");
+                Logger.out_println("SimpleEnumDescriptorSimplifier: ["+programClass.getName()+"."+name+descriptor+"] -> ["+newName+newDescriptor+"]");
             }
 
             ConstantPoolEditor constantPoolEditor =
@@ -398,7 +398,7 @@ implements   ClassVisitor,
         {
             if (DEBUG_EXTRA)
             {
-                FlowTraceWriter.out_println("  Before: ["+descriptor+"]");
+                Logger.out_println("  Before: ["+descriptor+"]");
             }
 
             InternalTypeEnumeration typeEnumeration =
@@ -587,7 +587,7 @@ implements   ClassVisitor,
 
             if (DEBUG_EXTRA)
             {
-                FlowTraceWriter.out_println("  After:  ["+descriptor+"]");
+                Logger.out_println("  After:  ["+descriptor+"]");
             }
         }
 
@@ -606,12 +606,12 @@ implements   ClassVisitor,
         {
             if (DEBUG_EXTRA)
             {
-                FlowTraceWriter.out_print("  Referenced before:");
+                Logger.out_print("  Referenced before:");
                 for (int index = 0; index < referencedClasses.length; index++)
                 {
-                    FlowTraceWriter.out_print(" ["+(referencedClasses[index] == null ? null : referencedClasses[index].getName())+"]");
+                    Logger.out_print(" ["+(referencedClasses[index] == null ? null : referencedClasses[index].getName())+"]");
                 }
-                FlowTraceWriter.out_println();
+                Logger.out_println();
             }
 
             InternalTypeEnumeration typeEnumeration =
@@ -773,12 +773,12 @@ implements   ClassVisitor,
 
                 if (DEBUG_EXTRA)
                 {
-                    FlowTraceWriter.out_print("  Referenced after: ");
+                    Logger.out_print("  Referenced after: ");
                     for (int index = 0; index < referencedClasses.length; index++)
                     {
-                        FlowTraceWriter.out_print(" ["+(referencedClasses[index] == null ? null : referencedClasses[index].getName())+"]");
+                        Logger.out_print(" ["+(referencedClasses[index] == null ? null : referencedClasses[index].getName())+"]");
                     }
-                    FlowTraceWriter.out_println();
+                    Logger.out_println();
                 }
             }
         }

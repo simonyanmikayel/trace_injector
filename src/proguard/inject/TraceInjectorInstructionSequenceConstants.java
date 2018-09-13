@@ -91,7 +91,7 @@ public class TraceInjectorInstructionSequenceConstants
                                 ____.dup()
                                         .astore(LOCAL_VARIABLE_INDEX_1)
                                         .label(TRY_START)
-                                        .invokestatic("java/lang/Class", "forName1", "(Ljava/lang/String;)Ljava/lang/Class;")
+                                        .invokestatic("java/lang/Class", "forName", "(Ljava/lang/String;)Ljava/lang/Class;")
                                         .label(TRY_END)
                                         .goto_(CATCH_END.offset())
                                         .catch_(CLASS_NOT_FOUND_EXCEPTION)

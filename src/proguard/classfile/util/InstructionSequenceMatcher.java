@@ -20,13 +20,12 @@
  */
 package proguard.classfile.util;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.CodeAttribute;
 import proguard.classfile.constant.*;
 import proguard.classfile.constant.visitor.ConstantVisitor;
 import proguard.classfile.instruction.*;
-import proguard.classfile.instruction.visitor.InstructionVisitor;
 
 import java.util.Arrays;
 
@@ -729,7 +728,7 @@ implements   InstructionSequenceMatcherInterface,
         if (DEBUG)
         {
             int lineNumper = codeAttribute.getLineNumber(offset);
-            FlowTraceWriter.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper);
+            Logger.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper);
         }
 
         if (condition)
@@ -751,18 +750,18 @@ implements   InstructionSequenceMatcherInterface,
                 if (DEBUG)
                 {
                     int lineNumper = codeAttribute.getLineNumber(offset);
-                    FlowTraceWriter.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper + " matching = " + matching);
+                    Logger.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper + " matching = " + matching);
 
                     for (int index = 0; index < patternInstructionIndex; index++)
                     {
-                        FlowTraceWriter.out_println("    "+InstructionFactory.create(codeAttribute.code, matchedInstructionOffsets[index]).toString(matchedInstructionOffsets[index]));
+                        Logger.out_println("    "+InstructionFactory.create(codeAttribute.code, matchedInstructionOffsets[index]).toString(matchedInstructionOffsets[index]));
                     }
 
                     for (int index = 0; index < matchedArguments.length; index++)
                     {
                         if ((matchedArgumentFlags & (1 << index)) != 0)
                         {
-                            FlowTraceWriter.out_println("      Arg #"+index+": "+matchedArguments[index]);
+                            Logger.out_println("      Arg #"+index+": "+matchedArguments[index]);
                         }
                     }
 
@@ -770,7 +769,7 @@ implements   InstructionSequenceMatcherInterface,
                     {
                         if (isMatchingConstantIndex(index))
                         {
-                            FlowTraceWriter.out_println("      Constant #"+index+": "+matchedConstantIndices[index]);
+                            Logger.out_println("      Constant #"+index+": "+matchedConstantIndices[index]);
                         }
                     }
                 }

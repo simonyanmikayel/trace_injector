@@ -20,7 +20,7 @@
  */
 package proguard.evaluation.value;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.util.ClassUtil;
 import proguard.classfile.visitor.ClassCollector;
@@ -451,9 +451,9 @@ public class TypedReferenceValue extends ReferenceValue
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("ReferenceValue.generalize this ["+class1.getName()+"] with other ["+class2.getName()+"] (interfaces = "+interfaces+")");
-            FlowTraceWriter.out_println("  This super classes:  "+superClasses1);
-            FlowTraceWriter.out_println("  Other super classes: "+superClasses2);
+            Logger.out_println("ReferenceValue.generalize this ["+class1.getName()+"] with other ["+class2.getName()+"] (interfaces = "+interfaces+")");
+            Logger.out_println("  This super classes:  "+superClasses1);
+            Logger.out_println("  Other super classes: "+superClasses2);
         }
 
         // Find the common superclasses.
@@ -461,7 +461,7 @@ public class TypedReferenceValue extends ReferenceValue
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("  Common super classes: "+superClasses1);
+            Logger.out_println("  Common super classes: "+superClasses1);
         }
 
         if (interfaces && superClasses1.isEmpty())
@@ -530,7 +530,7 @@ public class TypedReferenceValue extends ReferenceValue
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("  Best common class: ["+commonClass.getName()+"]");
+            Logger.out_println("  Best common class: ["+commonClass.getName()+"]");
         }
 
         return commonClass;

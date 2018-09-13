@@ -20,7 +20,7 @@
  */
 package proguard.classfile.util;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.ClassConstants;
 
 
@@ -228,22 +228,22 @@ public class InternalTypeEnumeration
             {
                 String descriptor = args[index];
 
-                FlowTraceWriter.out_println("Descriptor ["+descriptor+"]");
+                Logger.out_println("Descriptor ["+descriptor+"]");
                 InternalTypeEnumeration enumeration = new InternalTypeEnumeration(descriptor);
 
                 if (enumeration.hasFormalTypeParameters())
                 {
-                    FlowTraceWriter.out_println("  Formal type parameters ["+enumeration.formalTypeParameters()+"]");
+                    Logger.out_println("  Formal type parameters ["+enumeration.formalTypeParameters()+"]");
                 }
 
                 while (enumeration.hasMoreTypes())
                 {
-                    FlowTraceWriter.out_println("  Type ["+enumeration.nextType()+"]");
+                    Logger.out_println("  Type ["+enumeration.nextType()+"]");
                 }
 
                 if (enumeration.isMethodSignature())
                 {
-                    FlowTraceWriter.out_println("  Return type ["+enumeration.returnType()+"]");
+                    Logger.out_println("  Return type ["+enumeration.returnType()+"]");
                 }
             }
         }

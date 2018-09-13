@@ -20,7 +20,7 @@
  */
 package proguard.classfile.editor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 
 /**
@@ -67,7 +67,7 @@ public class ClassEditor
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println(targetClass.getName()+": adding interface ["+targetClass.getClassName(interfaceConstantIndex)+"]");
+            Logger.out_println(targetClass.getName()+": adding interface ["+targetClass.getClassName(interfaceConstantIndex)+"]");
         }
 
         // Add the interface.
@@ -135,7 +135,7 @@ public class ClassEditor
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println(targetClass.getName()+": adding field ["+field.getName(targetClass)+" "+field.getDescriptor(targetClass)+"]");
+            Logger.out_println(targetClass.getName()+": adding field ["+field.getName(targetClass)+" "+field.getDescriptor(targetClass)+"]");
         }
 
         // Add the field.
@@ -205,7 +205,7 @@ public class ClassEditor
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println(targetClass.getName()+": adding method ["+method.getName(targetClass)+method.getDescriptor(targetClass)+"]");
+            Logger.out_println(targetClass.getName()+": adding method ["+method.getName(targetClass)+method.getDescriptor(targetClass)+"]");
         }
 
         // Add the method.

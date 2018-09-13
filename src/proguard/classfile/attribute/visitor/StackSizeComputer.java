@@ -20,7 +20,7 @@
  */
 package proguard.classfile.attribute.visitor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.instruction.*;
@@ -127,10 +127,10 @@ implements   AttributeVisitor,
         }
         catch (RuntimeException ex)
         {
-            FlowTraceWriter.err_println("Unexpected error while computing stack sizes:");
-            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
-            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            Logger.err_println("Unexpected error while computing stack sizes:");
+            Logger.err_println("  Class       = ["+clazz.getName()+"]");
+            Logger.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             if (DEBUG)
             {
@@ -146,7 +146,7 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("StackSizeComputer: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            Logger.out_println("StackSizeComputer: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
         }
 
         int codeLength = codeAttribute.u4codeLength;
@@ -267,7 +267,7 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("Exception:");
+            Logger.out_println("Exception:");
         }
 
         // The stack size when entering the exception handler is always 1.
@@ -299,11 +299,11 @@ implements   AttributeVisitor,
         {
             if (evaluated[instructionOffset])
             {
-                FlowTraceWriter.out_println("-- (instruction block at "+instructionOffset+" already evaluated)");
+                Logger.out_println("-- (instruction block at "+instructionOffset+" already evaluated)");
             }
             else
             {
-                FlowTraceWriter.out_println("-- instruction block:");
+                Logger.out_println("-- instruction block:");
             }
         }
 
@@ -330,7 +330,7 @@ implements   AttributeVisitor,
             {
                 int stackPushCount = instruction.stackPushCount(clazz);
                 int stackPopCount  = instruction.stackPopCount(clazz);
-                FlowTraceWriter.out_println("["+instructionOffset+"]: "+
+                Logger.out_println("["+instructionOffset+"]: "+
                                    stackSize+" - "+
                                    stackPopCount+" + "+
                                    stackPushCount+" = "+
@@ -379,7 +379,7 @@ implements   AttributeVisitor,
             {
                 if (evaluated[instructionOffset])
                 {
-                    FlowTraceWriter.out_println("-- (instruction at "+instructionOffset+" already evaluated)");
+                    Logger.out_println("-- (instruction at "+instructionOffset+" already evaluated)");
                 }
             }
         }

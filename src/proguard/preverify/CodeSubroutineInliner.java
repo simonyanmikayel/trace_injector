@@ -20,7 +20,7 @@
  */
 package proguard.preverify;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -78,10 +78,10 @@ implements   AttributeVisitor,
         }
         catch (RuntimeException ex)
         {
-            FlowTraceWriter.err_println("Unexpected error while inlining subroutines:");
-            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
-            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            Logger.err_println("Unexpected error while inlining subroutines:");
+            Logger.err_println("  Class       = ["+clazz.getName()+"]");
+            Logger.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             if (DEBUG)
             {
@@ -105,7 +105,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("SubroutineInliner: processing ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.out_println("SubroutineInliner: processing ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
         }
 
         // Append the body of the code.
@@ -126,7 +126,7 @@ implements   AttributeVisitor,
                 // Skip the subroutine.
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("  Skipping original subroutine instruction "+instruction.toString(offset));
+                    Logger.out_println("  Skipping original subroutine instruction "+instruction.toString(offset));
                 }
 
                 // Append a label at this offset instead.
@@ -149,7 +149,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("  Appending label after code at ["+offset+"]");
+            Logger.out_println("  Appending label after code at ["+offset+"]");
         }
 
         // Append a label just after the code.
@@ -174,7 +174,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("  Inlining subroutine ["+subroutineStart+" -> "+subroutineEnd+"] at ["+subroutineInvocationOffset+"]");
+            Logger.out_println("  Inlining subroutine ["+subroutineStart+" -> "+subroutineEnd+"] at ["+subroutineInvocationOffset+"]");
         }
 
         // Don't go inlining exceptions that are already applicable to this
@@ -201,7 +201,7 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("    Appending label after inlined subroutine at ["+subroutineEnd+"]");
+            Logger.out_println("    Appending label after inlined subroutine at ["+subroutineEnd+"]");
         }
 
         // Append a label just after the code.
@@ -232,7 +232,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("    Replacing first subroutine instruction "+instruction.toString(offset)+" by a label");
+                Logger.out_println("    Replacing first subroutine instruction "+instruction.toString(offset)+" by a label");
             }
 
             // Append a label at this offset instead of saving the subroutine
@@ -257,7 +257,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("    Replacing subroutine return at ["+offset+"] by a label");
+                    Logger.out_println("    Replacing subroutine return at ["+offset+"] by a label");
                 }
 
                 // Append a label at this offset instead of the subroutine return.
@@ -267,7 +267,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("    Replacing subroutine return at ["+offset+"] by a simple branch");
+                    Logger.out_println("    Replacing subroutine return at ["+offset+"] by a simple branch");
                 }
 
                 // Replace the instruction by a branch.
@@ -282,7 +282,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("    Replacing first subroutine instruction "+variableInstruction.toString(offset)+" by a label");
+                Logger.out_println("    Replacing first subroutine instruction "+variableInstruction.toString(offset)+" by a label");
             }
 
             // Append a label at this offset instead of saving the subroutine
@@ -323,7 +323,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("Replacing subroutine invocation at ["+offset+"] by a simple branch");
+                    Logger.out_println("Replacing subroutine invocation at ["+offset+"] by a simple branch");
                 }
 
                 // Replace the subroutine invocation by a simple branch.
@@ -365,7 +365,7 @@ implements   AttributeVisitor,
                 {
                     if (DEBUG)
                     {
-                        FlowTraceWriter.out_println("  Appending extra exception ["+startPC+" -> "+offset+"] -> "+handlerPC);
+                        Logger.out_println("  Appending extra exception ["+startPC+" -> "+offset+"] -> "+handlerPC);
                     }
 
                     // Append a try block that ends before the subroutine invocation.
@@ -385,11 +385,11 @@ implements   AttributeVisitor,
             if (startPC == exceptionInfo.u2startPC &&
                 endPC   == exceptionInfo.u2endPC)
             {
-                FlowTraceWriter.out_println("  Appending exception ["+startPC+" -> "+endPC+"] -> "+handlerPC);
+                Logger.out_println("  Appending exception ["+startPC+" -> "+endPC+"] -> "+handlerPC);
             }
             else
             {
-                FlowTraceWriter.out_println("  Appending clipped exception ["+exceptionInfo.u2startPC+" -> "+exceptionInfo.u2endPC+"] ~> ["+startPC+" -> "+endPC+"] -> "+handlerPC);
+                Logger.out_println("  Appending clipped exception ["+exceptionInfo.u2startPC+" -> "+exceptionInfo.u2endPC+"] ~> ["+startPC+" -> "+endPC+"] -> "+handlerPC);
             }
         }
 

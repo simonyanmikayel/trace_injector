@@ -20,7 +20,7 @@
  */
 package proguard.optimize.info;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -91,7 +91,7 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("UnusedParameterOptimizationInfoUpdater: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            Logger.out_println("UnusedParameterOptimizationInfoUpdater: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
         }
 
         // Update the optimization info.
@@ -118,7 +118,7 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("  Deleting parameter #"+parameterIndex+" (v"+parameterOffset+")");
+            Logger.out_println("  Deleting parameter #"+parameterIndex+" (v"+parameterOffset+")");
         }
 
         Method method = (Method)member;

@@ -20,7 +20,7 @@
  */
 package proguard.optimize.info;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -175,7 +175,7 @@ implements   AttributeVisitor,
                     {
                         if (DEBUG)
                         {
-                            FlowTraceWriter.out_println("EscapingClassMarker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+instruction.toString(offset)+" pushes escaping ["+referencedClass.getName()+"]");
+                            Logger.out_println("EscapingClassMarker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+instruction.toString(offset)+" pushes escaping ["+referencedClass.getName()+"]");
                         }
 
                         // Mark it, along with its superclasses.

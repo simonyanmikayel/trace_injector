@@ -20,7 +20,7 @@
  */
 package proguard.classfile.editor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.constant.*;
 import proguard.classfile.constant.visitor.ConstantVisitor;
@@ -882,7 +882,7 @@ public class ConstantPoolEditor
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("ConstantPoolEditor: ["+(targetClass.u2thisClass > 0 ? targetClass.getName() : "(dummy)")+"] adding ["+constant.getClass().getName()+"] at index "+targetClass.u2constantPoolCount);
+            Logger.out_println("ConstantPoolEditor: ["+(targetClass.u2thisClass > 0 ? targetClass.getName() : "(dummy)")+"] adding ["+constant.getClass().getName()+"] at index "+targetClass.u2constantPoolCount);
         }
 
         // Add the new entry to the end of the constant pool.

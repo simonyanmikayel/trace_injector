@@ -60,27 +60,27 @@ public class Targeter
         if (newerClassVersions != null &&
             newerClassVersions.size() > 0)
         {
-            FlowTraceWriter.err_print("Warning: some classes have more recent versions (");
+            Logger.err_print("Warning: some classes have more recent versions (");
 
             Iterator iterator = newerClassVersions.iterator();
             while (iterator.hasNext())
             {
                 Integer classVersion = (Integer)iterator.next();
-                FlowTraceWriter.err_print(ClassUtil.externalClassVersion(classVersion.intValue()));
+                Logger.err_print(ClassUtil.externalClassVersion(classVersion.intValue()));
 
                 if (iterator.hasNext())
                 {
-                    FlowTraceWriter.err_print(",");
+                    Logger.err_print(",");
                 }
             }
 
-            FlowTraceWriter.err_println(")");
-            FlowTraceWriter.err_println("         than the target version ("+ClassUtil.externalClassVersion(configuration.targetClassVersion)+").");
+            Logger.err_println(")");
+            Logger.err_println("         than the target version ("+ClassUtil.externalClassVersion(configuration.targetClassVersion)+").");
 
             if (!configuration.ignoreWarnings)
             {
-                FlowTraceWriter.err_println("         If you are sure this is not a problem,");
-                FlowTraceWriter.err_println("         you could try your luck using the '-ignorewarnings' option.");
+                Logger.err_println("         If you are sure this is not a problem,");
+                Logger.err_println("         you could try your luck using the '-ignorewarnings' option.");
                 throw new IOException("Please correct the above warnings first.");
             }
         }

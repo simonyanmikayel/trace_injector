@@ -20,7 +20,7 @@
  */
 package proguard.classfile.editor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -127,7 +127,7 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("InterfaceDeleter:   type parameters = " + type);
+                Logger.out_println("InterfaceDeleter:   type parameters = " + type);
             }
         }
 
@@ -154,7 +154,7 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("InterfaceSorter:   super class type = " + type);
+                Logger.out_println("InterfaceSorter:   super class type = " + type);
             }
         }
 
@@ -207,7 +207,7 @@ implements   ClassVisitor,
 
                     if (DEBUG)
                     {
-                        FlowTraceWriter.out_println("InterfaceSorter:   interface type = " + type);
+                        Logger.out_println("InterfaceSorter:   interface type = " + type);
                     }
                 }
                 else
@@ -231,14 +231,14 @@ implements   ClassVisitor,
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("InterfaceSorter: result = "+newSignature);
-                FlowTraceWriter.out_println("InterfaceSorter: referenced classes:");
+                Logger.out_println("InterfaceSorter: result = "+newSignature);
+                Logger.out_println("InterfaceSorter: referenced classes:");
 
                 if (newReferencedClasses != null)
                 {
                     for (int index = 0; index < newReferencedClasses.length; index++)
                     {
-                        FlowTraceWriter.out_println("  #"+index+" "+newReferencedClasses[index]);
+                        Logger.out_println("  #"+index+" "+newReferencedClasses[index]);
                     }
                 }
             }

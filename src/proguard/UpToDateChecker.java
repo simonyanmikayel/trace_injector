@@ -102,7 +102,7 @@ public class UpToDateChecker
             return false;
         }
 
-        FlowTraceWriter.out_println("The output seems up to date");
+        Logger.out_println("The output seems up to date");
 
         return true;
     }

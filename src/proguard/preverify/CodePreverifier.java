@@ -20,7 +20,7 @@
  */
 package proguard.preverify;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.preverification.*;
@@ -91,10 +91,10 @@ implements   AttributeVisitor
         }
         catch (RuntimeException ex)
         {
-            FlowTraceWriter.err_println("Unexpected error while preverifying:");
-            FlowTraceWriter.err_println("  Class       = ["+clazz.getName()+"]");
-            FlowTraceWriter.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
-            FlowTraceWriter.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            Logger.err_println("Unexpected error while preverifying:");
+            Logger.err_println("  Class       = ["+clazz.getName()+"]");
+            Logger.err_println("  Method      = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.err_println("  Exception   = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             throw ex;
         }
@@ -201,13 +201,13 @@ implements   AttributeVisitor
                 if (frameCount != originalFrameCount ||
                     !Arrays.equals(stackMapFrameList.toArray(), originalFrames))
                 {
-                    FlowTraceWriter.out_println("Original preverification ["+clazz.getName()+"]:");
+                    Logger.out_println("Original preverification ["+clazz.getName()+"]:");
                     new ClassPrinter().visitProgramMethod(programClass, programMethod);
                 }
             }
             else if (frameCount != 0)
             {
-                FlowTraceWriter.out_println("Original preverification empty ["+clazz.getName()+"."+method.getName(clazz)+"]");
+                Logger.out_println("Original preverification empty ["+clazz.getName()+"."+method.getName(clazz)+"]");
             }
         }
 
@@ -249,7 +249,7 @@ implements   AttributeVisitor
 
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("Preverifier ["+programClass.getName()+"."+programMethod.getName(programClass)+"]:");
+                Logger.out_println("Preverifier ["+programClass.getName()+"."+programMethod.getName(programClass)+"]:");
                 stackMapAttribute.accept(programClass, programMethod, codeAttribute, new ClassPrinter());
             }
         }

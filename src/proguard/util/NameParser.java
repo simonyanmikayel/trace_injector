@@ -20,7 +20,7 @@
  */
 package proguard.util;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 
 import java.util.*;
 
@@ -208,14 +208,14 @@ public class NameParser implements StringParser
     {
         try
         {
-            FlowTraceWriter.out_println("Regular expression ["+args[0]+"]");
+            Logger.out_println("Regular expression ["+args[0]+"]");
             NameParser parser  = new NameParser();
             StringMatcher  matcher = parser.parse(args[0]);
             for (int index = 1; index < args.length; index++)
             {
                 String string = args[index];
-                FlowTraceWriter.out_print("String             ["+string+"]");
-                FlowTraceWriter.out_println(" -> match = "+matcher.matches(args[index]));
+                Logger.out_print("String             ["+string+"]");
+                Logger.out_println(" -> match = "+matcher.matches(args[index]));
             }
         }
         catch (Exception ex)

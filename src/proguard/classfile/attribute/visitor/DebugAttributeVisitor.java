@@ -20,7 +20,7 @@
  */
 package proguard.classfile.attribute.visitor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -533,9 +533,9 @@ implements   AttributeVisitor
 
             if (deltaTime > maximumTime)
             {
-                FlowTraceWriter.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
+                Logger.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
                 //attribute.accept(clazz, new ClassPrinter());
-                FlowTraceWriter.err_println();
+                Logger.err_println();
             }
         }
     }
@@ -558,9 +558,9 @@ implements   AttributeVisitor
 
             if (deltaTime > maximumTime)
             {
-                FlowTraceWriter.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
+                Logger.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
                 field.accept(clazz, new SimpleClassPrinter(true));
-                FlowTraceWriter.err_println();
+                Logger.err_println();
             }
         }
     }
@@ -583,9 +583,9 @@ implements   AttributeVisitor
 
             if (deltaTime > maximumTime)
             {
-                FlowTraceWriter.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
+                Logger.err_println("=== " + message + " took "+((double)deltaTime/1000.)+" seconds ===");
                 method.accept(clazz, new SimpleClassPrinter(true));
-                FlowTraceWriter.err_println();
+                Logger.err_println();
             }
         }
     }

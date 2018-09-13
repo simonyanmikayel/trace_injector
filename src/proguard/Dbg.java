@@ -6,27 +6,27 @@ public class Dbg {
     static void log() {
         if (!dbg)
             return;
-        FlowTraceWriter.out_println(logPos());
+        Logger.out_println(logPos());
     }
     static void println(Object o) {
         if (!dbg)
             return;
-        FlowTraceWriter.out_println(logPos());
-        FlowTraceWriter.out_println(o);
+        Logger.out_println(logPos());
+        Logger.out_println(o);
     }
     static void print(Object o) {
         if (!dbg)
             return;
-        FlowTraceWriter.out_print(o);
+        Logger.out_print(o);
     }
     static void printStrings(String descr, String[] strs) {
         if (!dbg)
             return;
-        FlowTraceWriter.out_print(logPos());
-        FlowTraceWriter.out_println(descr);
+        Logger.out_print(logPos());
+        Logger.out_println(descr);
         for (String str: strs) {
-            FlowTraceWriter.out_print("    ");
-            FlowTraceWriter.out_println(str);
+            Logger.out_print("    ");
+            Logger.out_println(str);
         }
     }
     static void printStack() {
@@ -38,10 +38,10 @@ public class Dbg {
         if (!dbg)
             return;
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        FlowTraceWriter.out_println(logPos() + descr + " -> began stack");
+        Logger.out_println(logPos() + descr + " -> began stack");
         for (int i = 3; i < stackTraceElements.length; i++)
         {
-            FlowTraceWriter.out_println( "    " + i + ". " + stackElemToString(stackTraceElements, i));
+            Logger.out_println( "    " + i + ". " + stackElemToString(stackTraceElements, i));
         }
     }
     static String stackElemToString(StackTraceElement[] elements, int i) {

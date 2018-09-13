@@ -20,7 +20,7 @@
  */
 package proguard.io;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.ClassConstants;
 import proguard.util.ExtensionMatcher;
 
@@ -93,7 +93,7 @@ public class DataEntryCopier implements DataEntryReader
         }
         catch (IOException ex)
         {
-            FlowTraceWriter.err_println("Warning: can't write resource [" + dataEntry.getName() + "] (" + ex.getMessage() + ")");
+            Logger.err_println("Warning: can't write resource [" + dataEntry.getName() + "] (" + ex.getMessage() + ")");
         }
         catch (Exception ex)
         {

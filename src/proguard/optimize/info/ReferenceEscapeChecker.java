@@ -21,7 +21,7 @@
 
 package proguard.optimize.info;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -176,14 +176,14 @@ implements   AttributeVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println();
-            FlowTraceWriter.out_println("ReferenceEscapeChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+            Logger.out_println();
+            Logger.out_println("ReferenceEscapeChecker: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]");
 
             for (int index = 0; index < codeLength; index++)
             {
                 if (partialEvaluator.isInstruction(index))
                 {
-                    FlowTraceWriter.out_println("  " +
+                    Logger.out_println("  " +
                                        (instanceEscaping[index] ? 'E' : '.') +
                                        (instanceReturned[index] ? 'R' : '.') +
                                        (instanceModified[index] ? 'M' : '.') +

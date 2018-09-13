@@ -20,7 +20,7 @@
  */
 package proguard.optimize;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -118,7 +118,7 @@ implements   AttributeVisitor,
 
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("  ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] Inserting "+extraInstruction.toString()+" before "+constantInstruction.toString(offset));
+                    Logger.out_println("  ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] Inserting "+extraInstruction.toString()+" before "+constantInstruction.toString(offset));
                 }
 
                 if (extraAddedInstructionVisitor != null)
@@ -158,8 +158,8 @@ implements   AttributeVisitor,
         {
             if (descriptorLengthDelta > 0)
             {
-                FlowTraceWriter.out_println("DuplicateInitializerInvocationFixer:");
-                FlowTraceWriter.out_println("  ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"] ("+ClassUtil.externalClassAccessFlags(programMethod.getAccessFlags())+") referenced by:");
+                Logger.out_println("DuplicateInitializerInvocationFixer:");
+                Logger.out_println("  ["+programClass.getName()+"."+programMethod.getName(programClass)+programMethod.getDescriptor(programClass)+"] ("+ClassUtil.externalClassAccessFlags(programMethod.getAccessFlags())+") referenced by:");
             }
         }
     }

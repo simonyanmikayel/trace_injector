@@ -20,7 +20,7 @@
  */
 package proguard.optimize.peephole;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.*;
@@ -174,18 +174,18 @@ implements   AttributeVisitor,
         }
         catch (RuntimeException ex)
         {
-            FlowTraceWriter.err_println("Unexpected error while inlining method:");
-            FlowTraceWriter.err_println("  Target class   = ["+targetClass.getName()+"]");
-            FlowTraceWriter.err_println("  Target method  = ["+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
+            Logger.err_println("Unexpected error while inlining method:");
+            Logger.err_println("  Target class   = ["+targetClass.getName()+"]");
+            Logger.err_println("  Target method  = ["+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
             if (inlining)
             {
-                FlowTraceWriter.err_println("  Inlined class  = ["+clazz.getName()+"]");
-                FlowTraceWriter.err_println("  Inlined method = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+                Logger.err_println("  Inlined class  = ["+clazz.getName()+"]");
+                Logger.err_println("  Inlined method = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
             }
-            FlowTraceWriter.err_println("  Exception      = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
+            Logger.err_println("  Exception      = ["+ex.getClass().getName()+"] ("+ex.getMessage()+")");
 
             ex.printStackTrace();
-            FlowTraceWriter.err_println("Not inlining this method");
+            Logger.err_println("Not inlining this method");
 
             if (DEBUG)
             {
@@ -251,7 +251,7 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("MethodInliner: inlining ["+
+                Logger.out_println("MethodInliner: inlining ["+
                                    clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"] in ["+
                                    targetClass.getName()+"."+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
             }
@@ -720,15 +720,15 @@ implements   AttributeVisitor,
         {
             if (DEBUG)
             {
-                FlowTraceWriter.err_println("Invalid line number while inlining method:");
-                FlowTraceWriter.err_println("  Target class   = ["+targetClass.getName()+"]");
-                FlowTraceWriter.err_println("  Target method  = ["+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
+                Logger.err_println("Invalid line number while inlining method:");
+                Logger.err_println("  Target class   = ["+targetClass.getName()+"]");
+                Logger.err_println("  Target method  = ["+targetMethod.getName(targetClass)+targetMethod.getDescriptor(targetClass)+"]");
                 if (inlining)
                 {
-                    FlowTraceWriter.err_println("  Inlined class  = ["+clazz.getName()+"]");
-                    FlowTraceWriter.err_println("  Inlined method = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
+                    Logger.err_println("  Inlined class  = ["+clazz.getName()+"]");
+                    Logger.err_println("  Inlined method = ["+method.getName(clazz)+method.getDescriptor(clazz)+"]");
                 }
-                FlowTraceWriter.err_println("  Exception      = ["+e.getClass().getName()+"] ("+e.getMessage()+")");
+                Logger.err_println("  Exception      = ["+e.getClass().getName()+"] ("+e.getMessage()+")");
             }
         }
     }

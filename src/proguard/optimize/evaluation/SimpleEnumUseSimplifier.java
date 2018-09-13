@@ -20,7 +20,7 @@
  */
 package proguard.optimize.evaluation;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -104,7 +104,7 @@ implements   AttributeVisitor,
     {
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("SimpleEnumUseSimplifier: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
+            Logger.out_println("SimpleEnumUseSimplifier: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz));
         }
 
         // Skip the non-static methods of simple enum classes.
@@ -607,7 +607,7 @@ implements   AttributeVisitor,
                                      Instruction   instruction,
                                      Instruction[] replacementInstructions)
     {
-        if (DEBUG) FlowTraceWriter.out_println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstructions.length+" instructions");
+        if (DEBUG) Logger.out_println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstructions.length+" instructions");
 
         codeAttributeEditor.replaceInstruction(offset, replacementInstructions);
 
@@ -637,7 +637,7 @@ implements   AttributeVisitor,
 
         insertPopInstructions(offset, popCount);
 
-        if (DEBUG) FlowTraceWriter.out_println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstruction.toString()+(popCount == 0 ? "" : " ("+popCount+" pops)"));
+        if (DEBUG) Logger.out_println("  Replacing instruction "+instruction.toString(offset)+" -> "+replacementInstruction.toString()+(popCount == 0 ? "" : " ("+popCount+" pops)"));
 
         codeAttributeEditor.replaceInstruction(offset, replacementInstruction);
 
@@ -664,9 +664,9 @@ implements   AttributeVisitor,
         //
         //insertPopInstructions(offset, popCount);
         //
-        //if (DEBUG) FlowTraceWriter.out_println("  Deleting instruction "+instruction.toString(offset)+(popCount == 0 ? "" : " ("+popCount+" pops)"));
+        //if (DEBUG) Logger.out_println("  Deleting instruction "+instruction.toString(offset)+(popCount == 0 ? "" : " ("+popCount+" pops)"));
 
-        if (DEBUG) FlowTraceWriter.out_println("  Deleting instruction "+instruction.toString(offset));
+        if (DEBUG) Logger.out_println("  Deleting instruction "+instruction.toString(offset));
 
         codeAttributeEditor.deleteInstruction(offset);
 

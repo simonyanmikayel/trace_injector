@@ -20,7 +20,7 @@
  */
 package proguard.optimize.peephole;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -115,7 +115,7 @@ implements   AttributeVisitor,
             {
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("GotoCommonCodeReplacer: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+" (["+(offset-commonCount)+"] - "+branchInstruction.toString(offset)+" -> "+targetOffset+")");
+                    Logger.out_println("GotoCommonCodeReplacer: "+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+" (["+(offset-commonCount)+"] - "+branchInstruction.toString(offset)+" -> "+targetOffset+")");
                 }
 
                 // Delete the common instructions.

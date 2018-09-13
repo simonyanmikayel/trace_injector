@@ -1,6 +1,5 @@
 package proguard.classfile.util;
 
-import proguard.FlowTraceWriter;
 import proguard.classfile.Clazz;
 import proguard.classfile.Method;
 import proguard.classfile.attribute.CodeAttribute;

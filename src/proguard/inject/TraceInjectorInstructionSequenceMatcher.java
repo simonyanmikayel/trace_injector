@@ -1,6 +1,6 @@
 package proguard.inject;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.Clazz;
 import proguard.classfile.Method;
 import proguard.classfile.attribute.CodeAttribute;
@@ -90,39 +90,39 @@ implements InstructionSequenceMatcherInterface
 
     public void visitSimpleInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, SimpleInstruction simpleInstruction)
     {
-        FlowTraceWriter.out_println("visit simpleInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+simpleInstruction.toString(offset));
+        Logger.out_println("visit simpleInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+simpleInstruction.toString(offset));
         instructionSequenceMatcher.visitSimpleInstruction(clazz, method, codeAttribute, offset, simpleInstruction);
     }
 
     public void visitVariableInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, VariableInstruction variableInstruction)
     {
-        FlowTraceWriter.out_println("visit variableInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+variableInstruction.toString(offset));
+        Logger.out_println("visit variableInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+variableInstruction.toString(offset));
         instructionSequenceMatcher.visitVariableInstruction(clazz, method, codeAttribute, offset, variableInstruction);
     }
 
     public void visitConstantInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, ConstantInstruction constantInstruction)
     {
-        FlowTraceWriter.out_println("visit constantInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+constantInstruction.toString(offset));
+        Logger.out_println("visit constantInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+constantInstruction.toString(offset));
         instructionSequenceMatcher.visitConstantInstruction(clazz, method, codeAttribute, offset, constantInstruction);
     }
 
     public void visitBranchInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, BranchInstruction branchInstruction)
     {
-        FlowTraceWriter.out_println("visit branchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+branchInstruction.toString(offset));
+        Logger.out_println("visit branchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+branchInstruction.toString(offset));
         instructionSequenceMatcher.visitBranchInstruction(clazz, method, codeAttribute, offset, branchInstruction);
     }
 
 
     public void visitTableSwitchInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, TableSwitchInstruction tableSwitchInstruction)
     {
-        FlowTraceWriter.out_println("visit tableSwitchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+tableSwitchInstruction.toString(offset));
+        Logger.out_println("visit tableSwitchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+tableSwitchInstruction.toString(offset));
         instructionSequenceMatcher.visitTableSwitchInstruction(clazz, method, codeAttribute, offset, tableSwitchInstruction);
     }
 
 
     public void visitLookUpSwitchInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, LookUpSwitchInstruction lookUpSwitchInstruction)
     {
-        FlowTraceWriter.out_println("visit lookUpSwitchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+lookUpSwitchInstruction.toString(offset));
+        Logger.out_println("visit lookUpSwitchInstruction: ["+clazz.getName()+"."+method.getName(clazz)+method.getDescriptor(clazz)+"]: "+lookUpSwitchInstruction.toString(offset));
         instructionSequenceMatcher.visitLookUpSwitchInstruction(clazz, method, codeAttribute, offset, lookUpSwitchInstruction);
     }
 
@@ -132,7 +132,7 @@ implements InstructionSequenceMatcherInterface
     public void visitIntegerConstant(Clazz clazz, IntegerConstant integerConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit integerConstant: "+clazz.getName());
+            Logger.out_println("visit integerConstant: "+clazz.getName());
             instructionSequenceMatcher.visitIntegerConstant(clazz, integerConstant);
         }
     }
@@ -141,7 +141,7 @@ implements InstructionSequenceMatcherInterface
     public void visitLongConstant(Clazz clazz, LongConstant longConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit longConstant: "+clazz.getName());
+            Logger.out_println("visit longConstant: "+clazz.getName());
             instructionSequenceMatcher.visitLongConstant(clazz, longConstant);
         }
     }
@@ -150,7 +150,7 @@ implements InstructionSequenceMatcherInterface
     public void visitFloatConstant(Clazz clazz, FloatConstant floatConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit floatConstant: "+clazz.getName());
+            Logger.out_println("visit floatConstant: "+clazz.getName());
             instructionSequenceMatcher.visitFloatConstant(clazz, floatConstant);
         }
     }
@@ -159,7 +159,7 @@ implements InstructionSequenceMatcherInterface
     public void visitDoubleConstant(Clazz clazz, DoubleConstant doubleConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit doubleConstant: "+clazz.getName());
+            Logger.out_println("visit doubleConstant: "+clazz.getName());
             instructionSequenceMatcher.visitDoubleConstant(clazz, doubleConstant);
         }
     }
@@ -168,7 +168,7 @@ implements InstructionSequenceMatcherInterface
     public void visitPrimitiveArrayConstant(Clazz clazz, PrimitiveArrayConstant primitiveArrayConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit primitiveArrayConstant: "+clazz.getName());
+            Logger.out_println("visit primitiveArrayConstant: "+clazz.getName());
             instructionSequenceMatcher.visitPrimitiveArrayConstant(clazz, primitiveArrayConstant);
         }
     }
@@ -177,7 +177,7 @@ implements InstructionSequenceMatcherInterface
     public void visitStringConstant(Clazz clazz, StringConstant stringConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit stringConstant: "+clazz.getName()+" " + stringConstant.getString(clazz));
+            Logger.out_println("visit stringConstant: "+clazz.getName()+" " + stringConstant.getString(clazz));
             instructionSequenceMatcher.visitStringConstant(clazz, stringConstant);
         }
     }
@@ -186,7 +186,7 @@ implements InstructionSequenceMatcherInterface
     public void visitUtf8Constant(Clazz clazz, Utf8Constant utf8Constant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit utf8Constant: "+clazz.getName());
+            Logger.out_println("visit utf8Constant: "+clazz.getName());
             instructionSequenceMatcher.visitUtf8Constant(clazz, utf8Constant);
         }
     }
@@ -195,7 +195,7 @@ implements InstructionSequenceMatcherInterface
     public void visitInvokeDynamicConstant(Clazz clazz, InvokeDynamicConstant invokeDynamicConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit invokeDynamicConstant: "+clazz.getName());
+            Logger.out_println("visit invokeDynamicConstant: "+clazz.getName());
             instructionSequenceMatcher.visitInvokeDynamicConstant(clazz, invokeDynamicConstant);
         }
     }
@@ -204,7 +204,7 @@ implements InstructionSequenceMatcherInterface
     public void visitMethodHandleConstant(Clazz clazz, MethodHandleConstant methodHandleConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit methodHandleConstant: "+clazz.getName());
+            Logger.out_println("visit methodHandleConstant: "+clazz.getName());
             instructionSequenceMatcher.visitMethodHandleConstant(clazz, methodHandleConstant);
         }
     }
@@ -213,7 +213,7 @@ implements InstructionSequenceMatcherInterface
     public void visitAnyRefConstant(Clazz clazz, RefConstant refConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit visitAnyRefConstant: "+clazz.getName());
+            Logger.out_println("visit visitAnyRefConstant: "+clazz.getName());
             instructionSequenceMatcher.visitAnyRefConstant(clazz, refConstant);
         }
     }
@@ -222,7 +222,7 @@ implements InstructionSequenceMatcherInterface
     public void visitClassConstant(Clazz clazz, ClassConstant classConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit classConstant: "+clazz.getName());
+            Logger.out_println("visit classConstant: "+clazz.getName());
             instructionSequenceMatcher.visitClassConstant(clazz, classConstant);
         }
     }
@@ -230,7 +230,7 @@ implements InstructionSequenceMatcherInterface
     public void visitMethodTypeConstant(Clazz clazz, MethodTypeConstant methodTypeConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit methodTypeConstant: "+clazz.getName());
+            Logger.out_println("visit methodTypeConstant: "+clazz.getName());
             instructionSequenceMatcher.visitMethodTypeConstant(clazz, methodTypeConstant);
         }
     }
@@ -239,7 +239,7 @@ implements InstructionSequenceMatcherInterface
     public void visitNameAndTypeConstant(Clazz clazz, NameAndTypeConstant nameAndTypeConstant)
     {
         if (VISIT_CONSTANTS) {
-            FlowTraceWriter.out_println("visit nameAndTypeConstant: "+clazz.getName());
+            Logger.out_println("visit nameAndTypeConstant: "+clazz.getName());
             instructionSequenceMatcher.visitNameAndTypeConstant(clazz, nameAndTypeConstant);
         }
     }

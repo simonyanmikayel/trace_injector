@@ -21,7 +21,7 @@
 
 package proguard.optimize.info;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.ClassPool;
 import proguard.classfile.visitor.ClassPoolVisitor;
 
@@ -70,7 +70,7 @@ implements   ClassPoolVisitor
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("RepeatedClassPoolVisitor: new iteration");
+                Logger.out_println("RepeatedClassPoolVisitor: new iteration");
             }
 
             repeatTrigger.reset();
@@ -82,7 +82,7 @@ implements   ClassPoolVisitor
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("RepeatedClassPoolVisitor: done iterating");
+            Logger.out_println("RepeatedClassPoolVisitor: done iterating");
         }
     }
 }

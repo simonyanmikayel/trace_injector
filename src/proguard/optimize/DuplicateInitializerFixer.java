@@ -20,7 +20,7 @@
  */
 package proguard.optimize;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.annotation.*;
@@ -126,8 +126,8 @@ implements   MemberVisitor,
                     {
                         if (DEBUG)
                         {
-                            FlowTraceWriter.out_println("DuplicateInitializerFixer:");
-                            FlowTraceWriter.out_println("  ["+programClass.getName()+"."+name+descriptor+"] ("+ClassUtil.externalClassAccessFlags(programMethod.getAccessFlags())+") -> ["+newDescriptor+"]");
+                            Logger.out_println("DuplicateInitializerFixer:");
+                            Logger.out_println("  ["+programClass.getName()+"."+name+descriptor+"] ("+ClassUtil.externalClassAccessFlags(programMethod.getAccessFlags())+") -> ["+newDescriptor+"]");
                         }
 
                         // Update the descriptor.

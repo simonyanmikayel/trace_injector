@@ -20,7 +20,7 @@
  */
 package proguard.optimize.peephole;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.constant.*;
 import proguard.classfile.editor.*;
@@ -4748,11 +4748,11 @@ public class InstructionSequenceConstants
                 // Are there any replacement instructions?
                 if (sequencePair.length < 2)
                 {
-                    FlowTraceWriter.out_println("=> delete");
+                    Logger.out_println("=> delete");
                 }
                 else
                 {
-                    FlowTraceWriter.out_println("=>");
+                    Logger.out_println("=>");
 
                     // Print out the replacement instructions.
                     sequence = sequencePair[1];
@@ -4766,7 +4766,7 @@ public class InstructionSequenceConstants
                         catch (Exception e) {}
                     }
                 }
-                FlowTraceWriter.out_println();
+                Logger.out_println();
             }
         }
     }

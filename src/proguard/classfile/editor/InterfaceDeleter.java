@@ -20,7 +20,7 @@
  */
 package proguard.classfile.editor;
 
-import proguard.FlowTraceWriter;
+import proguard.Logger;
 import proguard.classfile.*;
 import proguard.classfile.attribute.*;
 import proguard.classfile.attribute.visitor.AttributeVisitor;
@@ -67,7 +67,7 @@ implements   ClassVisitor,
 
         if (DEBUG)
         {
-            FlowTraceWriter.out_println("InterfaceDeleter: "+programClass.getName()+" ("+interfacesCount+" interfaces)");
+            Logger.out_println("InterfaceDeleter: "+programClass.getName()+" ("+interfacesCount+" interfaces)");
         }
 
         // Copy the interfaces that aren't deleted.
@@ -76,7 +76,7 @@ implements   ClassVisitor,
         {
             if (DEBUG)
             {
-                FlowTraceWriter.out_println("InterfaceDeleter:   "+(delete[index]?"- ":"+ ")+programClass.getInterfaceName(index));
+                Logger.out_println("InterfaceDeleter:   "+(delete[index]?"- ":"+ ")+programClass.getInterfaceName(index));
             }
 
             if (!delete[index])
@@ -137,7 +137,7 @@ implements   ClassVisitor,
 
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("InterfaceDeleter:   type parameters = " + type);
+                    Logger.out_println("InterfaceDeleter:   type parameters = " + type);
                 }
             }
 
@@ -161,7 +161,7 @@ implements   ClassVisitor,
 
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("InterfaceDeleter:   super class type = " + type);
+                    Logger.out_println("InterfaceDeleter:   super class type = " + type);
                 }
             }
 
@@ -176,7 +176,7 @@ implements   ClassVisitor,
 
                 if (DEBUG)
                 {
-                    FlowTraceWriter.out_println("InterfaceDeleter:   interface type " + (delete[index] ? "- " : "+ ") + type + " (" + classCount + " referenced classes)");
+                    Logger.out_println("InterfaceDeleter:   interface type " + (delete[index] ? "- " : "+ ") + type + " (" + classCount + " referenced classes)");
                 }
 
                 if (!delete[index++])

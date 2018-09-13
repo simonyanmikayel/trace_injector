@@ -6,7 +6,7 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
-public class FlowTraceWriter {
+public class Logger {
     public static boolean IsInitialized() {
         return Initialized;
     }
@@ -15,12 +15,12 @@ public class FlowTraceWriter {
         writeTrace(enter ? TRACE_TYPE.LOG_INFO_ENTER : TRACE_TYPE.LOG_INFO_EXIT, null, 3);
     }
     static void printStack(StackTraceElement[] stackTraceElements, String descr) {
-        FlowTraceWriter.out_println(descr + " began stack >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        Logger.out_println(descr + " began stack >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         for (int i = 0; i < stackTraceElements.length; i++)
         {
-            FlowTraceWriter.out_println( i + ". " + stackElemToString(stackTraceElements, i));
+            Logger.out_println( i + ". " + stackElemToString(stackTraceElements, i));
         }
-        FlowTraceWriter.out_println(descr + "end stack <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        Logger.out_println(descr + "end stack <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
     static String stackElemToString(StackTraceElement[] stackTraceElements, int i) {
         return getMethodNmae(stackTraceElements, i)+":"+getLineNumber(stackTraceElements, i);
