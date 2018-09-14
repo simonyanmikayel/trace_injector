@@ -40,7 +40,7 @@ extends      SimplifiedVisitor
 implements   ClassVisitor,
              AttributeVisitor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
 
     // Implementations for ClassVisitor.

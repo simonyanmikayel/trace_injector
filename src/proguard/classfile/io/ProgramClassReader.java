@@ -71,7 +71,7 @@ implements   ClassVisitor,
              LocalVariableTargetElementVisitor,
              ElementValueVisitor
 {
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
     private final RuntimeDataInput dataInput;
 
 

@@ -42,7 +42,7 @@ public class ParameterTracingInvocationUnit
 extends      ReferenceTracingInvocationUnit
 {
     //*
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     /*/
     private static       boolean DEBUG = System.getProperty("ptiu") != null;
     //*/

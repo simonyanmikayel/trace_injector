@@ -46,7 +46,7 @@ public abstract class SimplifiedVisitor
      */
     public void visitAnyClass(Clazz clazz)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyClass Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -69,7 +69,7 @@ public abstract class SimplifiedVisitor
      */
     public void visitAnyMember(Clazz clazz, Member member)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyMember Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -119,7 +119,7 @@ public abstract class SimplifiedVisitor
 
     public void visitAnyConstant(Clazz clazz, Constant constant)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyConstant Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -245,7 +245,7 @@ public abstract class SimplifiedVisitor
 
     public void visitAnyPrimitiveArrayConstant(Clazz clazz, PrimitiveArrayConstant primitiveArrayConstant, Object values)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyPrimitiveArrayConstant Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -301,7 +301,7 @@ public abstract class SimplifiedVisitor
 
     public void visitAnyPrimitiveArrayConstantElement(Clazz clazz, PrimitiveArrayConstant primitiveArrayConstant, int index)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyPrimitiveArrayConstantElement Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -360,7 +360,7 @@ public abstract class SimplifiedVisitor
      */
     public void visitAnyAttribute(Clazz clazz, Attribute attribute)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyAttribute Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -725,7 +725,7 @@ public abstract class SimplifiedVisitor
      */
     public void visitAnyInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, Instruction instruction)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyInstruction Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -781,7 +781,7 @@ public abstract class SimplifiedVisitor
      */
     public void visitAnyStackMapFrame(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, StackMapFrame stackMapFrame)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyStackMapFrame Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -822,7 +822,7 @@ public abstract class SimplifiedVisitor
      */
     public void visitAnyVerificationType(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, VerificationType verificationType)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyVerificationType Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -993,7 +993,7 @@ public abstract class SimplifiedVisitor
 
     public void visitAnnotation(Clazz clazz, Annotation annotation)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnnotation Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -1034,7 +1034,7 @@ public abstract class SimplifiedVisitor
 
     public void visitTypeAnnotation(Clazz clazz, TypeAnnotation typeAnnotation)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitTypeAnnotation Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -1078,7 +1078,7 @@ public abstract class SimplifiedVisitor
      */
     public void visitAnyTargetInfo(Clazz clazz, TypeAnnotation typeAnnotation, TargetInfo targetInfo)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyTargetInfo Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -1188,7 +1188,7 @@ public abstract class SimplifiedVisitor
 
     public void visitTypePathInfo(Clazz clazz, TypeAnnotation typeAnnotation, TypePathInfo typePathInfo)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitTypePathInfo Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 
@@ -1226,7 +1226,7 @@ public abstract class SimplifiedVisitor
      */
     public void visitAnyElementValue(Clazz clazz, Annotation annotation, ElementValue elementValue)
     {
-        throw new UnsupportedOperationException("Method must be overridden in ["+this.getClass().getName()+"] if ever called");
+        throw new UnsupportedOperationException("visitAnyElementValue Method must be overridden in ["+this.getClass().getName()+"] if ever called");
     }
 
 

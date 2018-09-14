@@ -42,7 +42,7 @@ implements   AttributeVisitor,
              InstructionVisitor,
              ConstantVisitor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
 
     private final CodeAttributeEditor codeAttributeEditor = new CodeAttributeEditor();

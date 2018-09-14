@@ -42,7 +42,7 @@ implements   InstructionVisitor,
              AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     /*/
     public  static       boolean DEBUG = false;
     //*/

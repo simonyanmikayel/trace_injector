@@ -43,7 +43,7 @@ implements   AttributeVisitor,
              ConstantVisitor,
              MemberVisitor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private final InstructionVisitor extraAddedInstructionVisitor;
 

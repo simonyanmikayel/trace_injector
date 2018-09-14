@@ -45,9 +45,9 @@ implements   ElementValueVisitor,
              ConstantVisitor
 {
     //*
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     /*/
-    private static       boolean DEBUG = true;
+    private static       boolean DEBUG = false;
     //*/
 
     private MemberVisitor enumFieldFinder = new AllAttributeVisitor(

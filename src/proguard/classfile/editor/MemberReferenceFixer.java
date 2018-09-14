@@ -46,7 +46,7 @@ implements   ClassVisitor,
              AnnotationVisitor,
              ElementValueVisitor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
 
     private final StackSizeUpdater stackSizeUpdater = new StackSizeUpdater();

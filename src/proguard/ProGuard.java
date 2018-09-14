@@ -46,7 +46,7 @@ import java.io.*;
 public class ProGuard
 {
     public static final String VERSION = "ProGuard, version 99.99.99";
-    static final boolean DEBUG = true;
+    static final boolean DEBUG = false;
 
     private final Configuration configuration;
     private       ClassPool     programClassPool = new ClassPool();

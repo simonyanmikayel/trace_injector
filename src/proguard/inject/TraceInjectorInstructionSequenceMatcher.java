@@ -13,7 +13,7 @@ public class TraceInjectorInstructionSequenceMatcher
 implements InstructionSequenceMatcherInterface
 {
 
-    private static boolean DEBUG = true;
+    private static boolean DEBUG = false;
     private static boolean TEST = true;
     private static boolean VISIT_CONSTANTS = true;
     private InstructionSequenceMatcher instructionSequenceMatcher;

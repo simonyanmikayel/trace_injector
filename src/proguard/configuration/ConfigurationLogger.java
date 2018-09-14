@@ -34,7 +34,7 @@ import java.util.*;
  */
 public class ConfigurationLogger implements Runnable
 {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static final boolean LOG_ONCE = true;
 

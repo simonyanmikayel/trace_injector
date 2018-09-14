@@ -25,7 +25,7 @@ public class TraceInjectorInstructionSequenceReplacer
         ConstantVisitor
 {
     //*
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     /*/
     public  static       boolean DEBUG = System.getProperty("isr") != null;
     //*/

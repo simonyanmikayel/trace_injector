@@ -39,7 +39,7 @@ public class TypedReferenceValue extends ReferenceValue
 {
     private static final boolean ALLOW_INCOMPLETE_CLASS_HIERARCHY = System.getProperty("allow.incomplete.class.hierarchy") != null;
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
 
     protected final String  type;

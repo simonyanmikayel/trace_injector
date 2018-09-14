@@ -22,7 +22,7 @@ public class TraceInjector
         implements   // Implementation interfaces.
         InstructionVisitor
 {
-    static final boolean DEBUG = true;
+    static final boolean DEBUG = false;
     private final Configuration configuration;
 
     // Field acting as parameter for the visitor methods.

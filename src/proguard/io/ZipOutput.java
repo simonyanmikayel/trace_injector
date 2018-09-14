@@ -53,7 +53,7 @@ public class ZipOutput
     private static final int METHOD_UNCOMPRESSED  =  0;
     private static final int METHOD_COMPRESSED    =  8;
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
 
     private       DataOutputStream outputStream;

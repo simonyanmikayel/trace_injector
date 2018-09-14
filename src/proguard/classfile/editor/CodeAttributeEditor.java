@@ -86,7 +86,7 @@ implements   AttributeVisitor,
              LocalVariableTargetElementVisitor
 {
     //*
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     /*/
     public  static       boolean DEBUG = System.getProperty("cae") != null;
     //*/

@@ -50,7 +50,7 @@ implements   AttributeVisitor,
              ParameterVisitor
 {
     //*
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     /*/
     private static       boolean DEBUG = System.getProperty("enum") != null;
     //*/

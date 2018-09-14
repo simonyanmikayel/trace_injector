@@ -47,7 +47,7 @@ implements   MemberVisitor,
              InstructionVisitor,
              ConstantVisitor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
 
     // Return values for the visitor methods.

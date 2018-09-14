@@ -39,7 +39,7 @@ implements   InstructionVisitor
 //             MemberVisitor
 {
     //*
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     /*/
     public  static       boolean DEBUG = System.getProperty("eic") != null;
     //*/

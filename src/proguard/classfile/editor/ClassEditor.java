@@ -32,7 +32,7 @@ import proguard.classfile.*;
  */
 public class ClassEditor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private ProgramClass targetClass;
 

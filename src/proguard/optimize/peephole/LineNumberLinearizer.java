@@ -45,7 +45,7 @@ implements   ClassVisitor,
              AttributeVisitor,
              LineNumberInfoVisitor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     public  static final int SHIFT_ROUNDING       = 1000;
     private static final int SHIFT_ROUNDING_LIMIT = 50000;

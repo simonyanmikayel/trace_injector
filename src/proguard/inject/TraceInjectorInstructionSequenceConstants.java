@@ -100,7 +100,7 @@ public class TraceInjectorInstructionSequenceConstants
                                         .invokestatic(LOGGER_CLASS_NAME, "logForName", "(Ljava/lang/String;Ljava/lang/String;)V")
                                         .athrow()
                                         .label(CATCH_END).__()
-                        },/*                        // Classes.
+                        },                        // Classes.
                         {
                                 ____.invokestatic("java/lang/Class", "forName", "(Ljava/lang/String;)Ljava/lang/Class;").__(),
 
@@ -462,7 +462,7 @@ public class TraceInjectorInstructionSequenceConstants
                                         .invokestatic(LOGGER_CLASS_NAME, "logLoadLibrary", "(Ljava/lang/String;Ljava/lang/String;)V")
                                         .athrow()
                                         .label(CATCH_END).__()
-                        },*/
+                        },
                 };
 
         CONSTANTS = ____.constants();

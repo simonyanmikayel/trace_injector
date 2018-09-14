@@ -3,12 +3,12 @@ package proguard.inject;
 import java.util.Arrays;
 
 public class FlowTraceWriter {
-    static public void logBefore() {
-        System.out.println("Before");
+    static public void logBefore(String thisClassName, String thisMethodName, String callClassName, String callMethodName, int thisLineNumber, int callLineNumber) {
+        System.out.println("Before -> " + thisClassName + " " + thisMethodName + " "  + thisLineNumber + " " + callClassName + " " + callMethodName + " "  + callLineNumber);
     }
 
-    static public void logAfter() {
-        System.out.println("After");
+    static public void logAfter(String thisClassName, String thisMethodName, String callClassName, String callMethodName, int thisLineNumber, int callLineNumber) {
+        System.out.println("After <- " + thisClassName + " " + thisMethodName + " "  + thisLineNumber + " " + callClassName + " " + callMethodName + " "  + callLineNumber);
     }
 
     public static class MethodSignature

@@ -42,7 +42,7 @@ implements   InstructionSequenceMatcherInterface,
              ConstantVisitor
 {
     //*
-    private static final boolean DEBUG      = true;
+    private static final boolean DEBUG = false;
 
     public static final int X = 0x40000000;
     public static final int Y = 0x40000001;
@@ -728,7 +728,7 @@ implements   InstructionSequenceMatcherInterface,
         if (DEBUG)
         {
             int lineNumper = codeAttribute.getLineNumber(offset);
-            Logger.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper);
+            Logger.out_println("checkMatch: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper);
         }
 
         if (condition)
@@ -750,7 +750,7 @@ implements   InstructionSequenceMatcherInterface,
                 if (DEBUG)
                 {
                     int lineNumper = codeAttribute.getLineNumber(offset);
-                    Logger.out_println("InstructionSequenceMatcher: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper + " matching = " + matching);
+                    Logger.out_println("checkMatch: [" + clazz.getName() + "." + method.getName(clazz) + method.getDescriptor(clazz) + "] " +instruction.toString(offset) + " line:" + lineNumper + " matching = " + matching);
 
                     for (int index = 0; index < patternInstructionIndex; index++)
                     {

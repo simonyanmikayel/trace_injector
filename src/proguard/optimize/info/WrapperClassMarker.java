@@ -51,7 +51,7 @@ implements   ClassVisitor,
              AttributeVisitor
 {
     //*
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     /*/
     public  static       boolean DEBUG = System.getProperty("wcm")  != null;
     //*/

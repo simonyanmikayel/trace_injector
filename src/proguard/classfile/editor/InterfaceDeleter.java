@@ -41,7 +41,7 @@ extends      SimplifiedVisitor
 implements   ClassVisitor,
              AttributeVisitor
 {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
 
     private final boolean[] delete;
