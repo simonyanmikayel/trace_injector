@@ -4,9 +4,6 @@ import java.util.Arrays;
 
 public class FlowTraceWriter {
 
-    public static final int LOG_INFO_ENTER = 0;
-    public static final int LOG_INFO_EXIT = 1;
-
     static public void logFlow(int log_type) {
         String thisClassName = "";
         String thisMethodName = "";
@@ -41,7 +38,7 @@ public class FlowTraceWriter {
 
     static public void logRunnable(int runnableMethod, Object o)
     {
-        System.out.println("   ----------------->" + (runnableMethod == 1 ? "   <<<<init>>>>: " : "   run ") + o.hashCode());
+        System.out.println("   ----------------->" + (runnableMethod == 1 ? " <init> " : " run ") + o.hashCode());
     }
 
     public static class MethodSignature

@@ -14,8 +14,8 @@ public class test1 {
         runIt(2, this);
     }
     public class MyRunnable implements Runnable {
-
-        public void run(){
+        public void run()
+        {
             System.out.println("My running");
         }
     }

@@ -26,8 +26,6 @@ import proguard.classfile.attribute.annotation.*;
 import proguard.classfile.attribute.annotation.target.*;
 import java.io.IOException;
 import static proguard.classfile.util.ClassUtil.internalClassName;
-import static proguard.inject.FlowTraceWriter.LOG_INFO_ENTER;
-import static proguard.inject.FlowTraceWriter.LOG_INFO_EXIT;
 
 public class FlowTraceInjector
         extends SimplifiedVisitor
@@ -37,7 +35,8 @@ public class FlowTraceInjector
         AttributeVisitor,
         InstructionVisitor
 {
-    static final boolean DEBUG = true;
+    static final boolean DEBUG = false;
+    static final boolean injectRunnable = true;
     private final Configuration configuration;
     private CodeAttributeEditor codeAttributeEditor;
     // Field acting as parameter for the visitor methods.
@@ -51,6 +50,8 @@ public class FlowTraceInjector
     private int runnableID = 1;
     private boolean inRunnable;
 
+    public static final int LOG_INFO_ENTER = 0;
+    public static final int LOG_INFO_EXIT = 1;
 
     /**
      * Creates a new TraceInjector.
@@ -150,20 +151,18 @@ public class FlowTraceInjector
 
         if (returnOffset == 0)
         {
-            codeAttributeEditor.insertBeforeInstruction(0,
-                    ____.
-                            ldc(LOG_INFO_ENTER).
-                            invokestatic(LOGGER_CLASS_NAME, "logFlow", "(II)V").
-                            ldc(LOG_INFO_EXIT).
-                            invokestatic(LOGGER_CLASS_NAME, "logFlow", "(I)V").
-                            __());
+//            codeAttributeEditor.insertBeforeInstruction(0,
+//                    ____.
+//                            ldc(LOG_INFO_ENTER).
+//                            invokestatic(LOGGER_CLASS_NAME, "logFlow", "(II)V").
+//                            ldc(LOG_INFO_EXIT).
+//                            invokestatic(LOGGER_CLASS_NAME, "logFlow", "(I)V").
+//                            __());
         }
         else
         {
             int runnableMethod = 0;
-            if (inRunnable) {
-                if (method.getName(clazz).equals("<init>"))
-                    runnableMethod = 1;
+            if (inRunnable && injectRunnable) {
                 if (method.getName(clazz).equals("run"))
                     runnableMethod = 2;
             }
@@ -211,14 +210,12 @@ public class FlowTraceInjector
             if (offset != 0)
             {
                 int runnableMethod = 0;
-                if (inRunnable) {
+                if (inRunnable && injectRunnable) {
                     if (method.getName(clazz).equals("<init>"))
                         runnableMethod = 1;
-                    if (method.getName(clazz).equals("run"))
-                        runnableMethod = 2;
                 }
                 if (runnableMethod == 1) {
-                    codeAttributeEditor.insertBeforeInstruction(0,
+                    codeAttributeEditor.insertBeforeInstruction(offset,
                             ____.
                                     ldc(LOG_INFO_EXIT).
                                     invokestatic(LOGGER_CLASS_NAME, "logFlow", "(I)V").
