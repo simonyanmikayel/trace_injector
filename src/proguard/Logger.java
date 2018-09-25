@@ -104,7 +104,7 @@ public class Logger {
             int sizeof_UDP_PACK_INFO = byteBuffer.position();
             // LOG_REC
             byteBuffer.putInt(0);//int len;
-            byteBuffer.putShort((short)(type.ordinal()));//int log_type; LOG_INFO_ENTER, LOG_INFO_EXIT
+            byteBuffer.putShort((short)(type.ordinal()));//int log_type; JAVA_LOG_ENTER, JAVA_LOG_EXIT
             byteBuffer.putShort((short)2);//int log_flags
             byteBuffer.putInt(++packetNN);//int nn;
             byteBuffer.putShort((short)cb_app_name);//cb_app_name;

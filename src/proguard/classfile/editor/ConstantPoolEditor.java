@@ -210,6 +210,26 @@ public class ConstantPoolEditor
         return addConstant(new PrimitiveArrayConstant(values));
     }
 
+    public void printStringConstants(Clazz  referencedClass)
+    {
+        int        constantPoolCount = targetClass.u2constantPoolCount;
+        Constant[] constantPool      = targetClass.constantPool;
+
+        // Check if the entry already exists.
+        for (int index = 1; index < constantPoolCount; index++)
+        {
+            Constant constant = constantPool[index];
+            //System.out.println("    const: " + constant.toString());
+
+            if (constant != null &&
+                    constant.getTag() == ClassConstants.CONSTANT_Class)
+            {
+                ClassConstant c = (ClassConstant)constant;
+                System.out.println("    const: " + c.getName(referencedClass));
+            }
+        }
+    }
+
 
     /**
      * Finds or creates a StringConstant constant pool entry with the given

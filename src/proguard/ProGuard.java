@@ -25,7 +25,6 @@ import proguard.classfile.*;
 import proguard.classfile.attribute.visitor.AllAttributeVisitor;
 import proguard.classfile.editor.*;
 import proguard.inject.FlowTraceInjector;
-import proguard.inject.TraceInjector;
 import proguard.classfile.util.*;
 import proguard.classfile.visitor.*;
 import proguard.configuration.ConfigurationLoggingAdder;
