@@ -1,5 +1,6 @@
 package proguard.inject;
 
+import com.sun.deploy.util.StringUtils;
 import proguard.Configuration;
 import proguard.classfile.*;
 import proguard.classfile.attribute.Attribute;
@@ -22,11 +23,19 @@ import proguard.classfile.util.SimplifiedVisitor;
 import proguard.classfile.visitor.*;
 import proguard.io.ClassPathDataEntry;
 import proguard.io.ClassReader;
+import proguard.util.ClassNameParser;
+import proguard.util.ListParser;
 import proguard.util.MultiValueMap;
 import proguard.classfile.attribute.annotation.*;
 import proguard.classfile.attribute.annotation.target.*;
+import proguard.util.StringMatcher;
+
 import java.io.IOException;
+
 import static proguard.classfile.util.ClassUtil.internalClassName;
+import static proguard.inject.FlowTraceWriter.LOG_FLAG_OUTER_LOG;
+import static proguard.inject.FlowTraceWriter.LOG_INFO_ENTER;
+import static proguard.inject.FlowTraceWriter.LOG_INFO_EXIT;
 
 public class FlowTraceInjector
         extends SimplifiedVisitor
@@ -36,8 +45,10 @@ public class FlowTraceInjector
         AttributeVisitor,
         InstructionVisitor
 {
-    static final boolean DEBUG = false;
-    static final boolean injectRunnable = true;
+    private static final boolean DEBUG = false;
+    private static final boolean verbose = false; //TODO set as config value
+    private static final boolean injectRunnable = true;
+
     private final Configuration configuration;
     private CodeAttributeEditor codeAttributeEditor;
     // Field acting as parameter for the visitor methods.
@@ -50,10 +61,10 @@ public class FlowTraceInjector
     private int returnOffset;
     private int runnableID = 1;
     private boolean inRunnable;
+    private int unknownRef;
     private int invoceInstruction = 0;
+    private StringMatcher regularExpressionMatcher;
 
-    public static final int LOG_INFO_ENTER = 0;
-    public static final int LOG_INFO_EXIT = 1;
 
     /**
      * Creates a new TraceInjector.
@@ -95,9 +106,14 @@ public class FlowTraceInjector
         // Set the injected class map for the extra visitor.
         this.injectedClassMap = injectedClassMap;
 
-        // Replace the instruction sequences in all non-ProGuard classes.
-        String       regularExpression = "!proguard/**,!android/**,!java/**";
-        //String       regularExpression = "!proguard/**";
+        String regularExpression = "";
+        if (configuration.flowTracesFilter != null)
+            regularExpression = "!proguard/**," + StringUtils.join(configuration.flowTracesFilter, ",");
+        else
+            regularExpression = "!proguard/**";
+
+        regularExpressionMatcher = new ListParser(new ClassNameParser(null)).parse(regularExpression);
+        //regularExpression = "!proguard/**,!android/**,!java/**";
         programClassPool.classesAccept(
                 new ClassNameFilter(regularExpression,
                         this));
@@ -136,6 +152,8 @@ public class FlowTraceInjector
             checkRunnable(programClass);
 
         ____ = new InstructionSequenceBuilder(programClass, programClassPool, libraryClassPool);
+        unknownRef = ____.getConstantPoolEditor().addStringConstant("?", programClass, null);
+
         programClass.methodsAccept(this);
     }
 
@@ -154,39 +172,29 @@ public class FlowTraceInjector
 
         codeAttribute.instructionsAccept(clazz, method, this);
 
-        if (returnOffset == 0)
+        if (returnOffset != 0)
         {
-//            codeAttributeEditor.insertBeforeInstruction(0,
-//                    ____.
-//                            ldc(LOG_INFO_ENTER).
-//                            invokestatic(LOGGER_CLASS_NAME, "logFlow", "(II)V").
-//                            ldc(LOG_INFO_EXIT).
-//                            invokestatic(LOGGER_CLASS_NAME, "logFlow", "(I)V").
-//                            __());
-        }
-        else
-        {
-            int runnableMethod = 0;
-            if (inRunnable && injectRunnable) {
-                if (invoceInstruction == InstructionConstants.OP_INVOKEVIRTUAL && method.getName(clazz).equals("run"))
-                    runnableMethod = 2;
+            try
+            {
+                int runnableMethod = 0;
+                if (inRunnable && injectRunnable) {
+                    if (invoceInstruction == InstructionConstants.OP_INVOKEVIRTUAL && method.getName(clazz).equals("run"))
+                        runnableMethod = 2;
+                }
+                String thisClassName = clazz.getName();
+                String thisMethodName = method.getName(clazz);
+                int thisLineNumber = codeAttribute.getLineNumber(0);
+
+                int thisClassNameRef = ____.getConstantPoolEditor().addStringConstant(thisClassName, clazz, null);
+                int thisMetodNameRef = ____.getConstantPoolEditor().addStringConstant(thisMethodName, clazz, null);
+
+                codeAttributeEditor.insertBeforeInstruction(0, logInstruction(runnableMethod, LOG_INFO_ENTER, 0, thisClassNameRef, thisMetodNameRef, unknownRef, unknownRef, thisLineNumber, 0));
             }
-            if (runnableMethod == 2) {
-                codeAttributeEditor.insertBeforeInstruction(0,
-                        ____.
-                                ldc(LOG_INFO_ENTER).
-                                invokestatic(LOGGER_CLASS_NAME, "logFlow", "(I)V").
-                                //aload_0().
-                                ldc(runnableMethod).
-                                aload_0().
-                                invokestatic(LOGGER_CLASS_NAME, "logRunnable", "(ILjava/lang/Object;)V").
-                                __());
-            } else {
-                codeAttributeEditor.insertBeforeInstruction(0,
-                        ____.
-                                ldc(LOG_INFO_ENTER).
-                                invokestatic(LOGGER_CLASS_NAME, "logFlow", "(I)V").
-                                __());
+            catch (Exception e)
+            {
+                System.out.println("Exception on injection: " + clazz.getName() + " " + method.getName(clazz));
+                System.out.println("Exception: " + e.toString());
+                throw(e);
             }
         }
 
@@ -194,30 +202,9 @@ public class FlowTraceInjector
         codeAttributeEditor.visitCodeAttribute(clazz, method, codeAttribute);
     }
 
-    public void visitConstantInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, ConstantInstruction instruction)
-    {
-        if (instruction.opcode == InstructionConstants.OP_INVOKEVIRTUAL ||
-                instruction.opcode == InstructionConstants.OP_INVOKESPECIAL ||
-                instruction.opcode == InstructionConstants.OP_INVOKESTATIC ||
-                instruction.opcode == InstructionConstants.OP_INVOKEINTERFACE ||
-                instruction.opcode == InstructionConstants.OP_ARETURN ||
-                instruction.opcode == InstructionConstants.OP_INVOKEDYNAMIC)
-        {
-            invoceInstruction = instruction.opcode;
-        }
-        if (DEBUG)
-        {
-            System.out.println("visitConstantInstruction: " + clazz.getName() + " " + method.getName(clazz) + " " + instruction.getName());
-        }
-    }
 
     public void visitSimpleInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, SimpleInstruction instruction)
     {
-        if (DEBUG)
-        {
-//            System.out.println("visitConstantInstruction: " + clazz.getName() + " " + method.getName(clazz) + " " + constantInstruction.getName() + " " + constantInstruction.constantIndex);
-        }
-
         if (instruction.opcode == InstructionConstants.OP_IRETURN ||
                 instruction.opcode == InstructionConstants.OP_LRETURN ||
                 instruction.opcode == InstructionConstants.OP_FRETURN ||
@@ -228,28 +215,30 @@ public class FlowTraceInjector
             returnOffset = offset;
             if (offset != 0)
             {
-                int runnableMethod = 0;
-                if (inRunnable && injectRunnable) {
-                    if (invoceInstruction == InstructionConstants.OP_INVOKESPECIAL && method.getName(clazz).equals("<init>"))
-                        runnableMethod = 1;
+                try
+                {
+                    int runnableMethod = 0;
+                    if (inRunnable && injectRunnable) {
+                        if (invoceInstruction == InstructionConstants.OP_INVOKESPECIAL && method.getName(clazz).equals("<init>"))
+                            runnableMethod = 1;
+                    }
+
+                    String thisClassName = clazz.getName();
+                    String thisMethodName = method.getName(clazz);
+                    int thisLineNumber = codeAttribute.getLineNumber(0);
+
+                    int thisClassNameRef = ____.getConstantPoolEditor().addStringConstant(thisClassName, clazz, null);
+                    int thisMetodNameRef = ____.getConstantPoolEditor().addStringConstant(thisMethodName, clazz, null);
+
+                    codeAttributeEditor.insertBeforeInstruction(offset, logInstruction(runnableMethod, LOG_INFO_EXIT, 0, thisClassNameRef, thisMetodNameRef, unknownRef, unknownRef, thisLineNumber, 0));
                 }
-                if (runnableMethod == 1) {
-                    codeAttributeEditor.insertBeforeInstruction(offset,
-                            ____.
-                                    ldc(LOG_INFO_EXIT).
-                                    invokestatic(LOGGER_CLASS_NAME, "logFlow", "(I)V").
-                                    //aload_0().
-                                    ldc(runnableMethod).
-                                    aload_0().
-                                    invokestatic(LOGGER_CLASS_NAME, "logRunnable", "(ILjava/lang/Object;)V").
-                                    __());
-                } else {
-                    codeAttributeEditor.insertBeforeInstruction(offset,
-                            ____.
-                                    ldc(LOG_INFO_EXIT).
-                                    invokestatic(LOGGER_CLASS_NAME, "logFlow", "(I)V").
-                                    __());
+                catch (Exception e)
+                {
+                    System.out.println("Exception on injection: " + clazz.getName() + " " + method.getName(clazz) + " " + instruction.getName());
+                    System.out.println("Exception: " + e.toString());
+                    throw(e);
                 }
+
             }
             if (DEBUG)
             {
@@ -258,6 +247,77 @@ public class FlowTraceInjector
         }
     }
 
+    public void visitConstantInstruction(Clazz clazz, Method method, CodeAttribute codeAttribute, int offset, ConstantInstruction constantInstruction)
+    {
+        if (constantInstruction.opcode == InstructionConstants.OP_INVOKEVIRTUAL ||
+                constantInstruction.opcode == InstructionConstants.OP_INVOKESPECIAL ||
+                constantInstruction.opcode == InstructionConstants.OP_INVOKESTATIC ||
+                constantInstruction.opcode == InstructionConstants.OP_INVOKEINTERFACE ||
+                constantInstruction.opcode == InstructionConstants.OP_INVOKEDYNAMIC)
+        {
+
+            invoceInstruction = constantInstruction.opcode;
+
+            try
+            {
+                String callerClassName = clazz.getName();
+                String callerMethodName = method.getName(clazz);
+                ProgramClass programClass = (ProgramClass)clazz;
+                RefConstant refConstant = (RefConstant)programClass.getConstant(constantInstruction.constantIndex);
+                String calledClassName = refConstant.getClassName(programClass);
+                String calledMethodName = refConstant.getName(programClass);
+                //int callerLineNumber = codeAttribute.getLineNumber(0);
+                int calledLineNumber = codeAttribute.getLineNumber(offset);
+
+                int thisClassNameRef = ____.getConstantPoolEditor().addStringConstant(calledClassName, clazz, null);
+                int thisMetodNameRef = ____.getConstantPoolEditor().addStringConstant(calledMethodName, clazz, null);
+                int callClassNameRef = ____.getConstantPoolEditor().addStringConstant(callerClassName, clazz, null);
+                int callMetodNameRef = ____.getConstantPoolEditor().addStringConstant(callerMethodName, clazz, null);
+
+                if (regularExpressionMatcher.matches(calledClassName))
+                //if (verbose || !(calledClassName.startsWith("android/") || calledClassName.startsWith("java/")))
+                {
+                    codeAttributeEditor.insertBeforeInstruction(offset, logInstruction(0, LOG_INFO_ENTER, LOG_FLAG_OUTER_LOG, thisClassNameRef, thisMetodNameRef, callClassNameRef, callMetodNameRef, 0, calledLineNumber));
+                    codeAttributeEditor.insertAfterInstruction(offset, logInstruction(0, LOG_INFO_EXIT, LOG_FLAG_OUTER_LOG, thisClassNameRef, thisMetodNameRef, callClassNameRef, callMetodNameRef, 0, calledLineNumber));
+                }
+                else
+                {
+                    if (DEBUG)
+                    {
+                        System.out.println("Skipping: " + calledClassName);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.out.println("Exception on injection: " + clazz.getName() + " " + method.getName(clazz) + " " + constantInstruction.getName() + " " + constantInstruction.constantIndex);
+                System.out.println("Exception: " + e.toString());
+                throw(e);
+            }
+        }
+
+    }
+
+    private Instruction[] logInstruction(int runnableMethod, int log_type, int log_flags, int thisClassNameRef, int thisMetodNameRef, int callClassNameRef, int callMetodNameRef, int thisLineNumber, int callLineNumber) {
+        ____
+                .ldc(log_type)
+                .ldc(log_flags)
+                .ldc_(thisClassNameRef)
+                .ldc_(thisMetodNameRef)
+                .ldc_(callClassNameRef)
+                .ldc_(callMetodNameRef)
+                .ldc(thisLineNumber)
+                .ldc(callLineNumber)
+                .invokestatic(LOGGER_CLASS_NAME, "logFlow", "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)V");
+
+        if (runnableMethod != 0) {
+            ____.
+                    ldc(runnableMethod).
+                    aload_0().
+                    invokestatic(LOGGER_CLASS_NAME, "logRunnable", "(ILjava/lang/Object;)V");
+        }
+        return ____.instructions();
+    }
 
     public void visitAnyClass(Clazz clazz){}
     public void visitAnyMember(Clazz clazz, Member member){}

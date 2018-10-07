@@ -10,9 +10,11 @@
 
 #-addconfigurationdebugging
 
-#-dontinject
-#-dontinjectlibs
+#-dontinjectflowtraces
 
--keep class *.* {
+#-skipflowtraces !android/**
 
-}
+-keep class *.* {}
+
+-flowtracesfilter !android/**, !java/**
+
