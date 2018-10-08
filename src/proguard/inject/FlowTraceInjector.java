@@ -106,11 +106,15 @@ public class FlowTraceInjector
         // Set the injected class map for the extra visitor.
         this.injectedClassMap = injectedClassMap;
 
-        String regularExpression = "";
-        if (configuration.flowTracesFilter != null)
-            regularExpression = "!proguard/**," + StringUtils.join(configuration.flowTracesFilter, ",");
-        else
-            regularExpression = "!proguard/**";
+        StringBuilder sb = new StringBuilder();
+        sb.append("!proguard/**");
+        if (configuration.flowTracesFilter != null) {
+            for (Object o: configuration.flowTracesFilter) {
+                sb.append(",");
+                sb.append(o.toString());
+            }
+        }
+        String regularExpression = sb.toString();
 
         regularExpressionMatcher = new ListParser(new ClassNameParser(null)).parse(regularExpression);
         //regularExpression = "!proguard/**,!android/**,!java/**";
